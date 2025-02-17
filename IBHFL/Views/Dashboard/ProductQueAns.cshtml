@@ -1,0 +1,1799 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "ProductQueAns";
+    List<IBHFL.Models.AssessmentList> assessmentlist = null;
+    IBHFL.Models.AnswerResponse content = (IBHFL.Models.AnswerResponse)ViewData["obj"];
+    List<IBHFL.Models.SatisfiedResult>
+    satisfied = (List<IBHFL.Models.SatisfiedResult>
+        )ViewData["Satisfied"];
+    if (content.ASSESSMENT_FLAG == "1") { assessmentlist = (List<IBHFL.Models.AssessmentList>)ViewData["AssessmentList"]; }
+    else { }
+    int sCount = (int)ViewData["sCount"];
+    int StepCount = (int)ViewData["StepCount"];
+    int aCount = Convert.ToInt32(content.ASSESSMENT_FLAG);
+    string message = (string)ViewData["message"];
+    IBHFL.Models.RootObjectcolor colorlist = (IBHFL.Models.RootObjectcolor)ViewData["Colorlist"];
+    IBHFL.Models.content_list_session con_info = (IBHFL.Models.content_list_session)ViewData["con_info"];
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Boolean flag_color = true;
+    string pre = Convert.ToString(con_info.content_index) + "/" + Convert.ToString(con_info.total_count);
+    string nex = Convert.ToString(con_info.content_index + 1) + "/" + Convert.ToString(con_info.total_count);
+    string curr = Convert.ToString(con_info.content_index + 1) + "/" + Convert.ToString(con_info.total_count);
+    int z = 1;
+    var linkToOpen = ViewData["LinkToOpenmoodel"] as string;
+
+}
+<style>
+
+    /***loading screen***/
+    /* Absolute Center Spinner */
+    .loading {
+        position: fixed;
+        z-index: 999;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+        /* Transparent Overlay */
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 1em;
+                height: 1em;
+                margin-top: -0.5em;
+                -webkit-animation: spinner 1500ms infinite linear;
+                -moz-animation: spinner 1500ms infinite linear;
+                -ms-animation: spinner 1500ms infinite linear;
+                -o-animation: spinner 1500ms infinite linear;
+                animation: spinner 1500ms infinite linear;
+                border-radius: 0.5em;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+                box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+            }
+
+    /* Animation */
+
+    @@-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    /***loading end****/
+</style>
+<style>
+    .img {
+        padding: 2px;
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin: auto;
+    }
+
+    pre {
+        border: solid;
+        border-color: white;
+        padding: 0px;
+        font-family: Calibri;
+        font-size: 16px;
+    }
+
+    #row {
+        background-color: white;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    pre {
+        padding: 0px 0px;
+    }
+
+    .listques1 {
+         background-color:@colorlist.response[3].grid1_bk_color;
+        color:@colorlist.response[3].grid1_text_color;
+    }
+
+    .listques2 {
+     background-color:@colorlist.response[3].grid2_bk_color;
+        color:@colorlist.response[3].grid2_text_color;
+    }
+
+    .listques1 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+
+    .listques2 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+    /*   added new css for zoom the image in modal function by sridhar on 3-7-2018*/
+    /* The Modal (background) */
+.modal {
+    margin-top: 3%;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 50px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 95%;
+    height: 550px;
+}
+
+
+/* Add Animation */
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+/* The Close Button */
+.close1 {
+    position: absolute;
+    top: 5px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close1:hover,
+.close1:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+    .scrollable-container {
+        max-height: 313px; /* Adjust the height as needed */
+        overflow-y: auto; /* Adds a vertical scroll bar */
+        overflow-x: hidden; /* Prevents horizontal scrolling */
+        border: 1px solid transparent; /* Optional: Adds a border to the container */
+        padding: 10px; /* Optional: Adds padding inside the container */
+    }
+
+        .scrollable-container::-webkit-scrollbar-thumb {
+            background-color: #888; /* Scroll bar thumb color */
+            border-radius: 8px; /* Rounded corners */
+            border: 4px solid transparent; /* Adds spacing around the thumb */
+            background-clip: content-box; /* Ensures the thumb's visible area is within the border */
+        }
+
+        .scrollable-container::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Scroll bar track color */
+            border-radius: 8px; /* Rounded corners for the track */
+        }
+
+    /* For Firefox */
+    .scrollable-container {
+        scrollbar-width: thick; /* Sets thicker scroll bars */
+        scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+    }
+    @@media (max-width: 767px) {
+        .scrollable-container {
+            overflow: visible; /* or remove the scrolling effect */
+            max-height: none; /* Reset max-height */
+        }
+
+        /* end of  sridhar code*/
+</style>
+
+@* Youtube API Code by Vidit - Start - 04-07-2023 *@
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+
+@*<script type="text/javascript" src="~/Scripts/jquery.embedVideo.js?v=1.1"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.embedVideo.js?v=1.1")"></script>
+
+@*<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.embedVideo.js?v=1.1"></script>*@
+
+<script type="text/javascript">
+
+
+    @*function onYouTubeIframeAPIReady() {
+
+        debugger;
+        $('.embed-video').embedVideo({
+            enablejsapi: 1,
+            callback: function (iframe) {
+                player = new YT.Player(iframe, {
+                    events: {
+                        'onReady': function () {
+
+                            //////if (!$(iframe).parent().data('autoplay')) {
+                            //////    player.playVideo();
+                            //////}
+                            var Timer = 0;
+
+                            if (@content.video_timer> 0) {
+                            Timer =@content.video_timer;
+                            }
+
+                            //Logic to reset to start from beginning if video ended
+                            var TotalVideoDuration = player.getDuration();
+                            var delta = TotalVideoDuration - Timer;
+                            if (Math.abs(delta) <= 2) {
+                            Timer = 0;
+                            }
+
+                            player.seekTo(Timer, true);
+                            startVideo();
+                            },
+                            'onStateChange': onPlayerStateChange
+                            }
+                            });
+                            }
+                            });
+                            }
+
+                            var done = false;
+                            function onPlayerStateChange(event) {
+
+                            ////if (event.data == YT.PlayerState.ENDED || event.data == YT.PlayerState.PAUSED) {
+                            if (event.data == YT.PlayerState.PAUSED) {
+
+                            var GTime = player.getCurrentTime();
+                            var TotalVideoDuration = player.getDuration();
+                            var ContentID =@content.ID_CONTENT;
+                            var CategoryID =@content.ID_CATEGORY;
+                            var OrgID =@content.ID_ORGANIZATION;
+                            var VideoTimer = GTime;
+                            var IsCompleted = 0;
+                            var CompletePer = ((GTime / TotalVideoDuration) * 100).toFixed(2);
+
+                            ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoDuration);
+                            }
+
+                            if (event.data == YT.PlayerState.ENDED) {
+
+                            var GTime = 0;
+                            var TotalVideoDuration = player.getDuration();
+                            var ContentID =@content.ID_CONTENT;
+                            var CategoryID =@content.ID_CATEGORY;
+                            var OrgID =@content.ID_ORGANIZATION;
+                            var VideoTimer = GTime;
+                            var IsCompleted = 1;
+                            var CompletePer = 100;
+
+                            ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoDuration);
+                            }
+    }
+
+    ////
+
+                            function ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoTimer) {
+                            var url = '@Url.Action("ProductQueAns_VideoUpdate", "Dashboard")';
+
+                            $.ajax({
+                            type: 'POST',
+                            url: url,
+                            ////async:false,
+                            dataType: "json",
+                            data: { ContentID: ContentID, CategoryID: CategoryID, VideoTimer: VideoTimer, IsCompleted: IsCompleted, OrgID: OrgID, CompletePer: CompletePer, TotalVideoTimer: TotalVideoTimer },
+                            success: function (data) {
+
+                            }
+                            });
+                            }
+
+                            function startVideo() {
+                            player.playVideo();
+                            }
+
+                            function stopVideo() {
+                            player.stopVideo();
+                            }*@
+</script>
+
+@* Youtube API Code by Vidit - END - 04-07-2023 *@
+
+<div class="back-button-flex">
+    <a href="" id="backLink" onclick="showLoader()"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <p style="float:right;font-size: 15px;float: right;padding: 1%;color: #29c7c9;" id="p_count">@curr</p>
+</div>
+<div id="loading" class="loading" style="display:none"></div>
+<div class="btmclr"> </div>
+<div class="apnd_div">
+    @if (con_info != null)
+    {
+        <div class="row" align="center">
+
+            <div class="nav-buttons">
+                @if (con_info.prev_con_id != 0)
+                {
+                    <a onclick="partial_vw(@con_info.prev_con_id,'Previous')" class="prev-btn">
+                        <span class="glyphicon glyphicon-chevron-left"></span>  Prev
+                    </a>
+                }
+                @if (con_info.next_con_id != 0)
+                {
+                    <a onclick="partial_vw(@con_info.next_con_id,'Next')" class="next-btn">
+                        Nxt <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                }
+            </div>
+
+
+
+            <input type="hidden" value="@content.ID_CATEGORY" id="caid" />
+
+
+
+
+
+        </div>
+
+    }
+    <div class="col-md-12" style="background-color:white">
+        <br />
+        <h4><p style="color: black" ; font-size="16px">@content.CONTENT_QUESTION</p></h4>
+    </div>
+
+    @if (content.STATUS == "0")
+    {
+        <h3 style="text-align:center;background: white;">@content.MESSAGE</h3>
+    }
+
+    else
+    {
+        if (content.ID_THEME == 1)
+        {
+            <br />
+            <br />
+            //orignal
+            @*<div class="col-md-12" style="width:100%;">
+
+                    <p class="para"> @content.CONTENT_ANSWER1</p>
+                </div>*@
+
+            if (content.CONTENT_ANSWER_IMG1 != null)
+            {
+                if (content.CONTENT_ANSWER_IMG1 == "")
+                {
+                    <div class="col-md-12" style="width:100%;">
+                        <p class="para">@content.CONTENT_ANSWER1</p>
+                    </div>
+                }
+                if (Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".gif")
+                {
+                    <div class="container">
+                        <div class="row">
+                            <!-- Image Section -->
+                            <div class="col-md-6 d-none d-md-block">
+                                <img onclick="img_zoom(@z)" class="img img-fluid" src="@content.CONTENT_ANSWER_IMG1" alt="GIF Image">
+                            </div>
+
+                            <!-- Text Section -->
+                            <div class="col-md-6 d-none d-md-block scrollable-container">
+                                <p class="para">@content.CONTENT_ANSWER1</p>
+                                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    z++;
+
+                }
+                else if (Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".mp4")
+                {
+                    <div class="container">
+                        <div class="row">
+                            <!-- Image Section -->
+                            <div class="col-md-6 d-none d-md-block">
+                                <video controls class="img img-fluid">
+                                    <source src="@content.CONTENT_ANSWER_IMG1" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+
+                            </div>
+
+                            <!-- Text Section -->
+                            <div class="col-md-6 d-none d-md-block scrollable-container">
+                                <p class="para">@content.CONTENT_ANSWER1</p>
+                                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                            </div>
+                        </div>
+                    </div>
+
+            z++;
+        }
+
+        else if (Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".JPG" || Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".png" || Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".jpeg" || Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".jpg" || Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".PNG" || Path.GetExtension(content.CONTENT_ANSWER_IMG1).ToLower() == ".JPEG")
+        {
+                    <div class="container">
+                        <div class="row">
+                            <!-- Image Section -->
+                            <div class="col-md-6 d-none d-md-block">
+                                <img onclick="img_zoom(@z)" class="img img-fluid" src="@content.CONTENT_ANSWER_IMG1" alt="Image">
+                            </div>
+
+                            <!-- Text Section -->
+                            <div class="col-md-6 d-none d-md-block scrollable-container">
+                                <p class="para">@content.CONTENT_ANSWER1</p>
+                                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    z++;
+                }
+                else if(!string.IsNullOrEmpty(content.CONTENT_ANSWER1) && (content.CONTENT_ANSWER_IMG1.Contains("youtube.com") || content.CONTENT_ANSWER_IMG1.Contains("youtu.be")))
+                {
+                    <div class="container">
+                        <div class="row">
+                            <!-- Video Section (Left) -->
+                            <div class="col-md-6 order-md-1 d-none d-md-block ">
+                                @{
+                                    string input = @content.CONTENT_ANSWER_IMG1;
+        string output = input.Substring(input.IndexOf("v=") + 2);
+    }
+    @if (!string.IsNullOrEmpty(output))
+                                {
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@output" allowfullscreen style="top: -31px"></iframe>
+                                    </div>
+                                }
+                                else
+    {
+                                    <p class="text-danger">Invalid or missing YouTube video URL.</p>
+                                }
+                            </div>
+
+                            <!-- Text Section (Right) -->
+                            <div class="col-md-6 order-md-2 d-none d-md-block scrollable-container">
+                                <p class="para">@content.CONTENT_ANSWER1</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+             {
+                <div class="col-md-12" style="width:100%;">
+                    <p class="para">@content.CONTENT_ANSWER1</p>
+                </div>
+            }
+
+
+        }
+        if (content.ID_THEME == 2)
+    {
+            //the current
+            //
+            @*<div class="col-md-12" style="width:100%;">*@
+
+            <!-------------------image----------------->
+            @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    <img class="img" src="@content.CONTENT_ANSWER_IMG1">
+                </a>*@
+            @*//*@
+            @*<img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">*@
+            <!--------------answer------------------>
+            @*<br />
+
+                    <p class="para"> @content.CONTENT_ANSWER1</p>
+                    <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+
+                </div>
+                z++;*@
+            //////
+
+            <div class="container">
+                <div class="row">
+                    <!-- Image Section -->
+                    <div class="col-md-6 d-none d-md-block">
+                        <img onclick="img_zoom(@z)" class="img img-fluid" src="@content.CONTENT_ANSWER_IMG1" alt="Image">
+
+                    </div>
+
+                    <!-- Text Section -->
+                    <div class="col-md-6 d-none d-md-block scrollable-container">
+                        <p class="para">@content.CONTENT_ANSWER1</p>
+                        <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                    </div>
+                </div>
+            </div>
+
+            z++;
+            ///
+
+
+        }
+        if (content.ID_THEME == 3)
+        {
+            <div class="col-md-12" style="">
+
+                <!----------------answer-------------->
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+
+                <p p class="para"> @content.CONTENT_ANSWER2</p>
+            </div>
+
+        }
+        if (content.ID_THEME == 4)
+        {
+            <div class="col-md-12" style="">
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+            </div>
+            z++;
+        }
+        if (content.ID_THEME == 5)
+        {
+
+            <div class="col-md-12" style="">
+
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+            </div>
+            z++;
+
+        }
+
+        if (content.ID_THEME == 6)
+        {
+            @*<div class="row" style="border-color:gray">
+            *@
+            <div class="col-md-12" style="background-color:white">
+
+                <div class="" style="">
+                    @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                        </a>*@
+                    <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                    <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                    @{z++;}
+                    <br />
+                    <p class="para"> @content.CONTENT_ANSWER1</p>
+                    @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                        </a>*@
+                    <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                    <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                    @{z++;}
+                    <br />
+                    <p class="para"> @content.CONTENT_ANSWER2</p>
+                </div>
+            </div>
+            @*
+                </div>*@
+            z++;
+        }
+
+        if (content.ID_THEME == 7)
+        {
+
+            <div class="col-md-12" style="">
+                <table class="table table-bordered" style="background-color:#e1f3fa">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width: 125px;">
+                                <label class="" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Motive</label>
+                                <p class="para" style="border:none">@content.CONTENT_ANSWER1</p>
+                            </td>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Purpose</label>
+                                <p class="para" style="border:none">@content.CONTENT_ANSWER2 </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Subliminal Ignition</label>
+                                <p class="para" style="border:none">@content.CONTENT_ANSWER3 </p>
+                            </td>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Context</label>
+                                <p class="para" style="border:none">@content.CONTENT_ANSWER4 </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        if (content.ID_THEME == 8)
+        {
+            <br />
+            <div class="col-md-12" style="">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">+
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+            </div>
+        }
+        if (content.ID_THEME == 9)
+        {
+            <br />
+            <div class="col-md-12" style="">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG3">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG3">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG3" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER3</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG4">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG4">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG4" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER4</p>
+            </div>
+        }
+        if (content.ID_THEME == 10)
+        {
+            <div class="col-md-12" style="">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG3">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG3">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG3" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER3</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG4">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG4">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG4" />
+                @{z++;}
+                <br />
+
+                <p class="para"> @content.CONTENT_ANSWER4</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG5">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG5">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG5" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER5</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG6">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG6">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG6" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER6</p>
+            </div>
+        }
+        if (content.ID_THEME == 11)
+        {
+            <div class="col-md-12" style="">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG3">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG3">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG3" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER3</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG4">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG4">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG4" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER4</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG5">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG5">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG5" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER5</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG6">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG6">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG6" />
+                @{z++;}
+                <br />
+                <pre class="para"> @content.CONTENT_ANSWER6</pre>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG7">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG7">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG7" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER7</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG8">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG8">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG8" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER8</p>
+            </div>
+        }
+        if (content.ID_THEME == 12)
+        {
+            <div class="col-md-12" style="">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG3">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG3">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG3" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER3</p>
+            </div>
+        }
+        if (content.ID_THEME == 13)
+        {
+            <div class="col-md-12" style="border-color:gray">
+
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG1">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG1">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG1" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER1</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG2">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG2">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG2" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER2</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG3">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG3">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG3" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER3</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG4">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG4">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG4" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER4</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG5">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG5">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG5" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER5</p>
+                @*<a data-fancybox="gallery" href="@content.CONTENT_ANSWER_IMG6">
+                    </a>*@
+                <img onclick="img_zoom(@z)" class="img" src="@content.CONTENT_ANSWER_IMG6">
+                <input type="hidden" id="@(z)_img" value="@content.CONTENT_ANSWER_IMG6" />
+                @{z++;}
+                <br />
+                <p class="para"> @content.CONTENT_ANSWER6</p>
+            </div>
+        }
+        if (content.ID_THEME == 14)
+        {
+            <div class="col-md-12" style="">
+                <table class="table table-bordered" style="background-color:#e1f3fa">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width: 125px;">
+                                <label class="" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Activity Type</label>
+                                <p style="border:none" class="para">@content.CONTENT_ANSWER1
+                            </td>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Objective</label>
+                                <p class="para" style="background-color:#e1f3fa;color:black;padding: 2px 5px 2px 5px;border:none">@content.CONTENT_ANSWER2
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Duration</label>
+                                <p class="para" style="background-color:#e1f3fa;color:black;padding: 2px 5px 2px 5px;border:none">@content.CONTENT_ANSWER3
+                            </td>
+                            <td>
+                                <label class="control-label" style="background-color:#4f3a2a;border-radius:25px;padding: 2px 5px 2px 5px;color:white">Learning Outcome</label>
+                                <p class="para" style="background-color:#e1f3fa;color:black;padding: 2px 5px 2px 5px;border:none">@content.CONTENT_ANSWER4
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        if (content.ID_THEME == 15)
+        {
+            <br />
+            <div class="" align="center" style="">
+
+                <br />
+                <div class="col-md-12">
+                    @Html.Raw(content.CONTENT_ANSWER1)
+                </div>
+            </div>
+
+        }
+        if (content.ID_THEME == 16)
+        {
+            <br>
+            //origen test
+            @*<div class="col-md-12" style="">
+
+                    <p class="para" style="background-color:#e1f3fa;color:black;border-color:white"> @content.CONTENT_ANSWER1</p>
+
+                    <video id="video" src="@content.CONTENT_ANSWER_IMG1" autostart="true" controls controlsList="nodownload" bgcolor="white" width="100%" height="310"></video>
+                </div>*@
+            // origren
+            @*<div class="col-md-12" style="">
+
+                    <p class="para" style="background-color:#e1f3fa;color:black;border-color:white"> @content.CONTENT_ANSWER1</p>
+                    <video src="@content.CONTENT_ANSWER_IMG1" autostart="true" controls controlsList="nodownload" bgcolor="white" width="100%" height="310"></video>
+                </div>*@
+            //
+            <div class="container">
+                <div class="row">
+                    <!-- Video Section -->
+                    <div class="col-md-6 d-none d-md-block">
+                        <video src="@content.CONTENT_ANSWER_IMG1" autoplay controls controlsList="nodownload" style="background-color: white; width: 100%; height: 310px;"></video>
+                    </div>
+
+                    <!-- Text Section -->
+                    <div class="col-md-6 d-none d-md-block scrollable-container">
+                        <p class="para" style="color: black; margin: 0; background-color: #e1f3fa; padding: 10px; border-radius: 5px;">
+                            @content.CONTENT_ANSWER1
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        if (content.ID_THEME == 17)
+        {
+            <br />
+            <!--<div class="col-md-12" style="">
+
+               @@{
+                    string input = @@content.CONTENT_ANSWER_IMG1;
+                    string output = input.Substring(input.IndexOf("v=") + 2);
+
+                }
+                <pr class="para"> @@content.CONTENT_ANSWER1</pr>-->
+
+            @* Youtube API Code by Vidit - Start - 04-07-2023 *@
+
+            @*<iframe width="100%" height="310" src="https://www.youtube.com/embed/@output"></iframe>*@
+            @*<div class="embed-video" data-id="@output" data-controls="0" width="100%" height="310"></div>*@
+
+            <!--@@if (!string.IsNullOrEmpty(output))
+            {
+                <div class="embed-video" data-id="@@output" data-controls="0" width="100%" height="310"></div>
+            }
+            else
+            {
+                <p class="text-danger">Invalid or missing YouTube video URL.</p>
+            }-->
+
+            @* Youtube API Code by Vidit - End - 04-07-2023 *@
+            <!--</div>-->
+
+            //Test
+            <div class="container">
+                <div class="row">
+                    <!-- Video Section (Left) -->
+                    <div class="col-md-6 order-md-1 d-none d-md-block ">
+                        @{
+                            string input = @content.CONTENT_ANSWER_IMG1;
+                            string output = input.Substring(input.IndexOf("v=") + 2);
+                        }
+                        @if (!string.IsNullOrEmpty(output))
+                        {
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/@output" allowfullscreen style="top: -31px"></iframe>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Invalid or missing YouTube video URL.</p>
+                        }
+                    </div>
+
+                    <!-- Text Section (Right) -->
+                    <div class="col-md-6 order-md-2 d-none d-md-block scrollable-container">
+                        <p class="para">@content.CONTENT_ANSWER1</p>
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+
+    <!-----------------------------------------Arrow Button---------------------------------------------------------->
+    <div class="qa-footer">
+
+        <div class="">
+            @if (StepCount > 0)
+            {
+                @*<a href="@Url.Action(" AnswerStep", "Dashboard" , new { ID_CONTENT_ANSWER=@content.ID_CONTENT_ANSWER, ContentID=@content.ID_CONTENT })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-circle-arrow-right"></i></a>*@
+                <a href="@Url.Action("AnswerStep", "Dashboard" , new { ID_CONTENT_ANSWER=@content.ID_CONTENT_ANSWER, ContentID=@content.ID_CONTENT })" class="hvr-icon-wobble-horizontal">Next</a>
+
+            }
+
+            @if (sCount > 0)
+            {
+                if (satisfied[0].PATH.Contains("moodle".ToLower()))
+                {
+                    <a href="@linkToOpen" target="_blank" id="fetchLinkButton" class="hvr-icon-linkwobble-horizontal"> Link </a>
+                    @*<a href="@linkToOpen" target="_blank" id="fetchLinkButton" class="hvr-icon-linkwobble-horizontal"> Link_1</a>*@
+                    @*<a href="@linkToOpen" target="_blank" id="fetchLinkButton" class="hvr-icon-linkwobble-horizontal"> Link_1</a>*@
+
+                }
+                else
+                {
+                    <a href="@Url.Action("LinksView", "Dashboard" , new { ID_CONTENT_ANSWER=@content.ID_CONTENT_ANSWER })" class="hvr-icon-linkwobble-horizontal"> Link </a>
+
+                }
+                @*<a style="padding-left:5%" href="@Url.Action(" LinksView", "Dashboard" , new { ID_CONTENT_ANSWER=@content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-link"></i></a>*@
+            }
+            @if (aCount > 0)
+            {
+                @*<i style="color:#910a07" class="glyphicon glyphicon-list-alt"></i>*@
+            }
+
+        </div>
+
+        @*<a href="https://www.autoproctor.co/tests/4c5qSlRiPK/" class="hvr-icon-linkwobble-horizontal" target="_blank">Link1</a>*@
+
+
+        <div class="like-dislike" align="right">
+
+            @*<a href="#" class="hvr-icon-bounce" style="font-size:14px;"></a>*@
+
+            <a href="#" id="likeLink" data-content-id="@content.ID_CONTENT" data-category-id="@content.ID_CATEGORY">
+                <i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-up hvr-icon-up"></i>
+            </a>
+            @*<a href="@Url.Action("LikeContent", "Dashboard" , new { choice=1, cid=@content.ID_CONTENT,catID=content.ID_CATEGORY  })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-up hvr-icon-up"></i></a>*@
+            <a href="#" id="DislikeLink" data-content-id="@content.ID_CONTENT" data-category-id="@content.ID_CATEGORY">
+                <i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-down hvr-icon-down"></i>
+            </a>
+        </div>
+    </div>
+    <!---------------------------------------------------------------------------------------------------------------->
+
+    <div class="row" align="center">
+
+
+        <div class="nav-buttons">
+            @if (con_info.prev_con_id != 0)
+            {
+                <a onclick="partial_vw(@con_info.prev_con_id,'Previous')" class="prev-btn">
+                    <span class="glyphicon glyphicon-chevron-left"></span>  Prev
+                </a>
+            }
+            @if (con_info.next_con_id != 0)
+            {
+                <a onclick="partial_vw(@con_info.next_con_id,'Next')" class="next-btn">
+                    Nxt <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            }
+        </div>
+
+        @*     <p style="float:right;    font-size: 15px;float: right;padding: 1%;color: #29c7c9;">@curr</p>*@
+
+
+    </div>
+
+    <!--------------------------------------------------------------------------------------------------->
+    @if (content.LinkedQuestion == null || content.LinkedQuestion.Count == 0)
+    {
+        <div class="row">
+            <div class="col-md-12" align="center">
+                @*<h3 style="color:black;background-color:white" class="categories_header_text"> No Linked Queries Found</h3>*@
+            </div>
+        </div>
+    }
+    else
+    {
+
+        bool flag_color_change = true;
+        <div class="col-md-12">
+            <div class="row">
+                <div id="list_view" style="">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                    <strong>   Linked Queries</strong>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <table class="table " width="100%;">
+                                    @foreach (IBHFL.Models.SearchResponce itm in content.LinkedQuestion)
+                                    {
+                                        if (flag_color_change == true)
+                                        {
+                                            flag_color_change = false;
+                                            <tr>
+                                                <td class="listques1">
+                                                    <a href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+
+                                            flag_color_change = true;
+                                            <tr>
+                                                <td class="listques2">
+                                                    <a href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    @*@if (content.RelatedQuestion == null || content.RelatedQuestion.Count == 0)
+        {
+            <div class="">
+                <div class="col-md-12" align="center">
+                    <h3 style="color:black;background-color:white;" class="categories_header_text">No Related Queries Found</h3>
+                </div>
+            </div>
+        }
+        else
+        {
+
+            bool flag_color_change = true;
+            <div class="col-md-12">
+                <div class="row">
+                    <div id="list_view" style="">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <strong> Related Queries</strong>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <table class="table " width="100%;">
+                                        @foreach (IBHFL.Models.SearchResponce itm in content.RelatedQuestion)
+                                        {
+                                            if (flag_color_change == true)
+                                            {
+                                                flag_color_change = false;
+                                                <tr style="background-color:#a0e18a">
+                                                    <td class="listques1">
+                                                        <a href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+
+                                                flag_color_change = true;
+                                                <tr style="background-color:#a0e18a">
+                                                    <td class="listques2">
+                                                        <a href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }*@
+
+    @if (assessmentlist != null)
+    {
+        <div class="col-md-12">
+            <div class="row">
+                <div id="list_view" style="">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                            <h4 class="panel-title">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <strong>Assessment List</strong>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+
+                                <table class="table " width="100%;">
+                                    @foreach (var itm in assessmentlist)
+                                    {
+
+                                        if (flag_color == true)
+                                        {
+                                            flag_color = false;
+                                            <tr style="background-color:#a0e18a">
+                                                <td class="listques1">
+                                                    <a href="@Url.Action("AssessmentSheet", "Dashboard", new { ASID = @itm.id_assessment })">@itm.assessment_name</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+
+                                            flag_color = true;
+                                            <tr style="background-color:#a0e18a">
+                                                <td class="listques2">
+                                                    <a href="@Url.Action("AssessmentSheet", "Dashboard", new { ASID = @itm.id_assessment })">@itm.assessment_name</a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <script src="~/Content/New_Landing_Page/dub/dashboardmain.js"></script>
+
+    <div class="customflybutton" id="customflybutton">
+
+        <a href="javascript:void(0);" class="float" id="backfloat">
+
+            <i class="fa fa-fw my-float" aria-hidden="true" title="Go Back"></i>
+        </a>
+    </div>
+</div>
+
+@*modal value appending in this div*@
+<div id="myModal" class="modal">
+    <span class="close1">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+
+
+@if (StepCount > 0)
+{
+
+    @*<a href="@Url.Action("AnswerStep", "Dashboard" , new { ID_CONTENT_ANSWER=@content.ID_CONTENT_ANSWER, ContentID=@content.ID_CONTENT })" class="float2" id="menumore">
+            <i class="fa fa-fw my-float" aria-hidden="true" title="Next"></i>
+        </a>*@
+}
+
+<script>
+    var modal = document.getElementById('myModal');
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+    function img_zoom(id) {
+        //console.log(modalImg);
+        modal.style.display = "block";
+        var src = $("#" + id + "_img").val();
+        modalImg.src = src;
+        //captionText.innerHTML = this.alt;
+    }
+
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close1")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+
+    function partial_vw(val,Action='')
+    {
+
+
+        var caid = $("#caid").val();
+
+
+
+        link = '@Url.Action("ProductQueAnsPartial", "Dashboard",new { ContentID= "-id", CategoryID="cid" })';
+        link = link.replace("-id", val);
+        link = link.replace("cid", caid);
+
+        link = link.replace(/&amp;/g, "&");
+
+        $.get(link, null, function (data) {
+            $(".apnd_div").empty().append(data);
+        });
+
+        if (Action == 'Previous') {
+            var CVal = $('#p_count').text();
+            var FHalf = CVal.split('/')[0];
+            var SecondHalf = CVal.split('/')[1];
+
+            if (parseInt(FHalf) > 1) {
+                var Val = parseInt(FHalf) - 1;
+                $('#p_count').text(Val + '/' + SecondHalf);
+            }
+        }
+
+        if (Action == 'Next') {
+            var CVal = $('#p_count').text();
+            var FHalf = CVal.split('/')[0];
+            var SecondHalf = CVal.split('/')[1];
+
+            if (parseInt(FHalf) < parseInt(SecondHalf)) {
+                var Val = parseInt(FHalf) + 1;
+                $('#p_count').text(Val + '/' + SecondHalf);
+            }
+        }
+    }
+
+    $(document).ready(function () {
+    $('#fetchLinkButton').click(function (event) {
+        // Prevent the default action of the anchor link
+        event.preventDefault();
+
+        // Get the link URL from the href attribute
+        var linkToOpen = $(this).attr('href');
+
+        // Open the link in a new tab
+        window.open(linkToOpen, '_blank');
+
+        // Now navigate back to the previous page
+        window.history.back();
+
+        // Debugging: check the value of loginUrl
+        console.log(loginUrl);  // You should see the correct login URL here
+
+        @*// Make the AJAX request to the server
+        $.ajax({
+            url: '@Url.Action("GetNewLoginUrlFromApi", "Dashboard")', // Controller action to call
+            type: 'GET',
+            data: { apiEndpoint: loginUrl },  // Pass the URL as a query parameter
+            success: function (response) {
+                // Debugger statement for response
+                debugger;
+                if (response.success) {
+                    // Open the new URL in a new tab
+                    window.open(response.loginUrl, '_blank');
+                } else {
+                    // If there's an error message, show it
+                    $('#loginLinkContainer').html(`<p>${response.message}</p>`);
+                }
+            },
+            error: function () {
+                $('#loginLinkContainer').html('<p>Error fetching the login link. Please try again later.</p>');
+            }
+        });*@
+    });
+});
+
+</script>
+<style>
+    .panel-title > a:before {
+        float: right !important;
+        font-family: FontAwesome;
+        content: "\f068";
+        padding-right: 5px;
+    }
+
+    .panel-title > a.collapsed:before {
+        float: right !important;
+        content: "\f067";
+    }
+
+    .panel-title > a:hover,
+    .panel-title > a:active,
+    .panel-title > a:focus {
+        text-decoration: none;
+    }
+</style>
+
+@if (message != null)
+{
+    <script>
+            /**/
+            alert("@message")
+/**/
+    </script>
+}
+
+<script>
+    var video = document.getElementById('video');
+
+
+    var supposedCurrentTime = 0;
+    debugger;
+        if (@content.video_timer> 0) {
+            ////video.currentTime=@content.video_timer;
+            supposedCurrentTime = @content.video_timer;
+        }
+
+    //Logic to reset to start from beginning if video ended
+    var GTime = video.currentTime;
+    var TotalVideoDuration = video.duration;
+    var delta = TotalVideoDuration - GTime;
+    if (Math.abs(delta) <= 2) {
+        supposedCurrentTime = 0;
+        video.currentTime = supposedCurrentTime;
+    }
+
+    video.addEventListener("play", (event) => {
+        if (video.currentTime > 0) {
+            video.currentTime = supposedCurrentTime;
+        }
+        else {
+            if (@content.video_timer> 0) {
+                ////video.currentTime=@content.video_timer;
+                supposedCurrentTime = @content.video_timer;
+                video.currentTime = supposedCurrentTime;
+            }
+
+            //Logic to reset to start from beginning if video ended
+            var GTime = video.currentTime;
+            var TotalVideoDuration = video.duration;
+            var delta = TotalVideoDuration - GTime;
+            if (Math.abs(delta) <= 2) {
+                supposedCurrentTime = 0;
+                video.currentTime = supposedCurrentTime;
+            }
+        }
+    });
+
+    video.addEventListener('timeupdate', function () {
+        if (!video.seeking) {
+            supposedCurrentTime = video.currentTime;
+        }
+    });
+    // prevent user from seeking
+    video.addEventListener('seeking', function () {
+        // guard agains infinite recursion:
+        // user seeks, seeking is fired, currentTime is modified, seeking is fired, current time is modified, ....
+        var delta = video.currentTime - supposedCurrentTime;
+        if (Math.abs(delta) > 0.01) {
+            ////console.log("Seeking is disabled");
+            video.currentTime = supposedCurrentTime;
+            alert("Fast forwarding the video is not allowed. Please watch the full video!!");
+        }
+    });
+
+    video.addEventListener("pause", (event) => {
+
+        var GTime = video.currentTime;
+        var TotalVideoDuration = video.duration;
+            var ContentID =@content.ID_CONTENT;
+        var CategoryID =@content.ID_CATEGORY;
+         var OrgID=@content.ID_ORGANIZATION;
+        var VideoTimer = GTime;
+        var IsCompleted = 0;
+        var CompletePer = ((GTime / TotalVideoDuration) * 100).toFixed(2);
+
+        if (VideoTimer != TotalVideoDuration) {
+            ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoDuration);
+        }
+
+        //Logic to reset to start from beginning if video ended
+        var delta = TotalVideoDuration - GTime;
+        if (Math.abs(delta) <= 2) {
+            supposedCurrentTime = 0;
+            video.currentTime = supposedCurrentTime;
+        }
+    });
+
+    // delete the following event handler if rewind is not required
+    video.addEventListener('ended', function () {
+
+        ////////// reset state in order to allow for rewind
+        ////////supposedCurrentTime = 0;
+        var GTime = video.duration;
+        var TotalVideoDuration = video.duration;
+            var ContentID =@content.ID_CONTENT;
+        var CategoryID =@content.ID_CATEGORY;
+        var OrgID=@content.ID_ORGANIZATION;
+        var VideoTimer = GTime;
+        var IsCompleted = 1;
+        var CompletePer = 100;
+
+        ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoDuration);
+    });
+</script>
+<script>
+        function showLoader() {
+            // Display the loader
+            $("#loading").show();
+
+            // Optionally, you can perform additional actions before navigating to the next page
+            console.log('Loader displayed');
+            // After a delay (simulating some asynchronous operation), hide the loader and navigate
+            setTimeout(function () {
+                $("#loading").hide();
+
+                console.log('Loader hidden');
+            }, 2000);
+        }
+
+        $(document).ready(function() {
+    // Attach a click event handler to the anchor tag
+            $("#likeLink").click(function (e) {
+                debugger;
+        // Prevent the default behavior of the anchor tag
+        e.preventDefault();
+
+        // Extract the data from the data attributes
+        var contentId = $(this).data("content-id");
+        var categoryId = $(this).data("category-id");
+
+        // Make an AJAX call
+        $.ajax({
+            url: '@Url.Action("LikeContent", "Dashboard")',
+            type: 'POST', // or 'GET' depending on your server-side method
+            data: { choice: 1, cid: contentId, catID: categoryId },
+            success: function (data) {
+                var message = "You have liked the content"; // Modify this message as needed
+                alert(message);
+                // You can also update any UI elements to reflect the new message
+                $("#messageContainer").text(message); // Update a container with the new message
+                // Handle the success response here
+                console.log("Success:", data);
+            },
+            error: function(error) {
+                // Handle the error response here
+                console.error("Error:", error);
+            }
+        });
+    });
+
+
+     $("#DislikeLink").click(function(e) {
+     // Prevent the default behavior of the anchor tag
+     e.preventDefault();
+
+     // Extract the data from the data attributes
+     var contentId = $(this).data("content-id");
+     var categoryId = $(this).data("category-id");
+
+     // Make an AJAX call
+     $.ajax({
+         url: '@Url.Action("LikeContent", "Dashboard")',
+         type: 'POST', // or 'GET' depending on your server-side method
+         data: { choice: 0, cid: contentId, catID: categoryId },
+         success: function (data) {
+             alert(data.message)
+             // Handle the success response here
+             console.log("Success:", data);
+         },
+         error: function(error) {
+             // Handle the error response here
+             console.error("Error:", error);
+         }
+     });
+ });
+        });
+                                //YouTube API
+
+                                $(document).ready(function () {
+                                    console.log("Initializing YouTube IFrame API");
+
+                                    // Dynamically re-add the YouTube API script
+                                    if (!window.YT || !YT.Player) {
+                                        var tag = document.createElement('script');
+                                        tag.src = "https://www.youtube.com/iframe_api";
+                                        var firstScriptTag = document.getElementsByTagName('script')[0];
+                                        console.log(firstScriptTag);
+                                        console.log("start");
+
+                                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                                    } else {
+                                        console.log("YouTube API already loaded, reinitializing player");
+                                        onYouTubeIframeAPIReady(); // Reinitialize player
+                                    }
+                                });
+
+    var player; // Declare the player variable globally
+
+    // Initialize the YouTube IFrame API
+                                function onYouTubeIframeAPIReady() {
+                                    console.log('YouTube IFrame API loaded');
+                                    console.log('Player initialized with video ID:', "4dlq7HuUJtQ");
+                                    // Check if .embed-video exists
+                                    if ($('.embed-video').length === 0) {
+                                        console.log('No .embed-video element found. Exiting function.');
+                                        return; // Exit the function
+                                    }
+        $('.embed-video').embedVideo({
+            enablejsapi: 1, // Enable JavaScript API for the player
+            callback: function (iframe) {
+                player = new YT.Player(iframe, {
+                    events: {
+                        'onReady': function () {
+                            var Timer = 0;
+
+                            // Retrieve timer position if available
+                            if (@content.video_timer > 0) {
+                                Timer = @content.video_timer;
+                            }
+
+                            // Logic to reset to the beginning if the video ended previously
+                            var TotalVideoDuration = player.getDuration();
+                            if (Math.abs(TotalVideoDuration - Timer) <= 2) {
+                                Timer = 0; // Reset timer
+                            }
+
+                            player.seekTo(Timer, true); // Start from saved position
+                            startVideo(); // Play the video
+                        },
+
+                        'onStateChange': onPlayerStateChange // Handle state changes
+                    }
+                });
+            }
+        });
+    }
+
+    function onPlayerStateChange(event) {
+        console.log("onPlayer")
+        var GTime = player.getCurrentTime();
+        var TotalVideoDuration = player.getDuration();
+        var ContentID = @content.ID_CONTENT;
+        var CategoryID = @content.ID_CATEGORY;
+        var OrgID = @content.ID_ORGANIZATION;
+        var CompletePer = ((GTime / TotalVideoDuration) * 100).toFixed(2);
+
+        if (event.data == YT.PlayerState.PAUSED) {
+            // Update backend for paused state
+            ProductQueAns_VideoUpdate(ContentID, CategoryID, GTime, 0, OrgID, CompletePer, TotalVideoDuration);
+        }
+
+        if (event.data == YT.PlayerState.ENDED) {
+            // Update backend for completed state
+            ProductQueAns_VideoUpdate(ContentID, CategoryID, 0, 1, OrgID, 100, TotalVideoDuration);
+        }
+    }
+
+    // Function to update backend via AJAX
+    function ProductQueAns_VideoUpdate(ContentID, CategoryID, VideoTimer, IsCompleted, OrgID, CompletePer, TotalVideoTimer) {
+        var url = '@Url.Action("ProductQueAns_VideoUpdate", "Dashboard")';
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: "json",
+            data: {
+                ContentID: ContentID,
+                CategoryID: CategoryID,
+                VideoTimer: VideoTimer,
+                IsCompleted: IsCompleted,
+                OrgID: OrgID,
+                CompletePer: CompletePer,
+                TotalVideoTimer: TotalVideoTimer
+            },
+            success: function (data) {
+                console.log("Update successful"); // Optional: Log success
+            },
+            error: function (error) {
+                console.error("Update failed", error); // Optional: Handle errors
+            }
+        });
+    }
+
+    // Play the video
+    function startVideo() {
+        console.log("start")
+        player.playVideo();
+    }
+
+    // Stop the video
+    function stopVideo() {
+        console.log("end")
+        player.stopVideo();
+    }
+
+
+</script>

@@ -1,0 +1,2759 @@
+﻿@{
+    ViewBag.Title = "ProductView";
+    List<IBHFL.Models.DisplayCategory> detail = (List<IBHFL.Models.DisplayCategory>)ViewData["obj"];
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    //List<IBHFL.Models.details> detail2 = (List<IBHFL.Models.details>)ViewData["obj2"];
+    ////    detail = detail.OrderBy(t => t.Order).ToList();
+    int i = 1;
+    string name = (string)ViewData["userName"];//(string)ViewData["userName"]
+    Layout = null;
+    string _nextURL = (string)ViewData["_nexr"];
+    string orid = usersession.id_ORGANIZATION.ToString();
+    IBHFL.Models.RootObjectcolor colorlist = (IBHFL.Models.RootObjectcolor)ViewData["Colorlist"];
+}
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>*@
+@*<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+@*<link href="~/Content/jQuery-ScrollTabs-2.0.0/css/scrolltabs.css" rel="stylesheet" />
+    <script src="~/Content/jQuery-ScrollTabs-2.0.0/js/jquery.scrolltabs.js"></script>*@
+@*<script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>*@
+
+
+<style>
+    .products-innerview {
+         background-color:@colorlist.response[1].grid1_bk_color;
+          color:@colorlist.response[1].grid1_text_color;
+    }
+
+    .search-container {
+        width: auto !important;
+        position: absolute !important;
+        right: 18px;
+        justify-content: space-between; /* Adjust alignment */
+        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        gap: 6px; /* Reduce space between items */
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 4px 6px; /* Adjust padding to make it smaller */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        top: 14px;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .search-container:hover {
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+    .search-icon {
+        color: #1ab394;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+        .search-icon:hover {
+            color: #0056b3;
+        }
+
+    .search-input {
+        display: none; /* Initially hidden */
+        flex: 1; /* Takes up remaining space */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 4px;
+        font-size: 0.9em;
+        outline: none;
+        transition: border-color 0.3s ease;
+        color:black;
+    }
+
+        .search-input.active {
+            display: inline-block; /* Show when active */
+        }
+
+        .search-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+    #search-btn {
+        background-color: #1ab394;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px; /* Smaller button */
+        font-size: 0.8em;
+        display: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        #search-btn:hover {
+            background-color: #0056b3;
+        }
+
+    #result-dropdown,
+    #details-dropdown {
+        display: none;
+        margin-top: 5px;
+        padding: 6px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        font-size: 0.9em;
+        color: #333;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        #result-dropdown:focus,
+        #details-dropdown:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+        @@media (max-width: 768px) {
+            .search-container {
+                position: absolute !important;
+                justify-content: space-between; /* Adjust alignment */
+                flex-wrap: wrap; /* Allow elements to wrap */
+            }
+
+
+
+    .search-input {
+        display: block; /* Ensure the input is visible */
+        width: 100%; /* Full width for mobile */
+    }
+
+            #search-btn {
+                padding: 5px 4px;
+            }
+
+    .custom-dropdown {
+        width: 100%; /* Ensure dropdown fits the container */
+    }
+}
+
+
+
+</style>
+<body oncontextmenu="return false">
+    @*<a href="@Url.Action("Index", "Dashboard", new { Flag = "N" })" id="backLink" onclick="showLoader()">
+            <small class="text-navy">
+                <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back
+            </small>
+            <small class="text-navy search-container">
+                <i class="fa fa-fw fa-search" aria-hidden="true" title="Search"></i>
+                <span class="search-text" style="cursor: pointer;">Search</span>
+                <input type="text" class="search-input" placeholder="Type to search..." />
+            </small>
+            <script>
+                const searchText = document.querySelector('.search-text');
+                const searchInput = document.querySelector('.search-input');
+
+                searchText.addEventListener('click', () => {
+                    searchInput.classList.toggle('active');
+                    searchInput.focus();
+                });
+            </script>
+        </a>*@
+    <a href="@Url.Action("Index", "Dashboard", new { Flag = "N" })" id="backLink">
+        <small class="text-navy">
+            <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back
+        </small>
+    </a>
+
+
+    @if (detail != null)
+    {
+        <small class="text-navy search-container">
+            <i class="fa fa-fw fa-search search-icon" aria-hidden="true" title="Search" id="search-icon"></i>
+            <span class="search-text" id="search-trigger" style="display: none;">Search</span>
+            <input type="text" class="search-input" placeholder="Type to search..." id="search-input" style="display:none;" />
+            <button id="search-btn" style="display:none;">Search</button>
+            <a id="productLink" href="#" style="display:none;">Test the link</a>
+            <div id="result-dropdown" class="custom-dropdown" style="display: none;"></div>
+        </small>
+
+        <script>
+const searchInput = document.querySelector('#search-input');
+const searchIcon = document.querySelector('#search-icon');
+const searchBtn = document.querySelector('#search-btn');
+const resultDropdown = document.querySelector('#result-dropdown');
+const productLink = document.querySelector('#productLink');
+
+let categoryIds = []; // Global variable for category IDs
+
+// Function to toggle the search bar
+const toggleSearchBar = (event) => {
+    if (searchInput.style.display === 'none') {
+        searchInput.style.display = 'inline-block';
+        searchBtn.style.display = 'inline-block';
+        searchInput.focus();
+    } else {
+        // Hide the search input and button, clear text, and close dropdown
+        searchInput.style.display = 'none';
+        searchBtn.style.display = 'none';
+        searchInput.value = ''; // Clear the input
+        resultDropdown.style.display = 'none'; // Hide the dropdown
+    }
+
+    const tabPane = $('.tab-pane.active');
+    const hrefCount = tabPane.find('a[href]').length;
+    console.log('Number of href elements inside the active tab-pane:', hrefCount);
+
+    categoryIds = [];
+    tabPane.find('a[href]').each(function () {
+        const href = $(this).attr('href');
+        const matches = href.match(/CategoryID=(\d+)/);
+        if (matches && matches[1]) {
+            const categoryId = matches[1];
+            if (!categoryIds.includes(categoryId)) {
+                categoryIds.push(categoryId);
+            }
+        }
+    });
+
+    console.log('Unique CategoryIDs:', categoryIds);
+    event.preventDefault();
+};
+
+// Function to perform search
+const performSearch = (event) => {
+    event.preventDefault();
+    const query = searchInput.value.trim();
+
+    if (query) {
+        $.ajax({
+            url: '@Url.Action("Searchbar", "Dashboard")',
+            type: 'GET',
+            data: {
+                searchTerm: query,
+                categoryIds: categoryIds.join(',')
+            },
+            success: (response) => {
+                debugger;
+                resultDropdown.innerHTML = '';
+
+                if (response.length > 0) {
+                    const groupedResults = response.reduce((acc, item) => {
+                        if (!acc[item.CONTENT_HEADER]) {
+                            acc[item.CONTENT_HEADER] = [];
+                        }
+                        acc[item.CONTENT_HEADER].push(item);
+                        return acc;
+                    }, {});
+
+                    Object.keys(groupedResults).forEach((header) => {
+                        const headerDiv = document.createElement('div');
+                        headerDiv.textContent = header;
+                        headerDiv.classList.add('dropdown-header');
+                        resultDropdown.appendChild(headerDiv);
+
+                        const contentDiv = document.createElement('div');
+                        contentDiv.classList.add('dropdown-category');
+                        resultDropdown.appendChild(contentDiv);
+
+                        groupedResults[header].forEach((item) => {
+                            const subItemDiv = document.createElement('div');
+                            subItemDiv.textContent = item.CONTENT_QUESTION;
+                            subItemDiv.classList.add('dropdown-item');
+                            subItemDiv.setAttribute('data-content-id', item.ID_CONTENT);
+                            subItemDiv.addEventListener('click', () => {
+                                productLink.href = `@Url.Action("ProductQueAns", "Dashboard")?ContentID=${item.ID_CONTENT}&CategoryID=${item.id_category}`;
+                                productLink.click();
+
+                                searchInput.value = ''; // Clear the input
+                                resultDropdown.style.display = 'none'; // Hide the dropdown
+                            });
+                            contentDiv.appendChild(subItemDiv);
+                        });
+
+                        headerDiv.addEventListener('click', () => {
+                            const isVisible = contentDiv.style.display === 'block';
+                            contentDiv.style.display = isVisible ? 'none' : 'block';
+                        });
+                    });
+                } else {
+                    const noResults = document.createElement('div');
+                    noResults.textContent = 'No results found.';
+                    noResults.classList.add('no-results');
+                    resultDropdown.appendChild(noResults);
+                }
+
+                resultDropdown.style.display = 'block';
+            },
+            error: (xhr, status, error) => {
+                console.error('Error during search:', error);
+            }
+        });
+    } else {
+        alert('Please enter a search term.');
+    }
+};
+
+searchIcon.addEventListener('click', toggleSearchBar);
+searchBtn.addEventListener('click', performSearch);
+
+document.addEventListener('click', (event) => {
+    if (!event.target.closest('.search-container')) {
+        resultDropdown.style.display = 'none';
+    }
+});
+
+        </script>
+    }
+    <style>
+        .custom-dropdown {
+            position: absolute;
+            top: 100%; /* Position below the input box */
+            left: 0;
+            width: 100%;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 340px; /* Limit dropdown height */
+            overflow-y: auto; /* Add scroll if content exceeds height */
+        }
+
+        .dropdown-header {
+            padding: 8px 12px;
+            background-color: #e9ecef;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+            .dropdown-header:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+        .dropdown-category {
+            display: none; /* Initially hide content */
+            padding-left: 12px;
+        }
+
+        .dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+            .dropdown-item:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+        .no-results {
+            padding: 8px 12px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+
+
+    <div class="products-innerview">
+        <div class="tab-nav">
+            @* <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div> *@
+
+            <ul class="nav nav-tabs list" id="myTab">
+                @if (detail != null)
+                {
+                    foreach (var itm in detail)
+                    {
+                        <li class="" style="">
+                            <span class="heading-id" style="display:none">@itm.HeadingID</span>
+                            <a href="#tab_@i" id="@i" name="@itm.Heading" onclick="return fountCatID(this.name)" data-toggle="tab" style="font-size:12px;PADDING:7px;">@itm.Heading - @itm.CategoryHeadingCount</a>
+                        </li>
+                        i++;
+                    }
+                }
+            </ul>
+
+        </div>
+
+        @{
+            i = 1;
+        }
+
+        <div class="tab-content">
+
+            @if (ViewBag.CategoryType != 8 && ViewBag.CategoryType != 9 && ViewBag.CategoryType != 10)
+            {
+
+                foreach (var itm in detail)
+                {
+                    if (string.IsNullOrEmpty(_nextURL))
+                    {
+                        _nextURL = itm.NEXTAPIURL;
+                    }
+                    <div class="tab-pane" id="tab_@i">
+                        @foreach (var cat in itm.Categories)
+                        {
+                            <div class="item">
+
+                                @if (cat.CategoryType == 0)
+                                {
+                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+                                }
+                                else if (cat.CategoryType == 1)
+                                {
+                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                }
+                                else if (cat.CategoryType == 2)
+                                {
+                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                }
+                                else if (cat.CategoryType == 3)
+                                {
+                                    if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                    {
+                                        <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+                                    }
+                                    else
+                                    {
+
+                                        if (@cat.NEXTURL.Contains("http") && !@cat.NEXTURL.Contains("onelink.me"))
+                                        {
+                                            @*<a href="@Url.Action("RedirectPage", "Dashboard", new { NEXTAPI = cat.NEXTURL})">*@
+                                            <a target="_blank" href="@cat.NEXTURL">
+                                                <img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@cat.NEXTURL">
+                                                <img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" />
+                                            </a>
+                                        }
+
+                                    }
+                                }
+                                else if (cat.CategoryType == 4)
+                                {
+                                    <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                }
+                                else if (cat.CategoryType == 5)
+                                {
+                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img class="img-responsive" src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                }
+
+                                <div class="content" align="justify">
+                                    <p>
+
+                                        @if (cat.CategoryType == 0)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+                                            }
+                                            <div>
+                                                <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                            </div>
+
+                                        }
+                                        @if (cat.CategoryType == 1)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+                                            }
+                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                        }
+                                        @if (cat.CategoryType == 2)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+                                            }
+                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                        }
+                                        @if (cat.CategoryType == 3)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+                                            }
+                                            if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                            {
+                                                <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+
+                                            }
+                                            else
+                                            {
+                                                if (@cat.NEXTURL.Contains("http") && !@cat.NEXTURL.Contains("onelink.me"))
+                                                {
+                                                    @*<a href="@Url.Action("RedirectPage", "Dashboard", new { NEXTAPI = cat.NEXTURL})">*@
+                                                    <a target="_blank" href="@cat.NEXTURL">
+                                                        <pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@cat.NEXTURL"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                            }
+                                        }
+                                        @if (cat.CategoryType == 4)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+
+                                            }
+                                            <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                        }
+                                        @if (cat.CategoryType == 5)
+                                        {
+                                            <h4 class="categories_header_text">
+                                                @cat.CategoryName
+                                            </h4>
+                                            if (@cat.courseCompletion != null)
+                                            {
+                                                if (@cat.courseCompletion.StartDate != "")
+                                                {
+                                                    <h3>
+                                                        Duration: <span style="font-size:14px;">@cat.courseCompletion.StartDate - @cat.courseCompletion.ExpiryDate (@cat.courseCompletion.Duration Days)</span>
+                                                    </h3>
+                                                }
+                                            }
+                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre class="desc" style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                        }
+                                    </p>
+
+                                    @if (cat.ContentCount > 0)
+                                    {
+                                        if (cat.CategoryType == 0)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo ,orgid=@orid,headingid=itm.HeadingID })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                            
+
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+
+                                                                            @*<a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>*@
+                                                                            <a href="@Url.Action("certificate", "Certificate" , new { assessmentID=@cat.assessment_ID, id_user=@cat.id_user, _attemptNo=@cat.AttemptNo,categoryname =@cat.CategoryName ,orgid=@orid,headingid=itm.HeadingID })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                       
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                if (itm.Heading == "Moodle Courses")
+                                                                {
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>There is no assessment for this course.</p>
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a><br />
+
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (cat.CategoryType == 1)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid,headingid=itm.HeadingID})" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+
+                                                                            <a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid,headingid=itm.HeadingID})" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                <p>There is no assessment for this course.</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a><br />
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (cat.CategoryType == 2)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+                                                                                <span class="heading-id" style="display:none">@itm.HeadingID</span>
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+                                                                            <span class="heading-id" style="display:none">@itm.HeadingID</span>
+                                                                            <a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                <p>There is no assessment for this course.</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a><br />
+
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (cat.CategoryType == 3)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid,headingid=itm.HeadingID })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+
+                                                                            <a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid,headingid=itm.HeadingID  })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                <p>There is no assessment for this course.</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+                                                    @if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                                    {
+                                                        <a target="" href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        if (@cat.NEXTURL.Contains("http") && !@cat.NEXTURL.Contains("onelink.me"))
+                                                        {
+                                                            @*<a href="@Url.Action("RedirectPage", "Dashboard", new { NEXTAPI = cat.NEXTURL})">*@
+                                                            <a target="_blank" href="@cat.NEXTURL">
+                                                                <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a target="" href="@cat.NEXTURL">
+                                                                <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button>
+                                                            </a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (cat.CategoryType == 4)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid  })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+                                                                            <a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid  })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                <p>There is no assessment for this course.</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+                                                    <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a><br />
+
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (cat.CategoryType == 5)
+                                        {
+                                            <div class="row" style="display:flex;">
+                                                <div class="content" align="left">
+                                                    @if (cat.courseCompletion != null)
+                                                    {
+                                                        <h3 style="margin:0px;">
+                                                            Completion Status: <span style="font-size:14px;">@cat.courseCompletion.TotalCompletionPer % </span>
+                                                        </h3>
+                                                        if (cat.courseCompletion.TotalCompletionPer != 100)
+                                                        {
+                                                            <h3 style="margin:0px;">
+                                                                Days to Complete: <span style="font-size:14px;">@cat.courseCompletion.DaysToComplete</span>
+                                                            </h3>
+                                                        }
+                                                        if (!string.IsNullOrEmpty(cat._certificatePercentage))
+                                                        {
+                                                            if (cat._certificatePercentage == "Your 2nd attempt is pending")
+                                                            {
+                                                                <span>Complete atleast two attempts to view your certificate</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                {
+                                                                    <p>Your score is less than the qualification score. Try again</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (cat.assessment_ID == 468 || cat.assessment_ID == 474 || cat.CategoryHeader.ToString().Contains("Ethics"))
+                                                                    {
+                                                                        if (Convert.ToInt32(cat._certificatePercentage) < cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <span>Your score is less than the qualification score of 100%. Try again.</span>
+                                                                        }
+                                                                        else if (Convert.ToInt32(cat._certificatePercentage) == cat.certificatepercentagecompletion)
+                                                                        {
+                                                                            <h3 style="margin:0px;">
+                                                                                <a href="@Url.Action("CreateCertificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                            </h3>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <h3 style="margin:0px;">
+                                                                            <a href="@Url.Action("certificate", "Certificate", new { assessmentID = @cat.assessment_ID, id_user = @cat.id_user, _attemptNo = @cat.AttemptNo,orgid=@orid  })" target="_blank">Assessment Score: <span style="font-size:14px;">@cat._certificatePercentage% </span></a>
+                                                                        </h3>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (cat.assessment_ID == null)
+                                                            {
+                                                                <p>There is no assessment for this course.</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>The assessment has not been attempted</span>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="content" align="right">
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Detail</button></a><br />
+
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    if (i < detail.Count)
+                    {
+                        i++;
+                    }
+                }
+            }
+            else if (ViewBag.CategoryType == 8)
+            {
+                <input id="hdnApplicationUrl" type="hidden" value="@usersession.ApplicationUrl" />
+                <div class="row" style="margin:0px">
+                    <div class="col-12">
+                        <div class="Tab">
+                            <div class="tab" data-tab="approvalsTab">Scheduled Classes</div>
+                            <div class="tab tab2" data-tab="scheduleClassTab">Schedule New Class</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin:0px">
+                    <div class="sheduleForm">
+                        <div class="tab-content">
+                            <div class="tab-pane" id="scheduleClassTab">
+                                @*<form id="myForm">
+                                        <div class="row" style="margin:0px">
+                                            <div class="col-md-6 col-12">
+                                                <label for="subject">Subject:<span style="color: red"> *</span></label>
+                                                <input type="text" id="subject" name="subject" class="form-control"
+                                                       placeholder="Subject" required>
+                                                <label id="SubErr" style="color:maroon">Required Subject Field</label>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label for="course" class="Course">Course:<span style="color:red"> *</span></label>
+                                                <div class="course-dropdown mt-2">
+                                                    <span class="form-control language-dropdown-trigger1">
+                                                        <span data-val="" class="subTextLanguage language p-0">Course</span>
+                                                        <img src="../images/arrow.svg" alt="" />
+                                                    </span>
+                                                    <ul class="dropdown-content course-dropdown-content">
+                                                        <div class="course-container">
+
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                                <label id="CourseErr" style="color: maroon">Required Course Field</label>
+                                            </div>
+
+                                            <div class="col-md-6 col-12">
+                                                <label for="storecode" class="store">Store Code:</label>
+                                                <div class="location-dropdown mt-2">
+                                                    <span class="form-control location-dropdown-trigger1" style="margin:0px">
+                                                        <span data-val="" class="subTextLocation location p-0">Location</span>
+                                                        <img src="../images/arrow.svg" alt="" />
+                                                    </span>
+                                                    <ul class="dropdown-content location-dropdown-content">
+                                                        <div class="location-container">
+
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label for="url">URL:<span style="color:red"> *</span></label>
+                                                <input type="text" id="url" name="url" class="form-control" placeholder="URL" style="margin:0px" required>
+                                                <label id="UrlErr" style="color: maroon">Required URL Field</label>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label for="date">Date:<span style="color:red"> *</span></label>
+                                                <input type="date" id="Date" name="Date" class="form-control" placeholder="Date" required>
+                                                <label id="DateErr" style="color: maroon">Required Date Field</label>
+                                            </div>
+
+                                            <div class="col-md-6 col-12 timebox">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-6">
+                                                        <label for="url">Start Time :<span style="color:red"> *</span></label>
+                                                        <input type="time" id="startTime" name="startTime" class="form-control" placeholder="startTime" required>
+                                                        <label id="StartDateErr" style="color: maroon">Required Start Date Field</label>
+                                                    </div>
+                                                    <div class="col-md-6 col-6">
+                                                        <label for="url">End Time :<span style="color:red"> *</span></label>
+                                                        <input type="time" id="endTime" name="endTime" class="form-control" placeholder="endTime" required>
+                                                        <label id="EndDateErr" style="color: maroon">Required End Date Field</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label for="url" class="user">User:<span style="color:red"> *</span></label>
+                                                <div class="addUserBox">
+                                                    <div class="user-dropdown mt-2">
+                                                        <span class="form-control user-dropdown-trigger1">
+                                                            <span data-val=""
+                                                                  class="subTextUser User p-0">User</span>
+                                                            <img src="../images/arrow.svg" alt="" />
+
+                                                        </span>
+                                                        <ul class="dropdown-content user-dropdown-content" style="list-style-type:none">
+                                                            <div class="user-container">
+
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+
+                                                    <button class="adduser form-control" type="button" onclick="AddNewUsertoList()" id="addUserButton">
+                                                        +
+                                                        Add
+                                                        User
+                                                    </button>
+                                                    <label id="UserErr" style="color: maroon">Required User Field</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label for="url">
+                                                    Participants <br>
+                                                    <span style="color:red"> *</span>
+                                                    <span class="sublabel">
+                                                        (Please insert user's unquie id separated
+                                                        by
+                                                        comma(,) only.
+                                                        No enter or space is allowed between user id's)
+                                                    </span>
+                                                </label>
+                                                <textarea class="form-control" name="Participants" id="Participants"></textarea>
+                                                <label id="PatErr" style="color:red">Required Paticipants field</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="buttonBox">
+                                            <button type="reset" onclick="ResetForm();" class="btn reset sheduleButton">Reset</button>
+                                            <button type="button" class="btn sheduleButton" id="saveBtn">Submit</button>
+                                        </div>
+                                    </form>*@
+                                <form id="myForm">
+
+                                    <div class="row" style="margin:0px">
+
+                                        <div class="col-md-6 col-12 heightField">
+
+                                            <label for="subject">Subject:<span style="color: red"> *</span></label>
+
+                                            <input type="text" id="subject" name="subject" class="form-control"
+                                                   placeholder="Subject" required style="margin-bottom:0px !important">
+
+                                            <label id="SubErr" style="color:maroon;margin:0px">Required Subject Field</label>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-12 heightField">
+
+                                            <label for="course" class="Course">Course:<span style="color:red"> *</span></label>
+
+                                            <div class="course-dropdown mt-2">
+
+                                                <span class="form-control language-dropdown-trigger1" style="margin-bottom:0px !important">
+
+                                                    <span data-val="" class="subTextLanguage language p-0">Course</span>
+
+                                                    <img src="../images/arrow.svg" alt="" />
+
+                                                </span>
+
+                                                <ul class="dropdown-content course-dropdown-content">
+
+                                                    <div class="course-container">
+
+
+
+                                                    </div>
+
+                                                </ul>
+
+                                            </div>
+
+                                            <label id="CourseErr" style="color: maroon; margin: 0px">Required Course Field</label>
+
+                                        </div>
+
+
+
+                                        <div class="col-md-6 col-12 heightField">
+
+                                            <label for="storecode" class="store">Department:</label>
+
+                                            <div class="location-dropdown mt-2">
+
+                                                <span class="form-control location-dropdown-trigger1" style="margin:0px">
+
+                                                    <span data-val="" class="subTextLocation location p-0"></span>
+
+                                                    <img src="../images/arrow.svg" alt="" />
+
+                                                </span>
+
+                                                <ul class="dropdown-content location-dropdown-content">
+
+                                                    <div class="location-container">
+
+
+
+                                                    </div>
+
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-12 heightField">
+
+                                            <label for="url">URL:<span style="color:red"> *</span></label>
+
+                                            <input type="text" id="url" name="url" class="form-control" placeholder="URL" style="margin:0px" required>
+
+                                            <label id="UrlErr" style="color: maroon">Required URL Field</label>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-12 heightField">
+
+                                            <label for="date">Date:<span style="color:red"> *</span></label>
+
+                                            <input type="date" id="Date" name="Date" class="form-control" placeholder="Date" required>
+
+                                            <label id="DateErr" style="color: maroon">Required Date Field</label>
+
+                                        </div>
+
+
+
+                                        <div class="col-md-6 col-12 timebox heightField">
+
+                                            <div class="row">
+
+                                                <div class="col-md-6 col-6">
+
+                                                    <label for="url">Start Time :<span style="color:red"> *</span></label>
+
+                                                    <input type="time" id="startTime" name="startTime" class="form-control" placeholder="startTime" required>
+
+                                                    <label id="StartDateErr" style="color: maroon">Required Start Date Field</label>
+
+                                                </div>
+
+                                                <div class="col-md-6 col-6">
+
+                                                    <label for="url">End Time :<span style="color:red"> *</span></label>
+
+                                                    <input type="time" id="endTime" name="endTime" class="form-control" placeholder="endTime" required>
+
+                                                    <label id="EndDateErr" style="color: maroon">Required End Date Field</label>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+
+                                            <label for="url" class="user">User:<span style="color:red"> *</span></label>
+
+                                            <div class="addUserBox">
+
+                                                <div class="user-dropdown mt-2">
+
+                                                    <span class="form-control user-dropdown-trigger1">
+
+                                                        <span data-val=""
+                                                              class="subTextUser User p-0">User</span>
+
+                                                        <img src="../images/arrow.svg" alt="" />
+
+
+
+                                                    </span>
+
+                                                    <ul class="dropdown-content user-dropdown-content" style="list-style-type:none">
+
+                                                        <div class="user-container">
+
+
+
+                                                        </div>
+
+                                                    </ul>
+
+                                                </div>
+
+
+
+                                                <button class="adduser form-control" type="button" onclick="AddNewUsertoList()" id="addUserButton">
+
+                                                    +
+
+                                                    Add
+
+                                                    User
+
+                                                </button>
+
+                                                <label id="UserErr" style="color: maroon">Required User Field</label>
+
+
+
+                                            </div>
+                                            @*//comment cvs*@
+                                            <label class="csv">Please choose a CSV file (.csv) to upload</label>
+                                            <input type="file" id="csvFileInput">
+                                            <label id="csvFile" style="color: maroon; margin: 0px; display: none;">Required CVS Field</label>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+
+                                            <label for="url">
+
+                                                Participants <br>
+
+                                                <span style="color:red"> *</span>
+
+                                                <span class="sublabel">
+
+                                                    (Please insert user's unquie id separated
+
+                                                    by
+
+                                                    comma(,) only.
+
+                                                    No enter or space is allowed between user id's)
+
+                                                </span>
+
+                                            </label>
+
+                                            <textarea class="form-control" name="Participants" id="Participants"></textarea>
+
+                                            <label id="PatErr" style="color:maroon">Required Paticipants field</label>
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="buttonBox">
+
+                                        <button type="reset" onclick="ResetForm();" class="btn reset sheduleButton">Reset</button>
+
+                                        <button type="button" class="btn sheduleButton" id="saveBtn">Submit</button>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="approvalsTab">
+                                <div class="scheduledClassesCard d-flex flex-column gap-1">
+                                    <span class="dateHeader">
+                                        Date : 5th October 2023, Thursday
+                                    </span>
+                                    <hr style="margin:5px 0px;width:'100%'">
+                                    <span>
+                                        Bata 5 Step Super Selling
+                                    </span>
+
+                                    <span class="d-flex align-items-center gap-1">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                                                <path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" />
+                                                <path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" />
+                                            </svg>
+                                        </span>
+                                        <span>DD/MM/YYYY - DD/MM/YYYY </span>
+
+                                    </span>
+                                    <div class="URL_link_container">
+                                        <a href=""> URL Link</a>
+
+                                    </div>
+
+                                </div>
+                                <div class="scheduledClassesCard d-flex flex-column gap-1">
+                                    <span class="dateHeader">
+                                        Date : 5th October 2023, Thursday
+                                    </span>
+                                    <hr style="margin:5px 0px;width:100%">
+                                    <span>
+                                        Bata 5 Step Super Selling
+                                    </span>
+
+                                    <span class="d-flex align-items-center gap-1">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                                                <path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" />
+                                                <path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" />
+                                            </svg>
+                                        </span>
+                                        <span style="margin-left:10px;">DD/MM/YYYY - DD/MM/YYYY </span>
+
+                                    </span>
+                                    <div class="URL_link_container">
+                                        <a href=""> URL Link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+            else if (ViewBag.CategoryType == 9)
+            {
+                Html.RenderAction("AddMilestoneDashboard");
+            }
+            else if (ViewBag.CategoryType == 10)
+            {
+                Html.RenderAction("CertificateDashboard");
+            }
+        </div>
+    </div>
+
+
+    <div class="customflybutton" id="customflybutton">
+
+        <a href="javascript:void(0);" class="float" id="backfloat">
+
+            <i class="fa fa-fw my-float" aria-hidden="true" title="Go Back"></i>
+        </a>
+        @*<div class="label-container">
+                <div class="label-text">Back</div>
+                <i class="fa fa-play label-arrow"></i>
+            </div>*@
+
+        @*<a href="#" class="float2" id="menumore">
+                <i class="fa fa-fw my-float" aria-hidden="true" title="Next"></i>
+            </a>*@
+
+        @*<a href="javascript:void(0)" class="float" id="menumore">
+                <i class="fa fa-share my-float"></i>
+            </a>
+
+            <ul id="flybutton" class="fly">
+                <li>
+
+                    <a href="" id="menu-1">
+
+                        <i class="fa fa-fw my-float" aria-hidden="true" title="Copy to use fast-forward"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="menu-google-plus">
+                        <i class="fa fa-google-plus my-float"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="menu-twitter">
+                        <i class="fa fa-fw my-float" aria-hidden="true" title="Copy to use fast-forward"></i>
+                    </a>
+                </li>
+            </ul>*@
+    </div>
+
+    <style>
+        .barscroll {
+            position: relative;
+            /*margin: 0 auto;*/
+            margin: 0px 35px 10px 20px;
+            overflow: hidden;
+            padding: 5px;
+            height: 29px;
+            border-bottom: 1px solid #000;
+        }
+
+        .list {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            min-width: 650px;
+            margin-left: 12px;
+            margin-top: 0px;
+        }
+
+        .products-innerview {
+            inset: 60px 18px 62px 16px !important;
+        }
+
+        .list li {
+            display: table-cell;
+            position: relative;
+            text-align: center;
+            cursor: grab;
+            cursor: -webkit-grab;
+            color: #efefef;
+            vertical-align: middle;
+        }
+
+        .scroller {
+            text-align: center;
+            cursor: pointer;
+            /*display: none;*/
+            padding: 7px;
+            padding-top: 7px;
+            white-space: normal;
+            vertical-align: middle;
+            background-color: #fff;
+        }
+
+        .scroller-right {
+            float: right;
+        }
+
+        .scroller-left {
+            float: left;
+        }
+    </style>
+    <style>
+        /*  shedulwd class */
+        .participateContainer {
+            height: 5vh;
+            width: 100%;
+            border: 2px solid #dee2e6;
+            background: #D7D7E8;
+            border-radius: 5px;
+        }
+
+        .sheduleForm {
+            /*
+            max-height: 80vh;
+            overflow-y: auto; */
+            padding-top: 1rem;
+        }
+
+        .form-control {
+            border-radius: 0.25rem;
+            border: 1px solid #616161;
+            background: #FFF;
+            margin: .5rem 0rem;
+        }
+
+        form label {
+            color: #000;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .sublabel {
+            color: #8E8E8E;
+            font-size: 0.875rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1rem;
+            /* 114.286% */
+            letter-spacing: 0.0375rem;
+        }
+
+        .course-dropdown, .location-dropdown, .user-dropdown {
+            position: relative;
+        }
+
+        .course-dropdown-content, .location-dropdown-content, .user-dropdown-content {
+            max-height: 33vh;
+            box-shadow: none;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #000;
+            background: var(--FFFFFF-Bg-1, #FFF);
+            margin: 0px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .dropdown-content {
+            width: 100%;
+            padding: 15px;
+            display: none;
+        }
+
+            .dropdown-content.active {
+                display: block;
+            }
+
+        .course-dropdown .dropdown-content li {
+            padding: 2% 1% !important;
+        }
+
+            .course-dropdown .dropdown-content li:hover {
+                border-radius: 4px;
+                background: #F7F7F7 !important;
+            }
+
+        .location-dropdown .dropdown-content li {
+            padding: 2% 1% !important;
+        }
+
+            .location-dropdown .dropdown-content li:hover {
+                border-radius: 4px;
+                background: #F7F7F7 !important;
+            }
+
+        .user-dropdown .dropdown-content li {
+            padding: 2% 1% !important;
+        }
+
+            .user-dropdown .dropdown-content li:hover {
+                border-radius: 4px;
+                background: #F7F7F7 !important;
+            }
+
+
+        .adduser {
+            border-radius: 0rem 0.5rem 0.5rem 0rem;
+            border: 1px solid #616161;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 0.5rem 0rem;
+            color: #000;
+            width: 50%;
+        }
+
+        .addUserBox {
+            display: flex
+        }
+
+        .buttonBox {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2vh;
+        }
+
+        .sheduleButton {
+            border-radius: 0.75rem;
+            border: 0.3px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            display: flex;
+            width: 9.4375rem;
+            padding: 0.5rem 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-left: .5rem;
+            margin-bottom: .5rem;
+        }
+
+        .Tab {
+            display: flex;
+            border-bottom: 1px solid #777778;
+            padding: 0px;
+            margin-top: 1%;
+        }
+
+        .tab {
+            margin: 1% 0% 0%;
+            cursor: pointer;
+        }
+
+        .tab2 {
+            margin-left: 1%;
+        }
+
+        .tab.active {
+            border-bottom: 1px solid #F21323;
+            color: #000;
+        }
+
+        /* Style for inactive tabs */
+        .tab:not(.active) {
+            color: #777778;
+        }
+
+        .cource-container, .course-container, .location-container, .user-container {
+            max-height: 20vh;
+            overflow-y: scroll;
+            margin-top: 2%;
+            cursor: pointer;
+        }
+
+        .subTextLanguage, .subTextLocation, .subTextUser {
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 85%;
+        }
+
+        .sheduledDropDown {
+            display: flex;
+            position: relative;
+        }
+
+            .sheduledDropDown img {
+                position: absolute;
+                right: 15px;
+                top: 15px;
+            }
+
+        .historyItem {
+            width: 48%;
+            height: 8.3125rem;
+            border-radius: 0.5rem;
+            border: 0.5px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 2% 0%;
+        }
+
+        .scheduleCallsHistory {
+            display: flex;
+            justify-content: space-between;
+            padding: 2%;
+        }
+
+        #saveBtn, .btnDelete {
+            background-color: #F21323;
+            color: #FFF;
+        }
+
+        .ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .language-dropdown-trigger1, .location-dropdown-trigger1, .user-dropdown-trigger1 {
+            width: 100%;
+            padding: 1% 2% !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 400;
+            border-radius: 4px;
+            border: 1px solid #616161;
+            background: var(--FFFFFF-Bg-1, #FFF);
+        }
+
+        .scheduledClassesCard {
+            width: 100%;
+            min-height: 12vh;
+            border-radius: 0.5rem;
+            border: 1px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            padding: 1%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            margin: 5px 0px;
+        }
+
+        .dateHeader {
+            color: #000;
+            font-family: sans-serif;
+            font-size: 1.25rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 1.53125rem; /* 122.5% */
+            letter-spacing: 0.0375rem;
+        }
+
+        .URL_link_container {
+            height: 4vh;
+            width: 100%;
+            border-radius: 0.3125rem;
+            border: 1px solid #EFEFF0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-dropdown {
+            width: 100%;
+            border-right-color: none;
+        }
+
+
+        input[type="number"],
+        input[type="search"],
+        input[type="text"],
+        select:focus,
+        textarea {
+            font-size: 16px;
+        }
+
+        .heightField {
+            height: 90px;
+        }
+
+        @@media screen and (max-width: 600px) {
+
+            .tab2 {
+                margin-left: 3%;
+            }
+
+            .timebox {
+                padding: 0px
+            }
+
+            .heightField {
+                height: auto;
+            }
+
+            .adduser {
+                width: 47%;
+                margin-left: 3%;
+                font-size: 12px;
+                padding: 5px 0px;
+            }
+        }
+    </style>
+
+    <script>
+
+         $(document).ajaxComplete(function () {
+           $('.nav-tabs a[href="#tab_' + @ViewBag._index + '"]').tab('show');
+         });
+
+
+         $(document).ready(function () {
+             $('#tab_@ViewBag._index').css('tab-pane active', 'tab-pane');
+
+              activaTab('tab_@ViewBag._index');
+              /*document.getElementById("div_1").style.visibility = hide;*/
+              $("#loading").hide();
+
+         });
+
+         function activaTab(tab) {
+              $('.nav-tabs a[href="#tab_' + @ViewBag._index + '"]').tab('show');
+         };
+
+        var hidWidth;
+        var scrollBarWidths = 60;
+
+        var widthOfList = function () {
+            var itemsWidth = 0;
+            $('.list li').each(function () {
+                var itemWidth = $(this).outerWidth();
+                itemsWidth += itemWidth;
+            });
+            return itemsWidth;
+        };
+
+        var widthOfHidden = function () {
+            return (($('.barscroll').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
+        };
+
+        var getLeftPosi = function () {
+            return $('.list').position().left;
+        };
+
+        var reAdjust = function () {
+            if (($('.barscroll').outerWidth()) < widthOfList()) {
+                $('.scroller-right').show();
+            }
+            else {
+                $('.scroller-right').hide();
+            }
+
+            if (getLeftPosi() < 0) {
+                $('.scroller-left').show();
+            }
+            else {
+                $('.item').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow');
+                $('.scroller-left').hide();
+            }
+        }
+
+        reAdjust();
+
+        $(window).on('resize', function (e) {
+            reAdjust();
+        });
+
+        $('.scroller-right').click(function () {
+
+            $('.scroller-left').fadeIn('slow');
+            $('.scroller-right').fadeOut('slow');
+
+            $('.list').animate({ left: "+=" + widthOfHidden() + "px" }, 'slow', function () {
+
+            });
+        });
+
+        $('.scroller-left').click(function () {
+            $('.scroller-right').fadeIn('slow');
+            $('.scroller-left').fadeOut('slow');
+            $('.list').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow', function () {
+            });
+        });
+    </script>
+
+
+
+    <script>
+        function fountCatID(a) {
+
+
+                                        //if (@ViewBag._categoryType == 1) {
+                                            $("#loading").show();
+
+                                             link = '@Url.Action("ProductView", "Dashboard", new { NEXTAPI = "_url_", CategoryID = "sdg", _categoryHeader = "_headerValue", _categoryType = 1 })';
+
+                                            var catid = @ViewBag._categoryId;
+                                            //var _sendURL = 'api/DisplayCategory?orgID=117_cid=489_uid=11156';
+                                            var _sendURL = '@_nextURL';
+
+
+                                            link = link.replace("_url_", _sendURL);
+                                                      link = link.replace("sdg", catid);
+                                                      link = link.replace("_headerValue", a);
+
+                                            link = link.replace(/&amp;/g, "&");
+
+                                                activaTab('#tab_@i');
+
+                                                const element = document.querySelector('#tab_@i');
+
+                                                element.classList.add('tab-pane', 'active');
+
+            $.get(link, null, function (response) {
+
+                                                $("#loading").hide();
+                                                    showData(response.trim());
+                                                });
+                                        };
+
+    </script>
+
+
+    @if (ViewBag.CategoryType == 8)
+    {
+        <script>
+
+            function BindCourseDetailsDropdown() {
+                var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+                $.ajax({
+                    url: ApplicationUrl + 'api/KPI/GetCourseDetails',
+                    type: "GET",
+                    //data: JSON.stringify(oParam),
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+
+                        $('.course-container').html('');
+                        if (data.KEY == "SUCCESS") {
+                            if (data.MESSAGE.length > 0) {
+                                var Data = data.MESSAGE;
+                                var CourseData = $.parseJSON(Data);
+
+                                for (var i = 0; i < CourseData.length; i++) {
+                                    $('.course-container').append('<li data-val="' + CourseData[i].ID_CATEGORY + '">' + CourseData[i].CATEGORYNAME + '</li>');
+                                }
+                                $('.course-container').append('<li data-val="' + 0 + '">Others</li>');
+                            }
+                        }
+                    }
+                });
+            }
+
+
+            function BindStoreLocationDetailsDropdown() {
+                var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+                $.ajax({
+                    url: ApplicationUrl + 'api/KPI/GetStoreLocationDetails',
+                    type: "GET",
+                    //data: JSON.stringify(oParam),
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+
+                        $('.location-container').html('');
+                        if (data.KEY == "SUCCESS") {
+                            if (data.MESSAGE.length > 0) {
+                                var Data = data.MESSAGE;
+                                var LocationData = $.parseJSON(Data);
+
+                                for (var i = 0; i < LocationData.length; i++) {
+                                    $('.location-container').append('<li data-val="' + LocationData[i].LOCATION + '">' + LocationData[i].LOCATION + '</li>');
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+
+            function BindUserScheduledEventGrid() {
+                debugger
+                 var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+                $.ajax({
+                    url: ApplicationUrl + 'api/KPI/GetUserScheduledEventDetails',
+                    type: "GET",
+                    ////data: JSON.stringify(oParam),
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+
+                        $('#approvalsTab').html('');
+                        if (data.KEY == "SUCCESS") {
+                            if (data.MESSAGE.length > 0) {
+                                var Data = data.MESSAGE;
+                                var UserData = $.parseJSON(Data);
+
+                                for (var i = 0; i < UserData.length; i++) {
+
+                                    var td = '';
+                                   var DeleteBtn = '';
+
+                                   if (UserData[i].id_event_creator==@usersession.ID_USER && UserData[i].program_duration >= 30) {
+                                       DeleteBtn = '<span style="float:right;display:flex;"><button type="button" class="btn sheduleButton btnDelete" id="btnDelete" onclick="DeleteEvent(' + UserData[i].id_scheduled_event + ');">Delete</button></span>';
+                                    }
+                                   td = td + '<div class="scheduledClassesCard d-flex flex-column gap-1">';
+                                    td = td + '<div><span class="dateHeader">Date : ' + UserData[i].event_duration + ', ' + UserData[i].program_day + '</span>' + DeleteBtn + '</div><hr style="margin:5px 0px;width:100%">';
+                                    td = td + '<span>' + UserData[i].event_title + '</span>';
+                                    td = td + '<span class="d-flex align-items-center gap-1"><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" /><path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" /></svg></span>';
+                                    td = td + '<span style="margin-left:5px;">' + UserData[i].Start_Time + ' - ' + UserData[i].End_Time + '</span></span>';
+                                    td = td + '<div class="URL_link_container"><a target="_blank" href="' + UserData[i].event_online_url + '" onclick="MarkUserAttendance(' + UserData[i].id_scheduled_event + ');">' + UserData[i].event_online_url + '</a></div></div>';
+
+                                    $('#approvalsTab').append(td);
+
+                                    ////$('.user-container').append('<li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li>');
+                                   ////$('.user-container').append('<div style="display:flex"><input type="checkbox"  style="margin:0px"><li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li></div>');
+
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+
+        </script>
+    }
+
+    <script>
+        @*var details = @Html.Raw(Json.Encode(ViewData["obj"]));*@
+
+        @*if (details !=null) {
+             console.log(details)
+
+     var steps = [];
+     details.forEach(function (item, i) {
+         var step = {
+             element: "#" + (i + 1),
+             title: item.Heading,
+             content: '',
+             placement: "bottom"
+         };
+         steps.push(step);
+     });
+    debugger
+     var tour = new Tour({
+         steps: steps,
+         backdrop: true,
+         storage: false,
+         onEnd: function (tour) {
+             console.log(tour)
+             debugger
+          var currentUrl = window.location.href;
+          var urlParams = new URLSearchParams(currentUrl.split('?')[1]);
+          var pageValue = urlParams.get('page');
+             console.log(pageValue)
+             console.log(typeof( pageValue))
+
+          var formData = new FormData();
+             formData.append('Page_name', pageValue)
+             console.log(formData)
+
+          $.ajax({
+              url: '@Url.Action("ProductTour", "Dashboard")',
+              type: 'POST',
+              processData: false,
+              contentType:false,
+              data:formData,
+              success: function (data) {
+                  console.log('API call successful');
+              },
+              error: function (xhr, status, error) {
+
+                  console.error('API call failed:', error);
+              }
+          });
+      }
+     });
+        } else {
+
+        }*@
+
+    </script>
+
+    @*@if ((bool)TempData["tour"] == false)
+        {
+            <script>
+                $(document).ready(function () {
+                    tour.init();
+                    tour.start();
+                    tour.restart();
+                });
+            </script>
+        }*@
+
+    <script>
+
+        $(document).ready(function () {
+            debugger
+            var formDataArray = [];
+
+            BindUserScheduledEventGrid();
+            BindCourseDetailsDropdown();
+            BindStoreLocationDetailsDropdown();
+            $('#SubErr').hide();
+            $('#CourseErr').hide();
+            $('#DateErr').hide();
+            $('#UrlErr').hide();
+            $('#StartDateErr').hide();
+            $('#EndDateErr').hide();
+            $('#PatErr').hide();
+            $('#UserErr').hide();
+            //////$('.shedulecontainer').hide();
+            //////// Select the element by its ID
+            //////$("#sheduledClass").click(function () {
+            //////    // Your code to execute when the button is clicked
+            //////    $('#cardContainer').hide();
+            //////    $('.shedulecontainer').show();
+            //////});
+
+
+
+            function ResetForm() {
+
+                //////$('.Zone').text('Zone');
+                //////$('.Course').text('Course');
+                //////$('.store').text('Store Code');
+                //////$('.user').text('User');
+                $('#subject').val('');
+                $('#Date').val('');
+                $('#url').val('');
+                $('#startTime').val('');
+                $('#endTime').val('');
+                $('#Participants').val('');
+                $('#SubErr').hide();
+                $('#CourseErr').hide();
+                $('#DateErr').hide();
+                $('#UrlErr').hide();
+                $('#StartDateErr').hide();
+                $('#EndDateErr').hide();
+                $('#PatErr').hide();
+                $('#UserErr').hide();
+                $('#csvFileInput').val('');
+                //////document.querySelector('.location-dropdown-trigger1 span').innerText = 'Location';
+                //////document.querySelector('.language-dropdown-trigger1 span').innerText = 'Course';
+                //////document.querySelector('.user-dropdown-trigger1 span').innerText = 'User';
+
+                $('.location-dropdown-trigger1 > span').text('Location');
+                $('.language-dropdown-trigger1 > span').text('Course');
+                $('.user-dropdown-trigger1 > span').text('User');
+                $('.user-container input[type="checkbox"]').prop('checked', false);
+
+            }
+
+            $('.reset').click(function (e) {
+
+                ResetForm();
+            });
+
+            $(function () {
+                var dtToday = new Date();
+
+                var month = dtToday.getMonth() + 1;
+                var day = dtToday.getDate();
+                var year = dtToday.getFullYear();
+                if (month < 10)
+                    month = '0' + month.toString();
+                if (day < 10)
+                    day = '0' + day.toString();
+
+                var maxDate = year + '-' + month + '-' + day;
+
+                // or instead:
+                // var maxDate = dtToday.toISOString().substr(0, 10);
+
+                ////alert(maxDate);
+                $('#Date').attr('min', maxDate);
+            });
+
+            // active tab-------
+            $('.tab').on('click', function () {
+                var tabId = $(this).data('tab');
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-pane').removeClass('active');
+                $('#' + tabId).addClass('active');
+            });
+            $('.tab[data-tab="approvalsTab"]').trigger('click');
+            //$('.tab[data-tab="scheduleClassTab"]').trigger('click');
+
+            // dropdown value- ---------
+
+
+            // reset form ------
+            ////$('.reset').click(function (e) {
+            ////    $('.Zone').text('Zone');
+            ////    $('.Course').text('Course');
+            ////    $('.store').text('Store Code');
+            ////    $('.user').text('User');
+            ////    document.querySelector('.location-dropdown .location-dropdown-trigger1 span').innerText = 'Location';
+            ////    document.querySelector('.course-dropdown .language-dropdown-trigger1 span').innerText = 'Course';
+            ////    document.querySelector('.user-dropdown .user-dropdown-trigger1 span').innerText = 'User';
+            ////});
+
+
+
+            $('#saveBtn').on('click', function () {
+
+                var IsValid = false;
+                IsValid = ValidateData();
+
+                if (IsValid == true) {
+
+                    var ApplicationUrl = $('#hdnApplicationUrl').val();
+                    ////var UserdropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+                    var LocationdropDown = $('.location-dropdown .location-container li').closest('.location-dropdown');
+                    var CoursedropDown = $('.course-dropdown .course-container li').closest('.course-dropdown');
+
+                    var Subject = $('#subject').val();
+                    var Course = CoursedropDown.find('.subTextLanguage').text();
+                    var CourseID = CoursedropDown.find('.subTextLanguage').attr('data-val');
+                    var Location = LocationdropDown.find('.subTextLocation').text();
+                    var Date = $('#Date').val();
+                    var URL = $('#url').val();
+                    var StartTime = $('#startTime').val();
+                    var EndTime = $('#endTime').val();
+                    var Participants = $('#Participants').val();
+
+                    ////var SelectedUserID = UserdropDown.find('.subTextUser').text();
+                    if (Subject == "") {
+                        $('#SubErr').show();
+                        return false;
+                    } else {
+                        $('#SubErr').hide();
+                    }
+                    if (CourseID == "") {
+                        $('#CourseErr').show();
+                        return false;
+                    } else {
+                        $('#CourseErr').hide();
+                    }
+                    if (Date == "") {
+                        $('#DateErr').show();
+                        return false;
+                    } else {
+                        $('#DateErr').hide();
+                    }
+                    if (URL == "") {
+                        $('#UrlErr').show();
+                        return false;
+                    } else {
+                        $('#UrlErr').hide();
+                    }
+                    if (StartTime == "") {
+                        $('#StartDateErr').show();
+                        return false;
+                    } else {
+                        $('#StartDateErr').hide();
+                    }
+                    if (EndTime == "") {
+                        $('#EndDateErr').show();
+                        return false;
+                    } else {
+                        $('#EndDateErr').hide();
+                    }
+                    if (Participants == "") {
+                        $('#PatErr').show();
+                        return false;
+                    } else {
+                        $('#PatErr').hide();
+                    }
+                    var oParam = {
+                        "program_name": "", "program_description": "", "program_objective": "", "id_program": "",
+                        "program_start_date": "", "Start_Time": "", "End_Time": "", "event_online_url": "", "participants": ""
+                    };
+
+                    oParam.program_description = Subject;
+                    oParam.program_objective = Subject;
+                    oParam.event_title = Subject;
+                    oParam.event_description = Subject;
+                    oParam.Subject = Subject;
+                    oParam.program_name = Course;
+                    oParam.id_program = CourseID;
+                    oParam.program_start_date = Date + " " + StartTime + ":00";
+                    oParam.program_end_date = Date + " " + EndTime + ":00";
+                    oParam.Start_Time = StartTime;
+                    oParam.End_Time = EndTime;
+                    oParam.event_online_url = URL;
+                    oParam.participants = Participants;
+
+                    var josnstr = JSON.stringify(oParam);
+                    $.ajax({
+                        type: "Post",
+                        cache: false,
+                        async: false,
+                        url: ApplicationUrl + 'api/KPI/SubmitEventDetails',
+                        data: josnstr,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                            if (data.KEY == "SUCCESS") {
+                                if (data.MESSAGE.length > 0) {
+                                    alert(data.MESSAGE);
+                                }
+                                ResetForm();
+                                BindUserScheduledEventGrid();
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
+            function ValidateData() {
+
+                var IsValid = true;
+                var StartTime = $('#startTime').val();
+                var EndTime = $('#endTime').val();
+                var jdt1 = Date.parse('20 Aug 2000 ' + StartTime);
+                var jdt2 = Date.parse('20 Aug 2000 ' + EndTime);
+
+                /*	if(jdt1=='NaN')
+                    {
+                        alert('invalid start time');
+                        return false;
+                    }
+                    if(jdt2=='NaN')
+                    {
+                        alert('invalid end time');
+                        return false;
+                    }*/
+                if (jdt1 > jdt2) {
+                    alert('Start time is greater than end time.');
+                    IsValid = false;
+                }
+
+                return IsValid;
+            }
+
+            function updateFormDataContent(formData) {
+                console.log(formData);
+                var formDataContent = $('<div class="sheduleClassTile col-md-6 col-12"></div>');
+
+                formDataContent.append('<div>Subject - ' + formData.subject + '</div>');
+                formDataContent.append('<div>Course - ' + formData.course + '</div>');
+                formDataContent.append('<div>Zone - ' + formData.zone + '</div>');
+                formDataContent.append('<div>Date - ' + formData.Date + '</div>');
+                formDataContent.append('<a  class="ellipsis" href="+ formData.url + ">URL - </a>');
+
+                $('#formDataContainer').append(formDataContent);
+            }
+
+
+        });
+
+
+
+
+        $('.course-dropdown span').click(function () {
+            var dropDownList = $(this).parent();
+            $(this).parent().find('ul').slideToggle().find('li').click(function () {
+                var v = $(this).attr('data-val');
+                var t = $(this).text();
+                $(this).closest('.course-dropdown').find('.search').attr('value', v);
+                $(this).closest('.course-dropdown').find('.subTextLanguage').text(t);
+            });
+        });
+
+        $('.course-dropdown .course-container li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            var dropDown = $(this).closest('.course-dropdown');
+            dropDown.find('.course-dropdown-content li').show();
+            dropDown.find('.subTextLanguage').attr('data-val', v).text(t);
+            dropDown.find('.dropdown-content').slideUp();
+        });
+
+        $('.location-dropdown span').click(function () {
+            var dropDownList = $(this).parent();
+            $(this).parent().find('ul').slideToggle().find('li').click(function () {
+                var v = $(this).attr('data-val');
+                var t = $(this).text();
+                $(this).closest('.location-dropdown').find('.search').attr('value', v);
+                $(this).closest('.location-dropdown').find('.subTextLocation').text(t);
+                BindUserDetailsDropdown(t);
+            });
+        });
+
+        $('.location-dropdown .location-container li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            var dropDown = $(this).closest('.location-dropdown');
+            dropDown.find('.location-dropdown-content li').show();
+            dropDown.find('.subTextLocation').attr('data-val', v).text(t);
+            dropDown.find('.dropdown-content').slideUp();
+        });
+
+        $('.user-dropdown span').click(function () {
+            var dropDownList = $(this).parent();
+            $(this).parent().find('ul').slideToggle().find('li').click(function () {
+                var v = $(this).attr('data-val');
+                var t = $(this).text();
+                $(this).closest('.user-dropdown').find('.search').attr('value', v);
+                $(this).closest('.user-dropdown').find('.subTextUser').text(t);
+            });
+        });
+
+        $('.user-dropdown .user-container li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            var dropDown = $(this).closest('.user-dropdown');
+            dropDown.find('.user-dropdown-content li').show();
+            dropDown.find('.subTextUser').attr('data-val', v).text(t);
+            dropDown.find('.dropdown-content').slideUp();
+        });
+
+        $(document).mouseup(function (e) {
+            var container = $("course-dropdown .span");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.parent().find('ul').slideUp();
+            }
+        });
+        $(document).mouseup(function (e) {
+            var container = $(".course-dropdown span");
+            if (!container.is(e.target) &&
+                container.has(e.target).length === 0) {
+                container.parent().find('ul').slideUp();
+            }
+        });
+
+        $(document).mouseup(function (e) {
+            var container = $(".location-dropdown .span");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.parent().find('ul').slideUp();
+            }
+        });
+        $(document).mouseup(function (e) {
+            var container = $(".location-dropdown span");
+            if (!container.is(e.target) &&
+                container.has(e.target).length === 0) {
+                container.parent().find('ul').slideUp();
+            }
+        });
+
+        /*
+            $(document).mouseup(function (e) {
+                var container = $(".user-dropdown .span");
+
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.parent().find('ul').slideUp();
+                }
+            });
+            $(document).mouseup(function (e) {
+                var container = $(".user-dropdown span");
+                if (!container.is(e.target) &&
+                    container.has(e.target).length === 0) {
+                    container.parent().find('ul').slideUp();
+                }
+            });
+            */
+
+        function BindUserDetailsDropdown(Location) {
+            var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+            var oParam = {
+                "Location": ""
+            };
+            oParam.Location = Location;
+
+            $.ajax({
+                url: ApplicationUrl + 'api/KPI/GetStoredLocationUserDetails?Location=' + Location,
+                type: "POST",
+                data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    $('.user-container').html('');
+                    if (data.KEY == "SUCCESS") {
+                        if (data.MESSAGE.length > 0) {
+                            var Data = data.MESSAGE;
+                            var UserData = $.parseJSON(Data);
+
+                            for (var i = 0; i < UserData.length; i++) {
+                                ////$('.user-container').append('<li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</l>
+                                $('.user-container').append('<div style="display:flex;"><input type="checkbox"  style="margin:0px;list-style-type: none;"><li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li></div>');
+
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function MarkUserAttendance(EventId) {
+
+            var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+            $.ajax({
+                type: "get",
+                cache: false,
+                async: false,
+                url: ApplicationUrl + 'api/KPI/SaveEventAttendanceData?id_scheduled_event=' + EventId,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        //////if (data.MESSAGE.length > 0) {
+                        //////    alert(data.MESSAGE);
+                        //////}
+                    }
+                },
+                error: function (edata) {
+                    alert("error while feching record.");
+                }
+            });
+        }
+
+        function DeleteEvent(EventId) {
+
+            var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+            var oParam = {
+                "id_scheduled_event": ""
+            };
+
+            oParam.id_scheduled_event = EventId;
+
+            var josnstr = JSON.stringify(oParam);
+            $.ajax({
+                type: "Get",
+                cache: false,
+                async: false,
+                url: ApplicationUrl + 'api/KPI/UpdateUserEventStatus?id_scheduled_event=' + EventId,
+                data: josnstr,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        if (data.MESSAGE.length > 0) {
+                            alert(data.MESSAGE);
+                        }
+                        BindUserScheduledEventGrid();
+                    }
+                },
+                error: function (edata) {
+                    alert("error while feching record.");
+                }
+            });
+        }
+        /*
+        function AddNewUsertoList() {
+
+            var ExistingData = $('#Participants').val();
+            var dropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+            ////var SelectedUserID = dropDown.find('.subTextUser').attr('data-val');
+            var SelectedUserID = dropDown.find('.subTextUser').text();
+            var TotalUserIDs = "";
+
+            if (ExistingData == "") {
+                TotalUserIDs = ExistingData + SelectedUserID;
+            }
+            else {
+                TotalUserIDs = ExistingData + "," + SelectedUserID;
+            }
+
+            $('#Participants').val(TotalUserIDs);
+        }*/
+
+        function AddNewUsertoList() {
+
+            var container = $(".user-dropdown span");
+            container.parent().find('ul').slideUp();
+
+            var ExistingData = $('#Participants').val();
+            var dropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+
+            var TotalUserNames = ExistingData;
+
+            // Iterate through checked checkboxes and add their user names to TotalUserNames
+            dropDown.find('.user-container input[type="checkbox"]:checked').each(function () {
+                var userName = $(this).closest('div').find('li').text();
+                if (TotalUserNames === "") {
+                    TotalUserNames = userName;
+                } else {
+                    TotalUserNames += "," + userName;
+                }
+            });
+
+            $('#Participants').val(TotalUserNames);
+        }
+
+
+    </script>
+
+
+    <script src="~/Content/New_Landing_Page/dub/dashboardmain.js"></script>
+
+
+
+</body>
+
+<script>
+
+    jQuery(function ($) {
+        $('.desc').shorten({
+            chars: 180,
+            more: 'Read more',
+            less: 'less'
+        });
+    });
+
+    var showChar = 150;
+
+    $('.desc').each(function () {
+        var content = $(this).html();
+        if (content.length > showChar) {
+            var show_content = content.substr(0, showChar);
+            var hide_content = content.substr(showChar, content.length - showChar);
+
+        }
+    });
+</script>
+<script>
+    function showLoader() {
+        // Display the loader
+        $("#loading").show();
+
+        // Optionally, you can perform additional actions before navigating to the next page
+        console.log('Loader displayed');
+        // After a delay (simulating some asynchronous operation), hide the loader and navigate
+        setTimeout(function () {
+            $("#loading").hide();
+
+            console.log('Loader hidden');
+        }, 5000);
+    }
+
+    $('#csvFileInput').on('change', function (e) {
+
+        var file = e.target.files[0];
+        var fileName = file.name;
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        // Check if the file extension is CSV
+        if (fileExtension !== 'csv') {
+            $('#csvFile').show();
+            $('#csvFileInput').val(''); // Clear the file input
+            return;
+        }
+
+        if (file) {
+            $('#csvFile').hide();
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var contents = e.target.result;
+                $('#Participants').val(contents); // Populate the textbox with the file content
+            };
+            reader.readAsText(file);
+        }
+    });
+
+ 
+
+
+
+</script>
+<script>
+
+    //var tour = new Tour({
+    //    steps: [
+    //        {
+    //            element: "#1",
+    //            title: "1st Panel",
+    //            content: "learnig",
+    //            placement: "bottom"
+    //        },
+    //        {
+    //            element: "#2",
+    //            title: "2nd Panel",
+    //            content: "This is the second panel",
+    //            placement: "bottom"
+    //        },
+    //        {
+    //            element: "#3",
+    //            title: "3rd Panel",
+    //            content: "This is the third panel",
+    //            placement: "bottom"
+    //        }
+    //    ],
+    //    backdrop: true,
+    //    storage: false,
+
+    //});
+
+</script>

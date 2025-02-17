@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@model List<IBHFL.Models.Assessment_ID_for_certification>
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?
+family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+
+    <!-- milestone -->
+    <style>
+        .nav {
+            display: block !important;
+        }
+
+        .dropdown-toggle::after {
+            content: none
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .Milestonecontainer {
+            width: 100%;
+            height: 100vh;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .priviewUploadContentExtendedCard {
+            border-radius: 10px;
+            border: 1px solid #D3D3D3;
+            background: #FFF;
+            min-height: 8vh;
+            margin-top: 1vh;
+            padding: 1%;
+            width: 100%;
+        }
+
+        .gray_container_mobile {
+            min-height: 7vh;
+            border-radius: 6px;
+            background: #D3D3D3;
+            width: 100%;
+            padding: 2%;
+        }
+
+        .cource-Box {
+            width: 100%;
+            min-height: 18vh;
+            border-radius: 0.25rem;
+            border: 1px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            padding: 2%;
+            margin-bottom: 3%;
+        }
+
+        .cource-name {
+            color: #000;
+            font-family: Lato;
+            font-size: 1.4em;
+            font-style: normal;
+            line-height: 1.53125rem;
+            letter-spacing: 0.0375rem;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #fileNameDisplay,
+        #fileNameSize {
+            color: #000;
+            font-family: Lato;
+            font-size: 1.4em;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .milestoneText {
+            color: #000;
+            font-family: Lato;
+            font-size: 1.6em;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1.125rem;
+        }
+
+        #fileNameSize {
+            font-size: 1.2em !important;
+        }
+
+        .Cource-Container-Box {
+            height: 55vh;
+            overflow-y: auto;
+        }
+
+        .products-innerview {
+            overflow: hidden;
+        }
+
+        #ProfileDetails {
+            padding-left: 0px !important;
+        }
+
+        @@media screen and (min-width:270px) and (max-width:767px) {
+            .Cource-Container-Box {
+                height: 31vh;
+                overflow-y: auto;
+            }
+
+            #fileNameDisplay {
+                width: 100%
+            }
+
+            .elipsText {
+                width: 80%
+            }
+        }
+
+
+        @@media screen and (min-width:767.1px) {
+            .Cource-Container-Box {
+                height: 31vh;
+                overflow-y: auto;
+            }
+
+            #fileNameDisplay {
+                width: 100%
+            }
+
+            .elipsText {
+                width: 80%
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="Milestonecontainer">
+        <div class="row top">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="milestoneText">
+                    <p style="font-weight:bold; font-size:18px;">My Milestones</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="tab-nav">
+            @* <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+        <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div> *@
+
+            <ul class="nav nav-tabs list" id="myTab">
+                @if (Model != null)
+                {
+                    int i = 1; // Initialize tab counter
+                    bool isFirst = true; // Track the first tab
+                    var processedHeadings = new HashSet<int>(); // To track unique id_headings
+
+                    foreach (var itm in Model)
+                    {
+                        if (string.IsNullOrEmpty(itm.Heading_title) || processedHeadings.Contains(itm.id_heading))
+                        {
+                            continue; // Skip if the title is empty or the id_heading is already processed
+                        }
+
+                        processedHeadings.Add(itm.id_heading); // Add the id_heading to the set
+
+                        <li class="@(isFirst ? "active" : "")" style="">
+                            <span class="heading-id" style="display:none">@itm.id_heading</span>
+                            <a href="#tab_@i" id="@i" name="@itm.Heading_title" onclick="filterCourses('@itm.id_heading')" data-toggle="tab" style="font-size:12px;PADDING:7px;">@itm.Heading_title</a>
+                        </li>
+                        i++;
+                        isFirst = false; // Only the first tab should be active
+                    }
+                }
+            </ul>
+
+        </div>
+        <hr>
+
+
+        <div class="row Cource-Container-Box">
+            @foreach (IBHFL.Models.Assessment_ID_for_certification certificate in Model)
+            {
+
+                <div class="col-12 col-md-6 course-box" data-id="@certificate.id_heading" style="display:none;">
+
+                    <div class="cource-Box">
+                        <div class="">
+                            <span style="font-weight:400; display:none;"> @certificate.id_heading</span>
+                            <div class="cource-name">Course Name:<span style="font-weight:400"> @certificate.assessment_title</span></div>
+                            <div class="cource-name" style="margin-top:5px">Date:<span style="font-weight:400">@certificate.date</span></div>
+
+
+                        </div>
+                        <div class="priviewUploadContentExtendedCard">
+                            <div class="gray_container_mobile d-flex align-items-center gap-2">
+                                <div>
+                                    <div class="fileIconForPdf">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                             viewBox="0 0 36 36" fill="none">
+                                            <path d="M11.5 27H24.5V24H11.5V27ZM11.5 21H24.5V18H11.5V21ZM8.25 33C7.35625 33 6.59115 32.7062 5.95469 32.1187C5.31823 31.5312 5 30.825 5 30V6C5 5.175 5.31823 4.46875 5.95469 3.88125C6.59115 3.29375 7.35625 3 8.25 3H21.25L31 12V30C31 30.825 30.6818 31.5312 30.0453 32.1187C29.4089 32.7062 28.6438 33 27.75 33H8.25ZM19.625 13.5V6H8.25V30H27.75V13.5H19.625Z"
+                                                  fill="black" />
+                                        </svg>
+
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column gap-1 elipsText">
+                                    <span id="fileNameDisplay">@certificate.CertificateFileName</span>
+                                    <div id="fileNameDisplay">@Html.ActionLink("View Certificate", "Download", new { filePath = certificate.pdfURL }) </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @*<div class="col-12 col-md-6">
+                            <div class="cource-Box">
+                                <div class="">
+                                    <div class="cource-name">Course Name :Angular Material </div>
+                                    <div class="cource-name">Date</div>
+                                </div>
+                                <div class="priviewUploadContentExtendedCard">
+                                    <div class="gray_container_mobile d-flex align-items-center gap-2">
+                                        <div>
+                                            <div class="fileIconForPdf">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                     viewBox="0 0 36 36" fill="none">
+                                                    <path d="M11.5 27H24.5V24H11.5V27ZM11.5
+            21H24.5V18H11.5V21ZM8.25 33C7.35625 33 6.59115 32.7062 5.95469
+            32.1187C5.31823 31.5312 5 30.825 5 30V6C5 5.175 5.31823 4.46875 5.95469
+            3.88125C6.59115 3.29375 7.35625 3 8.25 3H21.25L31 12V30C31 30.825 30.6818
+            31.5312 30.0453 32.1187C29.4089 32.7062 28.6438 33 27.75 33H8.25ZM19.625
+            13.5V6H8.25V30H27.75V13.5H19.625Z"
+                                                          fill="black" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column gap-1">
+                                            <span id="fileNameDisplay">File Name</span>
+                                            <span id="fileNameSize">
+                                                <span>Size</span>|<span>
+
+                                                </span>Format
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="cource-Box">
+                                <div class="">
+                                    <div class="cource-name">Course Name</div>
+                                    <div class="cource-name">Date</div>
+                                </div>
+                                <div class="priviewUploadContentExtendedCard">
+                                    <div class="gray_container_mobile d-flex align-items-center gap-2">
+                                        <div>
+                                            <div class="fileIconForPdf">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                     viewBox="0 0 36 36" fill="none">
+                                                    <path d="M11.5 27H24.5V24H11.5V27ZM11.5
+            21H24.5V18H11.5V21ZM8.25 33C7.35625 33 6.59115 32.7062 5.95469
+            32.1187C5.31823 31.5312 5 30.825 5 30V6C5 5.175 5.31823 4.46875 5.95469
+            3.88125C6.59115 3.29375 7.35625 3 8.25 3H21.25L31 12V30C31 30.825 30.6818
+            31.5312 30.0453 32.1187C29.4089 32.7062 28.6438 33 27.75 33H8.25ZM19.625
+            13.5V6H8.25V30H27.75V13.5H19.625Z"
+                                                          fill="black" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column gap-1">
+
+                                            <span id="fileNameDisplay">File Name</span>
+                                            <span id="fileNameSize">
+                                                <span>Size</span>|<span>
+
+                                                </span>Format
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="cource-Box">
+                                <div class="">
+                                    <div class="cource-name">Course Name</div>
+                                    <div class="cource-name">Date</div>
+                                </div>
+                                <div class="priviewUploadContentExtendedCard">
+                                    <div class="gray_container_mobile d-flex align-items-center gap-2">
+                                        <div>
+                                            <div class="fileIconForPdf">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                     viewBox="0 0 36 36" fill="none">
+                                                    <path d="M11.5 27H24.5V24H11.5V27ZM11.5
+            21H24.5V18H11.5V21ZM8.25 33C7.35625 33 6.59115 32.7062 5.95469
+            32.1187C5.31823 31.5312 5 30.825 5 30V6C5 5.175 5.31823 4.46875 5.95469
+            3.88125C6.59115 3.29375 7.35625 3 8.25 3H21.25L31 12V30C31 30.825 30.6818
+            31.5312 30.0453 32.1187C29.4089 32.7062 28.6438 33 27.75 33H8.25ZM19.625
+            13.5V6H8.25V30H27.75V13.5H19.625Z"
+                                                          fill="black" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column gap-1">
+                                            <span id="fileNameDisplay">File Name</span>
+                                            <span id="fileNameSize">
+                                                <span>Size</span>|<span>
+
+                                                </span>Format
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function showLoader() {
+        // Display the loader
+        $("#loading").show();
+
+        // Optionally, you can perform additional actions before navigating to the next page
+        console.log('Loader displayed');
+        // After a delay (simulating some asynchronous operation), hide the loader and navigate
+        setTimeout(function () {
+            $("#loading").hide();
+
+            console.log('Loader hidden');
+        }, 5000);
+    }
+    $(document).ready(function () {
+        const firstHeadingId = document.querySelector(".nav-tabs li.active .heading-id")?.textContent;
+        filterCourses(firstHeadingId);
+    });
+  
+    function filterCourses(idHeading) {
+        debugger;
+    
+        document.querySelectorAll('.course-box').forEach(box => box.style.display = 'none');
+
+       
+        document.querySelectorAll(`.course-box[data-id="${idHeading}"]`).forEach(box => box.style.display = 'block');
+    }
+
+  
+
+
+</script>

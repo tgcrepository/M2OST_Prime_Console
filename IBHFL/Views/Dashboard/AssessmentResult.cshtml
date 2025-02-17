@@ -1,0 +1,756 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AssessmentSheet";
+    List<IBHFL.Models.UserInput> uInput = (List<IBHFL.Models.UserInput>)ViewData["qtnBody"];
+    IBHFL.Models.Assessment assessment = (IBHFL.Models.Assessment)ViewData["assessment"];
+    int i = 1;
+    string attempt = (string)ViewData["attemp"];
+    //int Coin = ViewBag["coin"];
+    string result1 = (string)ViewData["rs1"];
+    string questions = result1.Substring(result1.Length - 2);
+    string result2 = (string)ViewData["rs2"];
+    string correct = result2.Substring(result2.Length - 2);
+    int wrong = Convert.ToInt32(questions) - Convert.ToInt32(correct);
+    double percentage = (double)ViewData["percentage"];
+    int assessmentSheetid = (int)ViewData["id_ass_sheet"];
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    string certflag = "0";//(string)ViewData["certflag"];
+    string idass = (string)ViewData["id_ass"];
+    string date = (string)ViewData["date"];
+
+
+
+
+
+}
+<link href="~/Content/New_Landing_Page/dub/Mainstyle.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lily+Script+One&display=swap" rel="stylesheet">
+<script type="text/javascript">
+
+    function updateDonutChart(el, percent, donut) {
+        percent = Math.round(percent);
+        if (percent > 100) {
+            percent = 100;
+        } else if (percent < 0) {
+            percent = 0;
+        }
+        var deg = Math.round(360 * (percent / 100));
+
+        if (percent > 50) {
+            $(el + ' .pie').css('clip', 'rect(auto, auto, auto, auto)');
+            $(el + ' .right-side').css('transform', 'rotate(180deg)');
+        } else {
+            $(el + ' .pie').css('clip', 'rect(0, 1em, 1em, 0.5em)');
+            $(el + ' .right-side').css('transform', 'rotate(0deg)');
+        }
+        if (donut) {
+            $(el + ' .right-side').css('border-width', '0.1em');
+            $(el + ' .left-side').css('border-width', '0.1em');
+            $(el + ' .shadow').css('border-width', '0.1em');
+        } else {
+            $(el + ' .right-side').css('border-width', '0.5em');
+            $(el + ' .left-side').css('border-width', '0.5em');
+            $(el + ' .shadow').css('border-width', '0.5em');
+        }
+        $(el + ' .num').text(percent);
+        $(el + ' .left-side').css('transform', 'rotate(' + deg + 'deg)');
+    }
+</script>
+
+
+<script>
+    $(function () {
+        $("#Assessment_Sheet").validationEngine();
+    });
+</script>
+<style>
+    .panel-body {
+        padding: 5px;
+    }
+
+    .panel-primary > .panel-heading {
+        color: #ffffff;
+        background-color: #910a07;
+        border-color: #910a07;
+    }
+
+    .panel-primary > .panel-heading {
+        background-image: linear-gradient(to bottom,#910a07 0,#910a07 100%);
+        background-repeat: repeat-x;
+    }
+</style>
+<body oncontextmenu="return false">
+    <input id="hdnApplicationUrl" type="hidden" value="@usersession.ApplicationUrl" />
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width: 100%;">
+        <div class="row" style="background-color:white;">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-12" align="justify">
+                        <div class="">
+
+                            <div class="" align="justify">
+                                <h5 class="categories_header_text">
+                                    @assessment.assessment_title
+                                </h5>
+
+                                <div class="row" style="border-bottom-color:gray;border:1px solid;">
+                                    <input id="dt_Completion" type="hidden" value="@date" />
+                                    <div class="" align="justify">
+                                        <div class="col-md-6">
+                                            <p>
+                                            </p><h5 class="categories_header_text">
+                                                Assessment Result Summary
+                                            </h5>
+                                            <pre style="white-space: pre-line;padding: 5px 0px 0px 10px;"> Attempt No :  @attempt</pre>
+                                            <pre style="white-space: pre-line"> @result1<br />@result2</pre>
+                                            <p></p>
+                                            <div id="specificChart" class="donut-size" align="center">
+                                                <div class="pie-wrapper">
+                                                    <span class="label">
+                                                        @*<span class="num"> @Coin</span><span class="smaller">%</span>*@
+                                                        <span class="num"> 0</span><span class="smaller">%</span>
+                                                        <p class="smaller">Percentage</p>
+                                                    </span>
+                                                    <div class="pie">
+                                                        <div class="left-side half-circle"></div>
+                                                        <div class="right-side half-circle"></div>
+                                                    </div>
+                                                    <div class="shadow"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div id="morris-bar-chart" class="graph"></div>
+
+                                            @*<div id="morris-donut-chart" class="graph" style="height: 150px;"></div>
+
+                                                <script>
+                                                    $(function () {
+
+                                                        $(function () {
+
+
+
+                                                            var morrisDonut = Morris.Donut({
+                                                                element: 'morris-donut-chart',
+                                                                data: [{ label: "Correct Answers", value: 5 },
+                                                                { label: "Wrong Answres", value: 15 }],
+                                                                resize: true,
+                                                                labels: ['Value'],
+                                                                colors: ['#FF2121', '#21FF6B'],
+                                                            });
+
+                                                            morrisDonut.select(1);
+
+
+
+
+                                                        });
+
+
+                                                    });
+                                                </script>*@
+                                            @*<h5>Percentage</h5>
+                                                <h1 class="no-margins  font-bold text-navy"><b>30 %</b></h1>*@
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+
+                                    @*<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                    <h4 class="panel-title">
+                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            <i class="more-less glyphicon glyphicon-plus"></i>
+                                                            Collapsible Group Item #1
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+                                                    <div class="panel-body" style="display:block">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>*@
+
+
+
+                                    <script>
+                                        $(function () {
+
+                                            $(function () {
+
+                                                Morris.Bar({
+                                                    element: 'morris-bar-chart',
+                                                    data: [
+                                                        { y: 'Wrong', a: @wrong },
+                                                        { y: 'Correct', a: @correct }
+
+                                                    ],
+                                                    xkey: 'y',
+                                                    ykeys: ['a'],
+                                                    labels: ['Calls'],
+                                                    hideHover: 'always',
+                                                    barColors: function (row, series, type) {
+                                                        console.log("--> " + row.label, series, type);
+                                                        if (row.label == "Wrong") return "#FF5F5F";
+                                                        else if (row.label == "Correct") return "#47FF85";
+
+                                                    }
+                                                });
+                                            });
+
+
+                                        });
+                                    </script>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+
+                @*<div class="row">
+                        <div class="col-md-1 column">
+                        </div>
+                        <div class="col-md-10" align="justify">
+                            <p>
+                                <h5 class="categories_header_text">
+                                    Assessment Result Summary
+                                </h5>
+                                <pre style="white-space: pre-line"> @result1<br />@result2</pre>
+
+                            </p>
+                        </div>
+                        <div class="col-md-1 column">
+                        </div>
+                    </div>*@
+
+
+
+
+
+
+
+                <div class="row">
+
+                    <div class="col-md-12" align="center">
+                        <p>
+                            <h5 class="categories_header_text">
+                                Assessment Result Detail
+                            </h5>
+                        </p>
+                    </div>
+
+                </div>
+                @foreach (IBHFL.Models.UserInput itm in uInput)
+                {
+                    <div class="row clearfix">
+
+                        <div class="col-md-12 column">
+                            <div class="panel panel-primary" style="border-color: gray;">
+                                <div class="panel-heading" style="background:gray;border-color:gray;">
+                                    <h5 class="panel-title">
+                                        Qtn @itm.Question.TrimStart('Q');
+                                        @if (@itm.WANS == "")
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            if (@itm.Answer.TrimStart('-') == @itm.WANS)
+                                            {
+
+                                                <i class="glyphicon glyphicon-ok pull-right"></i>
+
+
+                                            }
+                                            else
+                                            {
+
+
+                                                <i class="glyphicon glyphicon-remove pull-right" style="color:red"></i>
+
+                                            }
+
+                                        }
+                                    </h5>
+
+                                </div>
+                                <div class="panel-body">
+                                    <p>
+                                        <pre style="white-space: pre-line">Your Answer &nbsp;&nbsp;: @itm.Answer.TrimStart('-')</pre>
+                                        @if (@itm.WANS == "")
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <pre style="white-space: pre-line">Correct Answer: @itm.WANS</pre>
+
+
+                                        }
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    i++;
+                }
+
+            </div>
+            <div class="row">
+                <div class="col-md-12" align="center">
+
+                    <div class="">
+                        <a href="@Url.Action("Index", "Dashboard")"><button class="btn btn-warning btn-mini" style="color:white;"> Close</button></a>
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <br />
+            @if (attempt == "1" && certflag == "1")
+            {
+                <div class="row">
+                    <div class="col-md-12" align="center">
+                        @{
+                            string url = "http://103.7.64.68/SkillmuniConsoleCertificateBeta/Home/pdfView?ass_id=" + idass + "&id_user=" + usersession.ID_USER + "&org=" + usersession.id_ORGANIZATION + "&percentage=" + percentage + "&date=" + date;
+                        }
+                        <div class="">
+                            <a href="@url"><button class="btn btn-default" style="color:Black;"> Certificate</button></a>
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+
+        <div class="modal fade" id="pointspopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="height:100vh;display:grid;align-items:center">
+                <div class="modal-content">
+                    <div class="cross-button-box" style="border-radius:100%">
+                        <div class="cross-button" style="position:absolute;top:-40px" onclick="$('#pointspopup').modal('hide');" data-bs-dismiss="modal" aria-label="Close">X</div>
+                    </div>
+                    <div class="popup-body col-12">
+                        @*<div class="col-12 success-box">
+                                <div class="succesiocn d-flex justify-content-center align-items-center p-3">
+                                    <img src="../Templates/images/assignment/success.png" class="" alt="">
+                                </div>
+                            </div>*@
+                        <div class="col-12">
+                            <div class="Ballon">
+                                <img src="https://www.m2ost.in/Bata_Content/Image/Balloon.png" class="" alt="" height="100%" width="100%">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div id="" class="commonfontstyle" style="font-size: 1.6em;color: #000;
+                        font-family: Lily Script One;
+                        font-size: 2em;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        letter-spacing: -0.64px;">
+                                Congratulations
+                            </div>
+                        </div>
+                        <div class="col-12 py-2">
+                            <div class="attempt commonfontstyle">
+                                Attempt No: @attempt
+                            </div>
+                        </div>
+                        <div class="notmasteryPoint col-12 pb-1">
+                            <img src="../Templates/images/assignment/Rewardpoint.png" class="me-2" alt="">
+                            <div class="rewardPoint commonfontstyle" id="divTotalScore">
+                              @*<div id="divTotalScore1"></div>*@
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <div class="successText commonfontstyle">
+                                You have completed the assessment
+                            </div>
+
+                        </div>
+                        <div class="scoreboxContainer" style="padding-bottom:10px!important;">
+                            <div class="scorebox">
+                                <div class="text-center score" id="divRightAns">180</div>
+                                <div class="scoretext text-center">Right Answers: @correct/@questions </div>
+                            </div>
+                            <div class="scorebox">
+                                <div class="text-center score">+30</div>
+                                <div class="scoretext text-center">Mastery Point</div>
+                            </div>
+                            <div class="scorebox">
+                                <div class="text-center score">180</div>
+                                <div class="scoretext text-center">Reward Points</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="modal fade" id="pointspopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered ">
+                    <div class="modal-content" style="background: transparent;border: 0px;margin: 13%;">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="cross-button" data-bs-dismiss="modal" aria-label="Close">X</div>
+                        </div>
+                        <div class="popup-body col-12">
+                            <div class="col-12 d-flex justify-content-center">
+                                <div class="succesiocn d-flex justify-content-center align-items-center p-3">
+                                    <img src="../Templates/images/assignment/success.png" class="" alt="">
+                                </div>
+                            </div>
+                            <div class="col-12 py-2">
+                                <div class="attempt commonfontstyle">
+                                    Attempt No: 1
+                                </div>
+                            </div>
+                            <div class="notmasteryPoint col-12 py-2">
+                                <img src="../Templates/images/assignment/Rewardpoint.png" class="me-2" alt="">
+                                <div class="rewardPoint commonfontstyle">
+                                    200
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <div class="successText commonfontstyle">
+                                    You have completed the assessment
+                                </div>
+
+                            </div>
+                            <div class="scoreboxContainer">
+                                <div class="scorebox">
+                                    <div class="text-center score">180</div>
+                                    <div class="scoretext text-center">Right Answers: 18/20 </div>
+                                </div>
+                                <div class="scorebox">
+                                    <div class="text-center score">+30</div>
+                                    <div class="scoretext text-center">Mastery Point</div>
+                                </div>
+                                <div class="scorebox">
+                                    <div class="text-center score">180</div>
+                                    <div class="scoretext text-center">Reward Points</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+
+    </div>
+
+    <style>
+        .donut-size {
+            font-size: 7em;
+            padding: 23px 10px;
+        }
+    </style>
+
+    <script>
+        $("#Gaugecent").gaugeMeter();
+
+        $(document).ready(function () {
+
+            CalculateKPIAssessmentScore();
+            //$("#collapseOne").removeClass("panel-collapse collapse in").addClass("panel-collapse collapse");
+            updateDonutChart('#specificChart', @percentage, true);
+
+        });
+
+        function CalculateKPIAssessmentScore() {
+
+            var Content_Assessment_ID = @idass;
+            var KPIRawScore = @percentage;
+            var RightAns = @correct;
+            var AttemptNo = @attempt;
+            var UserID = @usersession.ID_USER;
+            var CompletionDate = $('#dt_Completion').val();
+            var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+            var oParam = {
+                "Content_Assessment_ID": "", "id_user": "", "KPIRawScore": "", "RightAns": "", "AttemptNo": "", "CompletionDate": ""
+            };
+            oParam.Content_Assessment_ID = Content_Assessment_ID;
+            oParam.id_user = UserID;
+            oParam.KPIRawScore = KPIRawScore;
+            oParam.RightAns = RightAns;
+            oParam.AttemptNo = AttemptNo;
+            oParam.CompletionDate = CompletionDate;
+
+            $.ajax({
+                url: ApplicationUrl + 'api/KPI/CalculateKPIDetails_Assessment?Content_Assessment_ID=' + Content_Assessment_ID + '&id_user=' + @usersession.ID_USER+'&KPIRawScore=' + KPIRawScore + '&RightAns=' + RightAns + '&AttemptNo=' + AttemptNo + '&CompletionDate=' + CompletionDate + '&TotalQuestions=' + @questions,
+                type: "POST",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+                    debugger;
+                    console.log(data);
+                    if (data != null) {
+                        var TotalScore = 0;
+                        $('.scoreboxContainer').html("");
+
+                        for (var i = 0; i < data.length; i++) {
+                            var CorrectAnsData = "", td = "";
+                            if (data[i].KPI_SubType == 'Right Answer') {
+                                    td = "<div class='scorebox'><div class='text-center score'>" + data[i].points_scored + "</div><div class='scoretext text-center'>" + data[i].KPI_Name + ": @correct/@questions</div></div>";
+                                }
+                            else {
+                                td = "<div class='scorebox'><div class='text-center score'>" + data[i].points_scored + "</div><div class='scoretext text-center'>" + data[i].KPI_Name + " </div></div>";
+                            }
+
+                            $('.scoreboxContainer').append(td);
+
+                            var Score = parseInt(data[i].points_scored);
+                            TotalScore = TotalScore + Score;
+                        }
+                       // // $('#divTotalScore').append(TotalScore);
+
+                        //$('#divTotalScore').append(data);
+
+
+                        //var divTotalScore = $('#divTotalScore');
+                        //divTotalScore.empty(); // Clear previous content
+                        //divTotalScore.append( data);
+
+                        // Conditionally add additional message based on TotalScore
+                        //debugger;
+                        //if (data.AttemptNo < 2) {
+                        //    $('#divTotalScore').append("<p>" + data.Coin + "</p>");
+                        //}
+                       
+                       
+                        //else {
+                        //    $('#divTotalScore').append("<p> You have Attempt more than 2 time</p>");
+
+                        //}
+                        ShowPopup();
+                    }
+                }
+            });
+        }
+        function ShowPopup() {
+            @*var masteryPoint = false;
+            if (masteryPoint) {
+                $('.successText').text('You have completed the assessment with Mastery');
+            }
+            else {
+                console.log(masteryPoint);
+                $('.successText').html('You have acquired  <br><span class="creditsPoints">+20 Credits</span> ').css({ fontWeight: '100' });
+                $('.creditsPoints').css({ fontWeight: '400' });
+                $('.scoreboxContainer').html('Right Answers:  <span class="getpoint">&nbsp @correct</span>/@questions').css("margin-bottom", "10%");;
+                $('.getpoint').css({ fontWeight: '400' });
+                $(".notmasteryPoint").hide();
+            }*@
+
+            $('#pointspopup').modal('show');
+        }
+
+        function toggleIcon(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find(".more-less")
+                .toggleClass('glyphicon-plus glyphicon-minus');
+        }
+        $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+        $('.panel-group').on('shown.bs.collapse', toggleIcon);
+    </script>
+
+    <style>
+
+        .popup-body {
+            max-height: 75vh !important;
+            width: auto;
+            background: #FFFFFF;
+            border-radius: 5px;
+        }
+
+        .Ballon {
+            height: 30vh;
+        }
+
+        .cross-button {
+            padding: 2% 0%;
+            color: #000;
+            background: #FFF;
+            width: 3vh;
+            height: 3vh;
+            border-radius: 100%;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .succesiocn {
+            border-radius: 100%;
+            height: 10vh;
+            width: 10vh;
+            border: 0.5px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin-top: -42px;
+            padding: 1rem !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0px;
+        }
+
+            .succesiocn img {
+                height: 7vh;
+                width: 7vh;
+            }
+
+        .commonfontstyle {
+            color: #000;
+            font-style: normal;
+            text-align: center;
+        }
+
+        .attempt {
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 24.5px;
+            letter-spacing: 0.6px;
+            margin-top: 2px !important;
+        }
+
+        .rewardPoint {
+            font-size: 2em;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: -0.48px;
+        }
+
+        .successText {
+            font-size: 1.3em;
+            font-weight: 400;
+            line-height: 26.5px;
+            letter-spacing: 0.6px;
+            padding: 1% 18%;
+        }
+
+        .scorebox {
+            width: 40%;
+            min-height: 50px;
+            border-radius: 8px;
+            border: 1px solid #000;
+            background: #FFF;
+            display: grid;
+            place-content: center;
+            margin: 2% 4%;
+            padding: 2% !important;
+        }
+
+        .scoreboxContainer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            place-content: center;
+            margin: 2% 0% 0%;
+            color: #000;
+            font-size: 1em;
+            font-style: normal;
+            font-weight: 200;
+            /* line-height: 24.5px; */
+            letter-spacing: 0.6px
+        }
+
+        .notmasteryPoint {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .score {
+            color: #000;
+            font-size: 0.875em;
+            font-style: normal;
+            font-weight: 700;
+            /* line-height: 24.5px; */
+            letter-spacing: 0.6px;
+        }
+
+        .scoretext {
+            color: #000;
+            font-size: 0.625em;
+            font-style: normal;
+            font-weight: 400;
+            /* line-height: 24.5px;  */
+            letter-spacing: 0.6px;
+        }
+
+        .success-box {
+            display: flex;
+            justify-content: center
+        }
+
+        .cross-button {
+            padding: 2% 0%;
+            border-radius: 100%;
+            color: #000;
+            background: #fff;
+            width: 3vh;
+            height: 3vh;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer
+        }
+
+        .cross-button-box {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        @@media screen and (min-width:270px) and (max-width:767px) {
+            .Ballon {
+                max-height: 23vh;
+            }
+        }
+    </style>
+</body>

@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/IBHFL/bin
+/IBHFL/obj/Debug
+/IBHFL/Controllers/DashboardController.cs.bak

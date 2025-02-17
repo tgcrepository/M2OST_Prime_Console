@@ -1,0 +1,133 @@
+﻿﻿@{
+
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_login_Layout.cshtml";
+
+}
+<script src="https://apis.google.com/js/platform.js"></script>
+<!----------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------->
+<script>
+    $(function () {
+        setTimeout(function () { $("#error-div").hide("fade"); }, 5000)
+    });
+</script>
+
+<style>
+
+html, body{
+    height:100%;
+}
+ body {
+    background: url('@Url.Content("~/Content/New_Landing_Page/images/login_bg.jpg")')no-repeat;
+    background-size: cover;
+    background-position: right;
+}
+/* ------LOGIN_AND_SIGNUP------------------------------------------------------------------------------ */
+#toast-container > .toast:before {
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 24px;
+    float: left;
+    color: #FFF;
+    padding-right: 0.5em;
+    margin: auto 0.5em auto -1.5em;
+}
+#toast-container > .toast-error:before {
+    content: "\f119";
+}
+#signup .header h3 {
+    color: #333333;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#signup .header p {
+    color: #8f8f8f;
+    font-size: 14px;
+    font-weight: 300;
+}
+#signup .inputs {
+    margin-top: 25px;
+}
+#signup .inputs label {
+    color: #8f8f8f;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+    display: block;
+}
+.login-btn {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+.login-input {
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #cbcbcb;
+    border-radius: 3px;
+}
+/* ------LOGIN_AND_SIGNUP--------------------------------------------------------END----------------------------- */
+</style>
+<script>
+    $(document).ready(function () {
+        $("#forpswd").hide();
+        $("#loadgif").hide();
+    });
+    $(function () {
+        $("#form_model_index").validationEngine();
+    });
+    function showidfield() {
+        $("#forpswd").show();
+        $("#atg").hide();
+        //$("#myModel").show();
+    }
+</script>
+@{
+    string error = (string)ViewData["error"];
+}
+<body>
+    <div id="signup" class="sign-up-form">
+        <div class="login-icon">
+            @*<img src="../Content/images/skillmuni.png" />*@
+            <img src="https://www.m2ost.in/M2OST_Console_PriME/Content/images/skillmuni.png" alt="Skillmuni Logo" />
+
+        </div>
+        <form method="post" action="@Url.Action("LoginCheck", "Account")" id="form_model_index">
+            <div class="input-flex">
+                <i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+                <input type="text" class="login-input validate[required]" id="user_name" name="user_name" placeholder="Corporate User Id" autofocus />
+            </div>
+            <div class="input-flex">
+                <i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
+                <input type="password" class="login-input validate[required]" id="password" name="password" placeholder="Password" />
+            </div>
+            <div class="error-div" id="error-div">
+                @if (error != "")
+                {<span>@error</span>}
+            </div>
+            <input class="submit-button" type="submit" value="Login" />
+            @*<div class="forgot-password">
+                <a id="atg" onclick="showidfield();">Forgot Password ?</a>
+            </div>
+            <div id="forpswd">
+                <div class="flex">
+                    <input id="u_id" placeholder="Enter UserID" type="text" />
+                    <input id="forbtn" class="btn btn-primary" type="button" onclick="sendpassword()" value="Submit" />
+                </div>
+                <img id="loadgif" src="~/Content/images/loadinggif.gif" style="display:none;" />
+            </div>*@
+            @* <button class="linkedin-btn" onclick="onLinkedInLoad();">
+                    <i class="fa fa-fw" aria-hidden="true" title="Copy to use linkedin-square"></i>LinkedIn Login
+                </button> *@
+        </form>
+        <h6>Powered by The Gamification Company</h6>
+    </div>
+</body>
+
+<link href="~/Content/New_Landing_Page/css/animate.css" rel="stylesheet">

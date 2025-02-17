@@ -1,0 +1,165 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Notification_Alert";
+    IBHFL.Models.NotificationAlert notification = (IBHFL.Models.NotificationAlert)ViewData["result"];
+}
+<style>
+    #type {
+        white-space: pre-line;
+        font-size: 20px;
+        margin-left: -2px;
+    }
+  
+    .panel-default > .panel-heading {
+
+    background: #019934;
+ 
+    color: #ffffff;
+    /*border: #019935;*/
+  
+    /*border: 1px solid #019934;*/
+    font-size: 18px;
+}
+    .panel-default {
+    /*border-color: #019934;*/
+}
+
+</style>
+<body oncontextmenu="return false">
+
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container">
+        <div class="row">
+            <div class="">
+                <div class="box-border" style="background-image: url('~/Content/images/notification alert 2.jpg');">
+                    @*<div class="col-md-12" align="justify">*@
+                    @*<div class="panel panel-default dashboard_panel " style="border-style:none">*@
+                    @*<div class="panel-heading">
+                            <div class="row panel-title">
+                                <div class="col-md-4" align="right"> </div>
+                                <div class="col-md-4" align="center" style="font-size: 25px;">Notification</div>
+                                <div class="col-md-4" align="right"> </div>
+                            </div>
+                        </div>*@
+                    <div class="panel-body p-0">
+                        @*<div class="row" style="">
+                                <div class="col-md-4" align="right"></div>
+                                <div class="col-md-4" align="center">
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934;" align="right">Notification Type:</div>
+                                        <div class="col-md-8" align="left"><strong> @notification.NOTIFICATION_TYPE</strong></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934" align="right">Notification:</div>
+                                        <div class="col-md-8" align="left">@notification.NOTIFICATION_TITLE</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934" align="right">Description:</div>
+                                        <div class="col-md-8" align="left">@notification.NOTIFICATION_DESCRIPTION</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934" align="right">Message:</div>
+                                        <div class="col-md-8" align="left"><strong>@notification.NOTIFICATION_MESSAGE</strong></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934" align="right">Start Date:</div>
+                                        <div class="col-md-8" align="left">@notification.START_DATE</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4" style="font-weight:bold;color: #019934" align="right">Expire date:</div>
+                                        <div class="col-md-8" align="left">@notification.END_DATE</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" align="right"></div>
+                            </div>*@
+
+                        @*<div class="col-md-12" style="text-align: center; color: #4e2009; width: 73%; margin-left: 20%; background-image: url('~/Content/images/event4.jpg');">*@
+                        <div style="padding:10px;background-color:gray;color:white">
+
+                            <b>Notification Type: </b> @notification.NOTIFICATION_TYPE
+
+                        </div>
+                        <div class="pad" style="padding:10px">
+                            <b>
+                                Notification: @notification.NOTIFICATION_TITLE
+                            </b>
+                        </div>
+
+
+                        <div class="pad" style="padding:10px;background-color:gray;color:white">
+                            <b>
+                                Description:@notification.NOTIFICATION_DESCRIPTION
+                            </b>
+                        </div>
+
+
+                        <div class="pad" style="padding:10px">
+                            <b>
+                                Message: @notification.NOTIFICATION_MESSAGE
+                            </b>
+                        </div>
+
+
+                        <div class="pad" style="padding:10px;background-color:gray;color:white">
+                            <b>
+                                Start Date: @notification.START_DATE
+                            </b>
+                        </div>
+
+
+                        <div class="pad" style="padding:10px">
+                            <b>
+                                Expire date: @notification.END_DATE
+                            </b>
+                        </div>
+
+
+
+
+
+
+                        @*</div>*@
+
+                        <div class="row">
+                            <div class="col-md-4" align="right"></div>
+                            <div class="col-md-4 " align="center">
+                                @if (notification.ACTION_TYPE == "CON")
+                                {<a class="btn btn-default btn-primary" style="background: none;border: none;" href="@Url.Action("NotificationContent", "Dashboard", new { NEXTAPI = @notification.REDIRECTION_URL })"> <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+                                }
+                                else if (notification.ACTION_TYPE == "PRO")
+                                { <a class="btn btn-default btn-primary" style="background: none;border: none;" href="@Url.Action("NotificationProgram", "Dashboard", new { NEXTAPI = @notification.REDIRECTION_URL })"> <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+                                }
+                                else if (notification.ACTION_TYPE == "ASS")
+                                {
+                                    <a class="btn btn-default btn-primary" style="background: none;border: none;" href="@Url.Action("NotificationAssessment", "Dashboard", new { NEXTAPI = @notification.REDIRECTION_URL })"> <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+                                }
+								else if (notification.ACTION_TYPE == "GENCON")
+{
+                            <a class="btn btn-default btn-primary" style="background: none;border: none;" href="@Url.Action("NotificationContent", "Dashboard", new { NEXTAPI = @notification.REDIRECTION_URL })"> <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+}
+else if (notification.ACTION_TYPE == "GENASS")
+{
+                            <a class="btn btn-default btn-primary" style="background: none;border: none;" href="@Url.Action("NotificationAssessment", "Dashboard", new { NEXTAPI = @notification.REDIRECTION_URL })"> <button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+}
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    @*</div>*@
+
+
+                    @*</div>*@
+                    <!---------------------------->
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+</body>

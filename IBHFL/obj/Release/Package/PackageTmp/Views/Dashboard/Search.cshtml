@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Search";
+    List<IBHFL.Models.SearchResponce> detail = (List<IBHFL.Models.SearchResponce>)ViewData["result"];
+    IBHFL.Models.RootObjectcolor colorlist = (IBHFL.Models.RootObjectcolor)ViewData["Colorlist"];
+    bool flag_color_change = true;
+    string search = (string)ViewData["search"];
+}
+
+<style>
+
+    .listclr1
+    {
+        background-color:@colorlist.response[2].grid1_bk_color;
+        color:@colorlist.response[2].grid1_text_color;
+    border-top:none;
+    }
+    .listclr1 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+
+    .listclr2
+    {
+
+     background-color:@colorlist.response[2].grid2_bk_color;
+        color:@colorlist.response[2].grid2_text_color;
+     border-top:none;
+    }
+     .listclr2 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+</style>
+
+<body oncontextmenu="return false">
+    <div class="" style="">
+        <div class="">
+            <div class="">
+                <div class="box-border">
+
+                    @if (detail == null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12" align="center">
+                                <h3 style="color:#019934" class="categories_header_text"> </h3>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+
+                        <div class="row">
+
+                            <div class="col-md-12" align="justify">
+                                <h3>
+                                    Search results for "@search"
+                                </h3>
+                                <div id="list_view" style="">
+                                    <table class="table " width="100%;">
+                                        @if (detail.Count > 0)
+                                        {
+                                            foreach (IBHFL.Models.SearchResponce itm in detail)
+                                            {
+
+                                                {
+                                                    if (flag_color_change == true)
+                                                    {
+                                                        flag_color_change = false;
+                                                        <tr class="listclr1">
+                                                            <td>
+                                                                <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = @itm.ID_CONTENT ,CategoryID=itm.ID_Category})">@itm.CONTENT_QUESTION</a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        flag_color_change = true;
+                                                        <tr>
+                                                            <td class="listclr2">
+                                                                <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = @itm.ID_CONTENT ,CategoryID=itm.ID_Category})">@itm.CONTENT_QUESTION</a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr style="background-color:#a0e18a">
+                                                <td class="odd" style="background-color:#ffffff">
+                                                    <h3>No data found</h3>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        h3 {
+            background-color: #1ab394;
+            color: #fff;
+            padding: 10px 10px;
+        }
+    </style>
+</body>

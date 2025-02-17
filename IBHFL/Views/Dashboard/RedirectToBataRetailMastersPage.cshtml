@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Redirect Page";
+    Layout = "~/Views/Shared/_Layout_Redirect.cshtml";
+}
+
+
+@*<div>
+    <a href="" id="backLink">
+        <small class="text-navy">
+            <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back
+        </small>
+    </a>
+</div>*@
+
+<div>
+    <iframe src="~/Content/Documents/Bata_Game_Point_Distribution.pdf" frameBorder="0"></iframe>
+</div>
+
+<style>
+    iframe {
+        display: block; /* iframes are inline by default */
+        height: 100vh; /* Set height to 100% of the viewport height */
+        width: 93vw; /* Set width to 100% of the viewport width */
+        border: none; /* Remove default border */
+        /*background: lightyellow;*/ /* Just for styling */
+        margin-top:0px!important;   
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+    $("#backLink").click(function (event) {
+        
+        event.preventDefault();
+        //history.back(-1);
+        window.location = document.referrer;
+    });
+
+    $("#backfloat").click(function (event) {
+        event.preventDefault();
+        //history.back(-1);
+        window.location = document.referrer;
+    });
+</script>

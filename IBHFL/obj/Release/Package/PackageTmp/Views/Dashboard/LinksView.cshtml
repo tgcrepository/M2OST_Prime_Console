@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "LinksView";
+    List<IBHFL.Models.SatisfiedResult> Links = (List<IBHFL.Models.SatisfiedResult>)ViewData["Links"];
+    bool flag_color_change = true;
+}
+@{
+
+    var linkToOpen = ViewData["LinkToOpen"] as string;
+}
+<script>
+    $(document).ready(function () {
+      const loginUrl = '@linkToOpen';
+
+    // Check if the login URL contains "moodle"
+    if (loginUrl.includes("moodle")) {
+        // Open the URL directly in a new tab
+        window.open(loginUrl, '_blank');
+    }
+     
+    });
+        @*document.addEventListener("DOMContentLoaded", function () {
+            var linkToOpen = '@linkToOpen';
+            var autoPro = document.getElementById('autoProtector');
+            if (linkToOpen) {
+
+                window.open(linkToOpen, '_blank', 'noopener,noreferrer');
+                window.open(linkToOpen, '_blank', 'noopener,noreferrer');
+
+            }
+        });*@
+
+            $(document).ready(function () {
+                // Attach a click event handler to the anchor tag
+                $("#autoProtector").click(function (e) {
+                    alert('hi');
+                })
+            });
+    $(document).ready(function () {
+        var url = "@linkToOpen";
+
+        // Create and append iframe
+        var iframe = $('<iframe>', {
+            src: url,
+            id: 'myIframe',
+            width: '600px',
+            height: '400px'
+        });
+        $('body').append(iframe);
+
+        // Open link in new tab
+        window.open(url, '_blank');
+    });
+</script>
+
+@if (Links != null && Links.Count > 0)
+{
+    <body oncontextmenu="return false">
+        <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+        <div class="btmclr"> </div>
+        <div class="container" style="width:100%;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box-border" style="background-image: url('~/Content/images/LinkPage.png');">
+                        <h5 style="text-align: center;">Here are some relevant resource links </h5>
+                        <div style="">
+                            <table class="table " style="width: 100%;">
+                                <tbody style="background-color:#ffd800">
+
+                                    @foreach (var itm in Links)
+                                    {
+                                        if (flag_color_change == true)
+                                        {
+                                            flag_color_change = false;
+                                            <tr style="background-color:gray">
+                                                <td class="odd" style="background-color:gray;text-align: center;">
+                                                    @*  <a target="_blank" style="color :white" href="@itm.PATH">@itm.TITLE</a>*@
+                                                    @Html.ActionLink("Show Pdf", "ViewShowPdf", "Dashboard", new { PdfUrl = "value1", pageNumber = 1 }, new { style = "color: white;" })
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            flag_color_change = true;
+                                            <tr style="background-color:white">
+                                                <td class="odd" style="background-color:white;text-align: center;">
+                                                    @* <a target="_blank" style="color :black" href="@itm.PATH">@itm.TITLE</a>*@
+                                                    @Html.ActionLink("Show Pdf", "ViewShowPdf", "Dashboard", new { PdfUrl = "value1", pageNumber = 1 }, new { style = "color: white;" })
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+}
+else
+{
+    <body oncontextmenu="return false">
+        <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+        <div class="btmclr"> </div>
+        <div class="container" style="width:100%;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box-border" style="background-image: url('~/Content/images/LinkPage.png');">
+                        <h5 style="text-align: center;">Here are some relevant resource links </h5>
+                        <div style="">
+                        </div>
+                        <p>Please check the New Tab in Default browser</p>
+                        <a id="autoProtector" href="@linkToOpen" class="hvr-icon-linkwobble-horizontal" target="_blank" >Link1</a>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+}

@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate</title>
+    @*<link href="~/Content/css/certificateStyle.css" rel="stylesheet" />*@
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @{
+        List<IBHFL.Models.CertificateAssignmentTheme> CList = (List<IBHFL.Models.CertificateAssignmentTheme>)ViewData["certificateList"];
+
+    }
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .bg-container {
+            box-sizing: border-box;
+        /*    background: url('../certificateFiles/coe_imgs/RED.jpeg');*/
+               background:url(@CList[0].BackgroundImageThemeSecond);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: unset;
+            min-height: 860px;
+            min-width: 80%;
+            margin: 10px;
+        }
+
+        .flex-container {
+            align-items: center;
+            padding-left: 40px;
+            margin-bottom: 50px;
+        }
+
+        .image-container {
+            flex: 1;
+            margin-right: 80px;
+        }
+
+        .text-container {
+            font-family: "Times New Roman", Times, serif;
+            position: center;
+            max-width: 70%;
+            margin-top: -55px;
+            margin-left: 20%;
+        }
+
+        .logo {
+            max-width: 20%;
+            margin-top: 20px;
+        }
+
+        .container1 {
+            font-family: "Times New Roman", Times, serif;
+            font-size: large;
+            width: 90%;
+            padding-left: 40px;
+        }
+
+        .content2 {
+            font-family: "Times New Roman", Times, serif;
+            padding-left: 80px;
+            width: 80%;
+        }
+
+        .flex-container2 {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .content2 .text-container2 {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+
+
+        .container3 {
+            font-family: "Times New Roman", Times, serif;
+            text-align: center;
+        }
+
+        .container3-p {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 20px;
+        }
+
+        #footer-img {
+            width: 20%;
+        }
+
+        @@media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+            }
+
+            .bg-container {
+                height: 300px;
+            }
+        }
+
+        table#table1 {
+            table-layout: auto;
+            width: 90%;
+            border: none;
+        }
+
+
+        .fontWidth {
+            font-weight: 600;
+            color: red;
+            font-size: 20px;
+        }
+
+        ol > li {
+            font-family: 'Lato', sans-serif;
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: 400;
+            /*margin-top: 0.5em;*/
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            debugger;
+
+            var originalText = @CList[0].SubTextFirstThemeSecond;
+            var modifiedText = originalText.replace(/\n/g, "<br>");
+            $('#certificationtext').html(modifiedText); 
+        })
+
+    </script>
+
+
+</head>
+<body class="container">
+    <div class="bg-container">
+
+        <div class="flex-container">
+            <br /><br />
+            <div class="row d-flex justify-content-between">
+                <table style="border-color:transparent;">
+                    <tr>
+                        <td style="float: left;">
+                            <img src="@Url.Content(CList[0].LogoImageLeftThemeSecond)"  alt="" height="60" width="180">
+                        </td>
+                        <td style="float: right; ">
+                            <img src="@Url.Content(CList[0].LogoImageRightThemeSecond)" alt="" height="66" width="200" style="margin-right:120px;">
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div style="display: flex; text-align: center; color:@CList[0].TextColorHeaderThemeSecond; font-size:80px; font-weight: 600; font-family: 'Great Vibes', cursive;margin-left:-10%; ">
+                @*Code of Ethics Acknowledgement*@
+                @CList[0].HeaderThemeSecond
+            </div>
+
+        </div>
+        <div style="padding:0 15% 0 15%;margin-top:-10px; color:@CList[0].TextColorThemeSecond;">
+            
+            <ol>
+                @foreach (var line in CList[0].SubTextFirstThemeSecond.Split('\n'))
+                {
+                    <li style="font-weight: bold;">
+                        <div style="margin-bottom: 5px;">
+                            @line
+                        </div>
+                    </li>
+                }
+            </ol>
+
+
+                    @*<ol>
+                <li style="font:bold;">
+                    I have read and understood the Bata Code of Ethics.
+                </li>
+                <li style="font:bold;">
+                    I have no conflict of interest with any company within the Bata India Ltd. and I do not otherwise contravene the Code of Ethics.
+                </li>
+                <li style="font:bold;">
+                    In any situation in which I am uncertain whether I am in a conflict of interest with any company within Bata India Ltd. or if I am uncertain whether I otherwise contravene the Code of Ethics, I will immediately notify my manager or HR about the same.
+                </li>
+                <li style="font:bold;">
+                    I realize that adherence to the Code of Ethics is a condition of my employment.
+                </li>
+            </ol>*@
+</div>
+        <br />
+        <div class="content2">
+            <div class="flex-container2">
+                <table id="table1" style="border-color:transparent;margin-left:25%;">
+                    <tr>
+                        @*<td><h4>Name - <b class="fontWidth"> @TempData["_userName"]</b></h4></td>
+                        <td><h4>Department - <b class="fontWidth"> @TempData["department"]</b></h4></td>*@
+                        <td><h4> @CList[0].RightNameThemeSecond <b class="fontWidth"> @TempData["_userName"]</b></h4></td>
+                        <td><h4>@CList[0].LeftDesignationThemeSecond <b class="fontWidth">@TempData["designation"] </b></h4></td>
+                    </tr>
+
+                    <tr>
+                        @*<td><h4>Region - <b class="fontWidth"> @TempData["region"]</b></h4></td>
+                        <td><h4>Designation - <b class="fontWidth"> @TempData["designation"]</b></h4></td>*@
+                        <td><h4>@CList[0].RightDepartmentThemeSecond<b class="fontWidth">@TempData["department"]</b></h4></td>
+                        <td><h4>@CList[0].LeftRegionThemeSecond <b class="fontWidth"> @TempData["region"] </b></h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div>
+            <div style="font-size: 2.5rem; margin-top: 1vh; font-family: 'Great Vibes', cursive; text-align: center; ">
+                @*Conducted by Bata Training Academy*@
+                @CList[0].SubText2ThemeSecond
+            </div>
+            <span style="font-family: 'Lato','sans-serif'; font-size: 12px; font-weight: 700; margin-left:35%; ">THIS IS SYSTEM GENERATED CERTIFICATE,NO SIGNATURE REQUIRED</span>
+        </div>
+
+        <div style="display: flex; justify-content: center; align-items: end; color: #000; font-size: 1rem; font-weight: 700; margin-top: 7vh; font-family: 'Lato', sans-serif; margin:10% 0 0 45%; ">
+            DATE: @DateTime.UtcNow.AddHours(5).AddMinutes(30).ToString("dd/MM/yyyy")
+        </div>
+    </div>
+</body>
+</html>

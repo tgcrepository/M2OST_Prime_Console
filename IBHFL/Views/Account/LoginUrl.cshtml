@@ -1,0 +1,550 @@
+﻿@model IBHFL.Models.LoginUrl_tbl
+@{
+    Layout = null;
+    List<IBHFL.Models.tbl_login_page> lpList = (List<IBHFL.Models.tbl_login_page>)ViewData["LoginPageList"];
+
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style-type: none;
+            font-family: Lato, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+            .main-wrapper.mobile {
+                display: none;
+                background: rgb(240, 240, 240);
+                overflow: auto;
+            }
+
+                .main-wrapper.mobile .login-flex {
+                    /*background-color: #F21323;*/
+                }
+
+                .main-wrapper.mobile .login-flex {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+        .login-banner {
+            width: 100%;
+        }
+
+        .login-banner-mobile {
+            height: 50vh;
+            width: 100%;
+        }
+
+            .login-banner-mobile img {
+                width: 100%;
+                height: 62vh;
+            }
+
+        .login-banner img {
+            width: 100%;
+        }
+
+        .login-wrapper {
+            padding: 10px;
+            /* margin-top: -175px; */
+            margin-top: -13vh;
+            text-align: center;
+            flex: 1;
+        }
+
+            .login-wrapper .login-form {
+                background: #fff;
+                padding: 18px;
+                box-shadow: 0 0 10px #b0b0b0;
+                border-radius: 11px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                height: 60vh;
+            }
+
+            .login-wrapper .form-control input {
+                display: block;
+                width: 100%;
+                border: 1px solid #aaa6a6;
+                padding: 8px;
+                margin-bottom: 15px;
+                border-radius: 5px;
+            }
+
+            .login-wrapper .form-control span {
+                width: 100%;
+                display: block;
+                text-align: left;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            .login-wrapper input[type="checkbox"] {
+                accent-color: #F21323;
+            }
+
+        .login-form h2 {
+            font-size: 27px;
+            font-weight: 700;
+            color: #F21323;
+            margin-bottom: 8px;
+        }
+
+            .login-form h2 + p {
+                margin-bottom: 16px;
+                font-size: 18px;
+            }
+
+        .login-form button {
+            width: 100%;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px white;
+        }
+
+        button {
+            background: #F21323;
+            color: rgb(255, 255, 255);
+            padding: 10px 15px;
+            border-radius: 7px;
+        }
+        /* web */
+        .main-wrapper.web .login-flex {
+            flex-direction: row;
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+
+        .main-wrapper.web .login-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-wrapper.web .login-banner {
+            width: 100%;
+            margin: 1%;
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-wrapper.web .login-wrapper .login-form {
+            box-shadow: none;
+            /* max-width: 407px; */
+            height: auto;
+            width: 100%;
+        }
+
+        .main-wrapper.web .login-wrapper {
+            margin: 0;
+        }
+
+        .main-wrapper.web .login-banner img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .main-wrapper.web .login-flex {
+            flex-direction: row;
+            display: flex;
+            height: 100%;
+        }
+
+        .main-wrapper.web .login-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-wrapper.web .login-banner {
+            width: auto;
+            margin: 1%;
+        }
+
+        .main-wrapper.web .login-wrapper .login-form {
+            box-shadow: none;
+            /* width: 80%;
+        height: 70vh; */
+            width: 35rem;
+            max-height: 40rem;
+            flex-shrink: 0;
+            border-radius: 0.625rem;
+            background: #FFF;
+            box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10%;
+        }
+
+        .main-wrapper.web .login-wrapper {
+            margin: 0;
+        }
+
+        .login-logo {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .password {
+            position: relative;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        /* .main-wrapper.web .login-wrapper.login-form.login{
+        width:50%;
+        height: 60vh;
+        } */
+        /* .login-card {
+        width: 60%;
+        height: 70vh;
+        flex-shrink: 0;
+        border-radius: 0.625rem;
+        background: #FFF;
+        box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        } */
+        /* --------------------------- */
+        @@media screen and (max-width: 991px) {
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+
+            .main-wrapper.web {
+                display: none;
+            }
+
+            .main-wrapper.mobile {
+                display: flex;
+                /*background: #F21323;*/
+            }
+
+                .main-wrapper.mobile .login-flex {
+                    min-width: 100%;
+                    min-height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                }
+        }
+
+        #u_id {
+            display: block;
+            width: 100%;
+            border: 1px solid #aaa6a6;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        #forbtn {
+            width: 25%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #e9e9ed;
+        }
+
+        .submit {
+            border: hidden;
+        }
+
+        #forpswd1 {
+            display: none;
+        }
+
+        /*---------------*/
+        .login-banner-mobile {
+            /*min-height: 432px;*/
+            width: 100%;
+        }
+
+            .login-banner-mobile img {
+                width: 100%;
+                height: 100vh;
+            }
+
+        .login-wrapper .login-form {
+            background: #fff;
+            padding: 18px;
+            box-shadow: 0 0 10px #b0b0b0;
+            border-radius: 11px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            min-height: 400px;
+        }
+
+        @@media screen and (max-width: 375px) {
+
+
+            .login-banner-mobile {
+                /*min-height: 380px;*/
+                width: 100%;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="~/Content/css/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="~/Content/js_validation/css/validationEngine.jquery.css" media="screen" type="text/css" />
+
+
+
+    <link href="~/Content/New_Landing_Page/css/font-awesome.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/jquery.loading.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/js_validation/js/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="~/Content/js_validation/js/jquery.validationEngine-en.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/skillalert.js"></script>
+
+</head>
+@{
+
+    string error = string.Empty;
+    if (System.Web.HttpContext.Current.Session["error"] != null)
+    {
+        error = (string)System.Web.HttpContext.Current.Session["error"];
+        System.Web.HttpContext.Current.Session["error"] = null;
+    }
+}
+
+<body>
+    @if (lpList == null || lpList.Count == 0)
+    {
+
+        Response.Redirect("~/Account/Login");
+    }
+    else
+    {
+        <div class="main-wrapper web ">
+            <!-- Main Content -->
+            <div class="login-flex">
+                <div class="login-wrapper">
+                    <form class="login-form" method="post" action="@Url.Action("LoginCheck", "Account")" id="form_model_index">
+                        <div class="login">
+                            <div class="login-logo">
+                                @*<img src="~/images/image002.png" alt="">*@
+                                <img src="@Url.Content(lpList[0].Logo_Image)" alt="" style="height: 100%; width: 80%;">
+                            </div>
+                            <h2 style="color:@lpList[0].Text_Button_Color !important">Login</h2>
+                            <p>Login in to stay connected.</p>
+                            <div class="form-control">
+                                <span>User Id</span>
+                                <input type="text" class="login-input validate[required]" id="user_name" name="user_name" placeholder="Corporate User Id" />
+                            </div>
+                            <div class="form-control">
+                                <span>Password</span>
+                                <div class="password">
+                                    <input type="password" class="login-input validate[required]" id="password" name="password" placeholder="Password" />
+                                    <img src="~/images/eye-slash.svg" id="togglePassword"
+                                         class="password-toggle" alt="" onclick="showHidePassword()">
+                                </div>
+                            </div>
+                            <div class="error-div" id="error-div">
+                                @if (error != "")
+                                {<span>@error</span>}
+                            </div>
+                            <button class="submit" style="background:@lpList[0].Text_Button_Color !important">
+                                Sign in
+                            </button>
+                            @*<div class="forgot-password">
+                                    <a id="atg" onclick="showidfield();">Forgot Password ?</a>
+                                </div>
+                                <div id="forpswd">
+                                    <div class="flex">
+                                        <input id="u_id" placeholder="Enter UserID" type="text" />
+                                        <input id="forbtn" class="btn btn-primary" type="button" onclick="sendpassword()" value="Submit" />
+                                    </div>
+                                    <img id="loadgif" src="~/Content/images/loadinggif.gif" style="display:none;" />
+                                </div>*@
+                            <div class="privacy-policy">
+                                <span>Privacy Policy</span>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="login-banner">
+                    @*<img src="https://www.m2ost.in/Bata_Content/Image/login-banner.jpg"  alt="Image"/>*@
+                    <img src="@Url.Content(lpList[0].Background_Image)" alt="Image" />
+                </div>
+            </div>
+
+            <!-- Main Content -->
+        </div>
+
+        <div class="main-wrapper mobile" style="padding:0px">
+
+            <div class="login-flex">
+                <div class="login-banner-mobile">
+                    <img src="@Url.Content(lpList[0].Background_Image)" alt="Image" />
+                </div>
+                <div class="login-wrapper">
+                    <form class="login-form" method="post" action="@Url.Action("LoginCheck", "Account")" id="form_model_index" name="register-form">
+                        <h2 style="color:@lpList[0].Text_Button_Color !important">Login</h2>
+                        <p>Login in to stay connected.</p>
+                        <div class="form-control">
+                            <span>User Id</span>
+                            <input type="text" class="login-input validate[required]" id="user_name_mob" name="user_name" autofocus placeholder="Corporate User Id" />
+                            <p class="error username-error" id="username-error"></p>
+                        </div>
+                        <div class="form-control">
+                            <span>Password</span>
+                            <div class="password">
+                                <input type="password" class="login-input validate[required]" id="password_mob" name="password" placeholder="Password" />
+                                <img src="~/images/eye-slash.svg" id="togglePassword_mob"
+                                     class="password-toggle" alt="" onclick="showHidePassword()" />
+                                <p class="error password-error" id="password-error"></p>
+                            </div>
+                        </div> <div class="error-div" id="error-div_mob">
+                            @if (error != "")
+                            {<span>@error</span>}
+                        </div>
+                        <button class="submit" onclick="checkCondition()" style="background:@lpList[0].Text_Button_Color !important">
+                            Sign in
+                        </button>
+                        @*<div class="forgot-password">
+                                <a id="atg" onclick="showidfield();">Forgot Password ?</a>
+                            </div>
+                            <div id="forpswd1">
+                                <div class="flex">
+                                    <input id="u_id" placeholder="Enter UserID" type="text" />
+                                    <input id="forbtn" class="btn btn-primary" type="button" onclick="sendpassword()" value="Submit" />
+                                </div>
+                                <img id="loadgif" src="~/Content/images/loadinggif.gif" style="display:none;" />
+                            </div>*@
+                        <div class="privacy-policy">
+                            Privacy Policy
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <script>
+        window.onload = function () {
+            $("#forpswd").hide();
+            $("#loadgif").hide();
+        };
+        $(function () {
+            $("#form_model_index").validationEngine();
+        });
+        function showidfield() {
+            $("#forpswd").show();
+            document.getElementById("forpswd1").style.display = "block";
+            $("#atg").hide();
+        }
+    </script>
+    <script>
+        // jQuery script for password toggle
+        function showHidePassword() {
+            //var passwordField = $("#password");
+            //var passwordFieldType = passwordField.attr('type');
+            //passwordField.attr('type', passwordFieldType === 'password' ? 'text' : 'password');
+
+            //// Toggle between eye and eye-slash icons
+            //var eyeIcon = $(".password img");
+            //if (passwordFieldType === 'password') {
+            //    eyeIcon.attr('src', './images/eye.svg');
+            //} else {
+            //    eyeIcon.attr('src', './images/eye-slash.svg');
+
+            //}
+
+            var input = document.querySelector('#password');
+            var input_mob = document.querySelector('#password_mob');
+
+            var eyeIcon = $("#togglePassword");
+            if (input.type === "password") {
+                input.type = "text";
+                document.getElementById('togglePassword').src = "./images/eye.svg";
+            } else {
+                input.type = "password";
+                document.getElementById('togglePassword').src = "./images/eye-slash.svg";
+            }
+
+
+            if (input_mob.type === "password") {
+                input_mob.type = "text";
+                document.getElementById('togglePassword_mob').src = "./images/eye.svg";
+            } else {
+                input_mob.type = "password";
+                document.getElementById('togglePassword_mob').src = "./images/eye-slash.svg";
+            }
+        };
+    </script>
+
+    <script>
+        $(function () {
+            setTimeout(function () { $("#error-div").hide("fade"); }, 5000)
+        });
+
+        $(function () {
+            setTimeout(function () { $("#error-div_mob").hide("fade"); }, 5000)
+        });
+
+        function checkCondition() {
+
+            if (document.getElementById("user_name_mob").value === "") {
+                document.querySelector(".username-error").innerHTML = "Please enter a username";
+                document.querySelector(".username-error").style.display = "block";
+                document.getElementById("username-error").style.color = "red";
+                event.preventDefault();
+                setTimeout(function () { $(".username-error").hide("fade"); }, 5000)
+            }
+
+
+            if (document.getElementById("password_mob").value === "") {
+                document.querySelector(".password-error").innerHTML = "Please enter a password";
+                document.querySelector(".password-error").style.display = "block";
+                document.getElementById("password-error").style.color = "red";
+                event.preventDefault();
+                setTimeout(function () { $(".password-error").hide("fade"); }, 5000)
+            }
+            return false;
+
+        };
+    </script>
+</body>
+
+</html>
+
+
+
+<link href="~/Content/New_Landing_Page/css/animate.css" rel="stylesheet">

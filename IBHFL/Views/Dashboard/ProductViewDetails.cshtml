@@ -1,0 +1,1761 @@
+﻿@{
+    ViewBag.Title = "ProductViewDetails";
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    IBHFL.Models.CategroyDashboard detail = (IBHFL.Models.CategroyDashboard)ViewData["obj"];
+    IBHFL.Models.RootObjectcolor colorlist = (IBHFL.Models.RootObjectcolor)ViewData["Colorlist"];
+
+    //IBHFL.Models.tbl_feedback_configuration fbList = (IBHFL.Models.tbl_feedback_configuration)ViewData["feedbackList"];
+    List<IBHFL.Models.tbl_feedback_configuration> fbList = (List<IBHFL.Models.tbl_feedback_configuration>)ViewData["feedbackList"];
+    string apiFullValue = System.Configuration.ConfigurationManager.AppSettings["api_full"];
+
+
+    int zero = 0;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool flag_color_change = true;
+    int IsCourseCompleted = 0;
+    int IsContentRead = 0;
+    var isLinkDisabled = true;
+}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lily+Script+One&display=swap" rel="stylesheet">
+<style>
+    .disabled-link {
+        pointer-events: none;
+    }
+
+    a {
+        cursor: pointer !important;
+    }
+
+    textarea {
+        font-size: 16px;
+    }
+    /***loading screen***/
+    /* Absolute Center Spinner */
+    .loading {
+        position: fixed;
+        z-index: 999;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+        /* Transparent Overlay */
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 1em;
+                height: 1em;
+                margin-top: -0.5em;
+                -webkit-animation: spinner 1500ms infinite linear;
+                -moz-animation: spinner 1500ms infinite linear;
+                -ms-animation: spinner 1500ms infinite linear;
+                -o-animation: spinner 1500ms infinite linear;
+                animation: spinner 1500ms infinite linear;
+                border-radius: 0.5em;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+                box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+            }
+
+    /* Animation */
+
+    @@-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    /***loading end****/
+</style>
+<style>
+
+    .listclr1
+    {
+        background-color:@colorlist.response[2].grid1_bk_color;
+        color:@colorlist.response[2].grid1_text_color;
+    border-top:none;
+    }
+    .listclr1 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+
+    .listclr2
+    {
+
+     background-color:@colorlist.response[2].grid2_bk_color;
+        color:@colorlist.response[2].grid2_text_color;
+     border-top:none;
+    }
+     .listclr2 a
+    {
+     color:@colorlist.response[2].grid1_text_color;
+    }
+    /* //*/
+/* Ensure container fits within standard desktop and laptop screens */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 15px;
+    max-width: 1200px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center; /* Center elements vertically */
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align contents within each column */
+}
+
+.col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 15px;
+}
+
+/* Style for the image */
+.img-preview {
+    width: 70%; /* Make the image width 50% of the container */
+    max-width: 400px; /* Limit the maximum width */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: auto; 
+    margin-bottom:164px;/* Center the image within the column */
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    flex-grow: 1; /* Makes the table stretch to fill its container */
+}
+
+/*.table tr.listclr1 {
+    background-color: #f9f9f9;
+}
+
+.table tr.listclr2 {
+    background-color: #e9e9e9;
+}*/
+
+.table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+    .image-section {
+        height: 217px;
+        width: 539px;
+        margin-right: 10px; /* Reduce the space between the image and the table */
+    }
+    col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0; /* Remove unnecessary padding */
+    }
+
+    /* Remove margin between flex children in the row */
+    .row > * {
+        margin: 0; /* Ensure no extra space between image and table */
+    }
+/* Responsive media query for smaller screens */
+@@media (max-width: 767px) {
+    /* Hide image section on mobile */
+    .image-section {
+        display: none;
+    }
+    #content-table {
+        height: auto !important; /* Set a smaller height for mobile */
+        padding: 20px; /* Optional: add padding for better spacing */
+    }
+
+    #list_view {
+        margin-bottom: 20px;
+    }
+    .category-header {
+        display: none;
+    }
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .img-preview {
+        width: 100%; /* If needed, adjust for larger screens */
+        max-width: 300px;
+    }
+    .image-section {
+        display: none !important;
+    }
+
+    .col-md-8 {
+        flex: 1 0 100% !important; /* Make the table section take full width */
+        width: 100% !important;
+    }
+}
+
+
+
+</style>
+
+@if (colorlist.response[2].config_type == 3)
+{
+
+}
+else
+{
+
+}
+
+<a href="" @Url.Action("Index", "Dashboard", new { Flag = "N" }) " id="backLink" onclick="showLoader()"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+<div class="btmclr"> </div>
+<div id="loading" class="loading" style="display:none"></div>
+@if (detail == null)
+{
+    <div class="row">
+        <div class="col-md-12" align="center">
+            <h3 style="color:#019934" class="categories_header_text"> no data found</h3>
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="col-md-12">
+        <input id="hdnApplicationUrl" type="hidden" value="@usersession.ApplicationUrl" />
+        @*<div class="row" align="center">
+         
+            <h3 style="background-color:white;text-align:center" class="categories_header_text"><b>@detail.CATEGORY.CategoryHeader </b> </h3>
+        </div>*@
+        <div class="" style="">
+
+            @if (detail.CONTENTLIST == null)
+            {<div class="row">
+                    <div class="col-md-12" align="center">
+                        <h3 style="color:#019934" class="categories_header_text"> no content found</h3>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @*<h3 class="categories_header_text" style="background-color:transparent">
+                    <strong> List Of Contents</strong>
+                </h3>*@
+                // For the Test
+                @*if (detail?.CATEGORY?.CategoryImagePath != null)
+                    {
+                        <img class="img-preview" src="@detail.CATEGORY.CategoryImagePath" alt="Category Image" />
+
+
+                    }
+                    else
+                    {
+                        <p>No image available.</p>
+                    }
+
+
+                    <div id="list_view" style="">
+                        <table class="table " width="100%;">
+                            @foreach (IBHFL.Models.SearchResponce itm in detail.CONTENTLIST)
+                            {
+                                if (flag_color_change == true)
+                                {
+                                    flag_color_change = false;
+                                    <tr class="listclr1">
+                                        <td class="odd" style="">
+                                            <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = @itm.ID_CONTENT,CategoryID=detail.CATEGORY.CategoryID })">@itm.CONTENT_QUESTION</a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    flag_color_change = true;
+                                    <tr class="listclr2" ;>
+                                        <td class="odd">
+                                            <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = @itm.ID_CONTENT,CategoryID=detail.CATEGORY.CategoryID })">@itm.CONTENT_QUESTION</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>*@
+                //
+                //
+                if (detail?.CATEGORY?.CategoryImagePath != null)
+                {
+                    <div class="container">
+                        <div class="row">
+                            <!-- Image Section -->
+                            <div class="image-section col-md-4" style="height: 450px; width: 100%; background-image: url('https://www.m2ost.in/M2OST_NewDev_CMS/Content/SKILLMUNI_DATA/background2.png'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; display: flex; justify-content: center; align-items: center; position: relative;">
+                                <h3 style="position: absolute; top: 24px; text-align: center; font-weight: bold; font-size: 20px; color: black; text-decoration: underline;" class="category-header">
+                                    <b>@detail.CATEGORY.CategoryHeader</b>
+                                </h3>
+                                <img class="img-preview" src="@detail.CATEGORY.CategoryImagePath" alt="Category Image" />
+                            </div>
+
+                            <!-- Table Section -->
+                            <div class="col-md-8 content-table" style="flex: 0 0 70%; height: 450px; width: 50%; background-image: url('https://www.m2ost.in/M2OST_NewDev_CMS/Content/SKILLMUNI_DATA/background2.png'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; border-radius: 8px; overflow: hidden;" id="content-table">
+                                <!-- Heading Section -->
+                                <h3 style="margin-top: 25px; font-weight: bold; font-size: 20px; text-align: left; color: black; text-decoration: none;">
+                                    <strong>List of Contents</strong>
+                                </h3>
+
+                                <!-- Table Section -->
+                                <div id="list_view" style="width: 100%; overflow-y: auto;">
+                                    <table class="table" style="width: 90%; margin: 0 auto; ">
+                                        @foreach (IBHFL.Models.SearchResponce itm in detail.CONTENTLIST)
+                                        {
+                                            if (flag_color_change)
+                                            {
+                                                flag_color_change = false;
+                                                <tr class="listclr1">
+                                                    <td class="odd">
+                                                        <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = itm.ID_CONTENT, CategoryID = detail.CATEGORY.CategoryID })">@itm.CONTENT_QUESTION</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                flag_color_change = true;
+                                                <tr class="listclr2">
+                                                    <td class="odd">
+                                                        <a href="@Url.Action("ProductQueAns", "Dashboard", new { ContentID = itm.ID_CONTENT, CategoryID = detail.CATEGORY.CategoryID })">@itm.CONTENT_QUESTION</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>No image available.</p>
+                }
+                ///
+
+
+
+
+
+                //
+
+            }
+            <hr />
+            @if (fbList == null || fbList.Count == 0)
+            {//no data code
+            }
+            else
+            {
+                <h3 class="categories_header_text" style="background-color:transparent">
+                    <a onclick="$('#FeedbackPopup').modal('show');" id="feedBack" style="color: #2c3e50"><strong>Feedback Form</strong></a>
+                </h3>
+                <hr />
+            }
+
+            @if (detail.ASSESSMENTLIST.Count == @zero)
+            {<div class="row">
+                    <div class="col-md-12" align="center">
+
+                        <h3 style="color:#019934" class="categories_header_text"> </h3>
+                    </div>
+                </div>
+
+            }
+            else
+            { <h3 class="categories_header_text" style="background-color:transparent">
+                    <strong> Assessment</strong>
+                </h3>
+                <br />
+                <div id="list_view" style="">
+                    <table class="table" width="100%;">
+                        @foreach (IBHFL.Models.AssessmentList itm in detail.ASSESSMENTLIST)
+                        {
+                            IsCourseCompleted = itm.IsCourseCompleted;
+                            IsContentRead = itm.IsContentRead;
+                            if (flag_color_change == true)
+                            {
+                                flag_color_change = false;
+                                <tr>
+                                    <td class="listclr1">
+                                        @if (itm.assessment_type == 3 || itm.assessment_type == 4)
+                                        {
+                                            <input id="hdnLastAttempt_@itm.id_assessment" type="hidden" value="@itm.LastAttemptGap" />
+                                            <a target="_blank" id="lnk_@itm.id_assessment" onclick="DisabledEnableClick(this.id,event,@IsCourseCompleted,@IsContentRead,@itm.id_assessment);SetAssessmentID(@itm.id_assessment)" href="@itm.answer_description">"@itm.assessment_name"</a>
+                                            @*<a target="_blank" href="https://www.playtolearn.in/Ngage-HTML5-Dev/?orgid=15&name=Dummy&email=bata520&M2ostAssessmentId=444">Test</a>*@
+                                        }
+                                        else
+                                        {
+                                            <input id="hdnLastAttempt_@itm.id_assessment" type="hidden" value="@itm.LastAttemptGap" />
+                                            <a id="lnk_@itm.id_assessment" onclick="DisabledEnableClick(this.id,event,@IsCourseCompleted,@IsContentRead,@itm.id_assessment)" href=@Url.Action("AssessmentSheet", "Dashboard", new { ASID = @itm.id_assessment })>"@itm.assessment_name"</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                flag_color_change = true;
+                                <tr>
+                                    <td class="listclr2">
+                                        @if (itm.assessment_type == 3 || itm.assessment_type == 4)
+                                        {
+                                            <input id="hdnLastAttempt_@itm.id_assessment" type="hidden" value="@itm.LastAttemptGap" />
+                                            <a target="_blank" id="lnk_@itm.id_assessment" onclick="DisabledEnableClick(this.id,event,@IsCourseCompleted,@IsContentRead,@itm.id_assessment);SetAssessmentID(@itm.id_assessment)" href="@itm.answer_description">"@itm.assessment_name"</a>
+                                        }
+                                        else
+                                        {
+                                            <input id="hdnLastAttempt_@itm.id_assessment" type="hidden" value="@itm.LastAttemptGap" />
+                                            <a id="lnk_@itm.id_assessment" onclick="DisabledEnableClick(this.id,event,@IsCourseCompleted,@IsContentRead,@itm.id_assessment)" href=@Url.Action("AssessmentSheet", "Dashboard", new { ASID = @itm.id_assessment })>"@itm.assessment_name"</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="modal fade" id="pointspopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="height:100vh;display:grid;align-items:center">
+            <div class="modal-content">
+                <div class="cross-button-box" style="border-radius:100%">
+                    <div class="cross-button" style="position:absolute;top:-40px" onclick="$('#pointspopup').modal('hide');" data-bs-dismiss="modal" aria-label="Close">X</div>
+                </div>
+                <div class="popup-body col-12">
+                    <div class="col-12">
+                        <div class="Ballon">
+                            <img src="https://www.m2ost.in/Bata_Content/Image/Balloon.png" class="" alt="" height="100%" width="100%">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div id="" class="commonfontstyle" style="font-size: 1.6em;color: #000;
+   font-family: Lily Script One;
+   font-size: 2em;
+   font-style: normal;
+   font-weight: 400;
+   line-height: normal;
+   letter-spacing: -0.64px;">
+                            Congratulations
+                        </div>
+                    </div>
+                    <div class="col-12 py-2">
+                        <div class="attempt commonfontstyle">
+                            Attempt No: <span id="lblAttemptNo"></span>
+                        </div>
+                    </div>
+                    <div class="notmasteryPoint col-12 py-2">
+                        <img src="../Templates/images/assignment/Rewardpoint.png" class="me-2" alt="">
+                        <div class="rewardPoint commonfontstyle" id="divTotalScore">
+
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="successText commonfontstyle">
+                            You have completed the assessment
+                        </div>
+
+                    </div>
+                    <div class="scoreboxContainer" style="padding-bottom:10px!important;">
+                        <div class="scorebox">
+                            <div class="text-center score" id="divRightAns">180</div>
+                            <div class="scoretext text-center">Right Answers: </div>
+                        </div>
+                        <div class="scorebox">
+                            <div class="text-center score">+30</div>
+                            <div class="scoretext text-center">Mastery Point</div>
+                        </div>
+                        <div class="scorebox">
+                            <div class="text-center score">180</div>
+                            <div class="scoretext text-center">Reward Points</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="coinspopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="height:100vh;display:grid;align-items:center">
+            <div class="modal-content">
+                <div class="cross-button-box" style="border-radius:100%">
+                    <div class="cross-button" style="position:absolute;top:-40px" onclick="$('#coinspopup').modal('hide');" data-bs-dismiss="modal" aria-label="Close">X</div>
+                </div>
+                <div class="popup-body col-12">
+                    <div class="col-12">
+                        <div class="Ballon">
+                            <img src="https://www.m2ost.in/Bata_Content/Image/Balloon.png" class="" alt="" height="100%" width="100%">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div id="" class="commonfontstyle" style="font-size: 1.6em;color: #000;font-family: Lily Script One;font-size: 2em;font-style: normal;font-weight: 400;line-height: normal;letter-spacing: -0.64px;">
+                            Congratulations
+                        </div>
+                    </div>
+
+                    <div class="col-12 py-2">
+                        <div class="attempt commonfontstyle">
+                            Attempt No- <span id="coinsAttempt"></span>
+                        </div>
+                    </div>
+                    <div class="notmasteryPoint col-12 py-2">
+                        @* <img src="../Templates/images/assignment/Rewardpoint.png" class="me-2" alt="">*@
+                        <div class="rewardPoint commonfontstyle" id="CoinsScore">
+
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <div class="successText commonfontstyle" id="coinsText">
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    if (fbList == null || fbList.Count == 0)
+    {
+        // Code to execute if fbList is null
+    }
+    else
+    {
+        using (Html.BeginForm("Feedback", "Dashboard", FormMethod.Post))
+        {
+            <form>
+                <input name="ContentId" id="CatId" type="hidden" value="@detail.CATEGORY.CategoryID" />
+                <input name="CategoryName" id="CatName" type="hidden" value="@detail.CATEGORY.CategoryName" />
+                <div class="modal fade" id="FeedbackPopup" data-bs-backdrop="static" data-bs-
+                     keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" style="margin-top:20vh">
+                            <div class="pop-header" style="background:@fbList[0].Text_Button_Colour !important">
+                                <div></div>
+                                <div class="popup-title">
+                                    @fbList[0].Header_Text
+                                    @*Your feedback is crucial to us!!*@
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center" style="cursor:pointer">
+
+                                    <div class="" data-bs-dismiss="modal" aria-
+                                         label="Close" onclick="$('#FeedbackPopup').modal('hide');">X</div>
+
+                                </div>
+                            </div>
+                            <div class="col-12" style="padding:1rem">
+                                <div class="language-popup-body" style="display:flex;justify-content:space-between">
+
+
+                                    <div class="ginie_image" style="height:30vh;">
+
+                                        <img src="@Url.Content(fbList[0].Image_path)" alt="ginie_image" height="100%" width="100%">
+
+
+                                        @*<img src="@fbList[0].Image_path" alt="ginie_image" height="100%" width="100%">*@
+                                        @*<img src="https://www.m2ost.in/Bata_Content/Image/Genie.png"
+                                            alt="ginie_image" height="100%" width="100%">*@
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                    <div class="content-modal">
+                                        <p class="" style="padding-left:1.5rem;font-size:1.2em">
+                                            @fbList[0].Feedback_Text
+                                            @*Hello! Hope you are liking this course! Can you please give us your
+                                                feedback?*@
+
+                                        </p>
+
+                                        @*<div class="ratingContainer">
+                                                                                    <span class="ratingTitle"> Rate the course</span>
+                                                                                    <div class="starContainer">
+                                                                                        <div class="star">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                                                 height="30" viewBox="0 0 66 65" fill="none">
+
+                                                                                                <g filter="url(#filter0_d_29_53)">
+                                                                                                    <g filter="url(#filter1_d_29_53)">
+                                                                                                        <path d="M23.2944 18.9616L6.81276 21.3512L6.52084
+                                            21.4106C6.07893 21.5279 5.67608 21.7604 5.35341 22.0844C5.03075 22.4083
+                                            4.79983 22.8121 4.68425 23.2544C4.56867 23.6968 4.57256 24.1619 4.69553
+                                            24.6023C4.81849 25.0426 5.05613 25.4425 5.38417 25.761L17.3243 37.3834L14.5085
+                                            53.8005L14.4749 54.0846C14.4479 54.5417 14.5428 54.9977 14.7499 55.406C14.9571
+
+                                            55.8143 15.269 56.1602 15.6538 56.4084C16.0386 56.6565 16.4824 56.7979 16.9398
+                                            56.8181C17.3972 56.8383 17.8518 56.7365 18.2569 56.5233L32.9974
+                                            48.7733L47.7043 56.5233L47.9627 56.6421C48.3891 56.8101 48.8525 56.8616
+                                            49.3054 56.7913C49.7583 56.7211 50.1843 56.5316 50.5398 56.2424C50.8953
+                                            55.9532 51.1674 55.5746 51.3283 55.1454C51.4892 54.7163 51.5331 54.2521 51.4553
+                                            53.8005L48.6369 37.3834L60.5823 25.7584L60.7837 25.5388C61.0716 25.1843
+                                            61.2603 24.7598 61.3307 24.3086C61.4011 23.8574 61.3506 23.3956 61.1844
+                                            22.9703C61.0182 22.5449 60.7422 22.1712 60.3846 21.8873C60.027 21.6033 59.6004
+                                            21.4192 59.1485 21.3538L42.6668 18.9616L35.2992 4.02996C35.086 3.59734 34.7559
+                                            3.23304 34.3464 2.97829C33.9369 2.72355 33.4642 2.58854 32.9819
+                                            2.58854C32.4996 2.58854 32.027 2.72355 31.6174 2.97829C31.2079 3.23304 30.8779
+                                            3.59734 30.6647 4.02996L23.2944 18.9616Z" fill="#FFB23F" />
+
+                                                                                                    </g>
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <filter id="filter0_d_29_53" x="0.600342" y="2.58854"
+                                                                                                            width="64.7612" height="62.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="out" />
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="BackgroundImageFix"
+                                                                                                                 result="effect1_dropShadow_29_53" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="effect1_dropShadow_29_53" result="shape" />
+
+                                                                                                    </filter>
+                                                                                                    <filter id="filter1_d_29_53" x="0.600342" y="2.58854"
+                                                                                                            width="64.7612" height="62.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="out" />
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="BackgroundImageFix"
+                                                                                                                 result="effect1_dropShadow_29_53" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="effect1_dropShadow_29_53" result="shape" />
+
+                                                                                                    </filter>
+                                                                                                </defs>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                        <div class="star">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                                                 height="30" viewBox="0 0 62 62" fill="none">
+
+                                                                                                <g filter="url(#filter0_i_29_59)">
+                                                                                                    <path d="M21.2944 18.9616L4.81276 21.3512L4.52084
+                                            21.4106C4.07893 21.5279 3.67608 21.7604 3.35341 22.0844C3.03075 22.4083
+                                            2.79983 22.8121 2.68425 23.2544C2.56867 23.6968 2.57256 24.1619 2.69553
+                                            24.6023C2.81849 25.0426 3.05613 25.4425 3.38417 25.761L15.3243 37.3834L12.5085
+                                            53.8005L12.4749 54.0846C12.4479 54.5417 12.5428 54.9977 12.7499 55.406C12.9571
+                                            55.8143 13.269 56.1602 13.6538 56.4084C14.0386 56.6565 14.4824 56.7979 14.9398
+                                            56.8181C15.3972 56.8383 15.8518 56.7365 16.2569 56.5233L30.9974
+                                            48.7733L45.7043 56.5233L45.9627 56.6421C46.3891 56.8101 46.8525 56.8616
+                                            47.3054 56.7913C47.7583 56.7211 48.1843 56.5316 48.5398 56.2424C48.8953
+                                            55.9532 49.1674 55.5746 49.3283 55.1454C49.4892 54.7163 49.5331 54.2521 49.4553
+                                            53.8005L46.6369 37.3834L58.5823 25.7584L58.7837 25.5388C59.0716 25.1843
+                                            59.2603 24.7598 59.3307 24.3086C59.4011 23.8574 59.3506 23.3956 59.1844
+                                            22.9703C59.0182 22.5449 58.7422 22.1712 58.3846 21.8873C58.027 21.6033 57.6004
+                                            21.4192 57.1485 21.3538L40.6668 18.9616L33.2992 4.02996C33.086 3.59734 32.7559
+                                            3.23304 32.3464 2.97829C31.9369 2.72355 31.4642 2.58854 30.9819
+                                            2.58854C30.4996 2.58854 30.027 2.72355 29.6174 2.97829C29.2079 3.23304 28.8779
+                                            3.59734 28.6647 4.02996L21.2944 18.9616Z" fill="#AAAAAA" />
+
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <filter id="filter0_i_29_59" x="2.60034" y="2.58854"
+                                                                                                            width="56.7612" height="58.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="BackgroundImageFix" result="shape" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="arithmetic"
+                                                                                                                     k2="-1" k3="1" />
+
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="shape"
+                                                                                                                 result="effect1_innerShadow_29_59" />
+                                                                                                    </filter>
+                                                                                                </defs>
+                                                                                            </svg>
+
+                                                                                        </div>
+                                                                                        <div class="star">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                                                 height="30" viewBox="0 0 62 62" fill="none">
+
+                                                                                                <g filter="url(#filter0_i_29_59)">
+                                                                                                    <path d="M21.2944 18.9616L4.81276 21.3512L4.52084
+                                            21.4106C4.07893 21.5279 3.67608 21.7604 3.35341 22.0844C3.03075 22.4083
+                                            2.79983 22.8121 2.68425 23.2544C2.56867 23.6968 2.57256 24.1619 2.69553
+                                            24.6023C2.81849 25.0426 3.05613 25.4425 3.38417 25.761L15.3243 37.3834L12.5085
+                                            53.8005L12.4749 54.0846C12.4479 54.5417 12.5428 54.9977 12.7499 55.406C12.9571
+                                            55.8143 13.269 56.1602 13.6538 56.4084C14.0386 56.6565 14.4824 56.7979 14.9398
+                                            56.8181C15.3972 56.8383 15.8518 56.7365 16.2569 56.5233L30.9974
+                                            48.7733L45.7043 56.5233L45.9627 56.6421C46.3891 56.8101 46.8525 56.8616
+                                            47.3054 56.7913C47.7583 56.7211 48.1843 56.5316 48.5398 56.2424C48.8953
+                                            55.9532 49.1674 55.5746 49.3283 55.1454C49.4892 54.7163 49.5331 54.2521 49.4553
+                                            53.8005L46.6369 37.3834L58.5823 25.7584L58.7837 25.5388C59.0716 25.1843
+                                            59.2603 24.7598 59.3307 24.3086C59.4011 23.8574 59.3506 23.3956 59.1844
+                                            22.9703C59.0182 22.5449 58.7422 22.1712 58.3846 21.8873C58.027 21.6033 57.6004
+                                            21.4192 57.1485 21.3538L40.6668 18.9616L33.2992 4.02996C33.086 3.59734 32.7559
+                                            3.23304 32.3464 2.97829C31.9369 2.72355 31.4642 2.58854 30.9819
+                                            2.58854C30.4996 2.58854 30.027 2.72355 29.6174 2.97829C29.2079 3.23304 28.8779
+                                            3.59734 28.6647 4.02996L21.2944 18.9616Z" fill="#AAAAAA" />
+
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <filter id="filter0_i_29_59" x="2.60034" y="2.58854"
+                                                                                                            width="56.7612" height="58.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="BackgroundImageFix" result="shape" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="arithmetic"
+                                                                                                                     k2="-1" k3="1" />
+
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="shape"
+                                                                                                                 result="effect1_innerShadow_29_59" />
+                                                                                                    </filter>
+                                                                                                </defs>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                        <div class="star">
+
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                                                 height="30" viewBox="0 0 62 62" fill="none">
+
+                                                                                                <g filter="url(#filter0_i_29_59)">
+                                                                                                    <path d="M21.2944 18.9616L4.81276 21.3512L4.52084
+                                            21.4106C4.07893 21.5279 3.67608 21.7604 3.35341 22.0844C3.03075 22.4083
+                                            2.79983 22.8121 2.68425 23.2544C2.56867 23.6968 2.57256 24.1619 2.69553
+                                            24.6023C2.81849 25.0426 3.05613 25.4425 3.38417 25.761L15.3243 37.3834L12.5085
+                                            53.8005L12.4749 54.0846C12.4479 54.5417 12.5428 54.9977 12.7499 55.406C12.9571
+                                            55.8143 13.269 56.1602 13.6538 56.4084C14.0386 56.6565 14.4824 56.7979 14.9398
+                                            56.8181C15.3972 56.8383 15.8518 56.7365 16.2569 56.5233L30.9974
+                                            48.7733L45.7043 56.5233L45.9627 56.6421C46.3891 56.8101 46.8525 56.8616
+                                            47.3054 56.7913C47.7583 56.7211 48.1843 56.5316 48.5398 56.2424C48.8953
+                                            55.9532 49.1674 55.5746 49.3283 55.1454C49.4892 54.7163 49.5331 54.2521 49.4553
+                                            53.8005L46.6369 37.3834L58.5823 25.7584L58.7837 25.5388C59.0716 25.1843
+                                            59.2603 24.7598 59.3307 24.3086C59.4011 23.8574 59.3506 23.3956 59.1844
+                                            22.9703C59.0182 22.5449 58.7422 22.1712 58.3846 21.8873C58.027 21.6033 57.6004
+                                            21.4192 57.1485 21.3538L40.6668 18.9616L33.2992 4.02996C33.086 3.59734 32.7559
+                                            3.23304 32.3464 2.97829C31.9369 2.72355 31.4642 2.58854 30.9819
+                                            2.58854C30.4996 2.58854 30.027 2.72355 29.6174 2.97829C29.2079 3.23304 28.8779
+                                            3.59734 28.6647 4.02996L21.2944 18.9616Z" fill="#AAAAAA" />
+
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <filter id="filter0_i_29_59" x="2.60034" y="2.58854"
+                                                                                                            width="56.7612" height="58.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="BackgroundImageFix" result="shape" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="arithmetic"
+                                                                                                                     k2="-1" k3="1" />
+
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="shape"
+                                                                                                                 result="effect1_innerShadow_29_59" />
+                                                                                                    </filter>
+                                                                                                </defs>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                        <div class="star">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                                                                                 height="30" viewBox="0 0 62 62" fill="none">
+
+                                                                                                <g filter="url(#filter0_i_29_59)">
+
+                                                                                                    <path d="M21.2944 18.9616L4.81276 21.3512L4.52084
+                                            21.4106C4.07893 21.5279 3.67608 21.7604 3.35341 22.0844C3.03075 22.4083
+                                            2.79983 22.8121 2.68425 23.2544C2.56867 23.6968 2.57256 24.1619 2.69553
+                                            24.6023C2.81849 25.0426 3.05613 25.4425 3.38417 25.761L15.3243 37.3834L12.5085
+                                            53.8005L12.4749 54.0846C12.4479 54.5417 12.5428 54.9977 12.7499 55.406C12.9571
+                                            55.8143 13.269 56.1602 13.6538 56.4084C14.0386 56.6565 14.4824 56.7979 14.9398
+                                            56.8181C15.3972 56.8383 15.8518 56.7365 16.2569 56.5233L30.9974
+                                            48.7733L45.7043 56.5233L45.9627 56.6421C46.3891 56.8101 46.8525 56.8616
+                                            47.3054 56.7913C47.7583 56.7211 48.1843 56.5316 48.5398 56.2424C48.8953
+                                            55.9532 49.1674 55.5746 49.3283 55.1454C49.4892 54.7163 49.5331 54.2521 49.4553
+                                            53.8005L46.6369 37.3834L58.5823 25.7584L58.7837 25.5388C59.0716 25.1843
+                                            59.2603 24.7598 59.3307 24.3086C59.4011 23.8574 59.3506 23.3956 59.1844
+                                            22.9703C59.0182 22.5449 58.7422 22.1712 58.3846 21.8873C58.027 21.6033 57.6004
+                                            21.4192 57.1485 21.3538L40.6668 18.9616L33.2992 4.02996C33.086 3.59734 32.7559
+                                            3.23304 32.3464 2.97829C31.9369 2.72355 31.4642 2.58854 30.9819
+                                            2.58854C30.4996 2.58854 30.027 2.72355 29.6174 2.97829C29.2079 3.23304 28.8779
+                                            3.59734 28.6647 4.02996L21.2944 18.9616Z" fill="#AAAAAA" />
+
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <filter id="filter0_i_29_59" x="2.60034" y="2.58854"
+                                                                                                            width="56.7612" height="58.2333" filterUnits="userSpaceOnUse" color-interpolation-
+                                                                                                            filters="sRGB">
+
+                                                                                                        <feFlood flood-opacity="0"
+                                                                                                                 result="BackgroundImageFix" />
+
+                                                                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                                                                                 in2="BackgroundImageFix" result="shape" />
+
+                                                                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0
+
+                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+
+                                                                                                        <feOffset dy="4" />
+                                                                                                        <feGaussianBlur stdDeviation="2" />
+                                                                                                        <feComposite in2="hardAlpha" operator="arithmetic"
+                                                                                                                     k2="-1" k3="1" />
+
+                                                                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0
+
+                                            0 0 0 0 0 0 0 0.25 0" />
+
+                                                                                                        <feBlend mode="normal" in2="shape"
+                                                                                                                 result="effect1_innerShadow_29_59" />
+                                                                                                    </filter>
+                                                                                                </defs>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                        *@
+                                    </div>
+                                </div>
+
+                                <div class="feedBackContainer">
+                                    @*<textarea class="textAreaFeedback" name="TextArea" id="FeedBackText" maxlength="500" value="" cols="" rows="5">
+
+                                        </textarea>*@
+                                    <textarea class="textAreaFeedback" name="TextArea" id="FeedBackText" maxlength="500" value="" cols="" rows="5" onclick="this.select();"></textarea>
+
+                                    <button class="feedbackSubmitBtn" style="background:@fbList[0].Text_Button_Colour !important" data-bs-
+                                            dismiss="modal" onclick="func()">
+                                        Submit
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    }
+
+}
+
+<div class="customflybutton" id="customflybutton">
+
+    <a href="javascript:void(0);" class="float" id="backfloat">
+
+        <i class="fa fa-fw my-float" aria-hidden="true" title="Go Back"></i>
+    </a>
+</div>
+
+<script src="~/Content/New_Landing_Page/dub/dashboardmain.js"></script>
+
+
+<script>
+    var AssessmentID = 0;
+    var IsSetAssessment = 1;
+    var clickCount = 0;
+    var isPopupShown = false;
+    $(document).ready(function () {
+         var fblis = @Html.Raw(Json.Encode(ViewData["feedbackList"]));
+        console.log("fblist", fblis)
+        console.log(fblis.Count)
+        console.log(fblis == null || fblis.Count == 0);
+        console.log(fblis != null || fblis.Count != 0);
+
+        setInterval(function () {
+
+            if (AssessmentID > 0) {
+                GetKPIScoreData();
+                CalculateInduction(AssessmentID);
+
+
+            }
+        }, 5000);
+        TranslateAuthentication();
+
+    });
+
+    function DisabledEnableClick(ctrl, event, IsCourseCompleted, IsContentRead, AssessmentId) {
+        debugger
+        @*var isLinkDisabled = @Html.Raw(isLinkDisabled.ToString().ToLower());
+        if (isLinkDisabled) {
+            $('#lnk_' + AssessmentId).addClass('disabled-link').on('click', function (event) {
+                event.preventDefault();
+            });
+
+            setTimeout(function () {
+                $('#lnk_' + AssessmentId).removeClass('disabled-link').off('click');
+            }, 5000);
+        }*@
+            var isLinkDisabled = @Html.Raw(isLinkDisabled.ToString().ToLower());
+
+
+        if (isLinkDisabled) {
+            $('#lnk_' + AssessmentId).addClass('disabled-link').on('click', function (event) {
+                event.preventDefault();
+            });
+
+            setTimeout(function () {
+                $('#lnk_' + AssessmentId).removeClass('disabled-link').off('click').on('click', function () {
+                    clickCount++;
+                    console.log('Link clicked ' + clickCount + ' times after re-enabling.');
+                    CalculateInduction(AssessmentId); // Call CalculateInduction each time the link is clicked
+                });
+            }, 5000);
+        }
+
+        var id = ctrl.replace('lnk_', '');
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+        var CatId; var Timestamp;
+        var LastAssessmentGap = $('#hdnLastAttempt_' + id).val();
+        $.ajax({
+            url:ApplicationUrl+'Dashboard/ReturnContentRead?CategoryID=' + @detail.CATEGORY.CategoryID+ '&AssId=' + AssessmentId,
+            type: "POST",
+            cache: false,
+            async: false,
+            success: function (data) {
+                CatId = data.TotalContent;
+                Timestamp = data.Duration;
+            }
+        });
+        if (Timestamp !="") {
+            IsSetAssessment = 0;
+            $('#' + ctrl).prop('disabled', true);
+            alert(Timestamp);
+            $('#' + ctrl).unbind('click');
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return false;
+        }
+        else if (CatId == 0) {
+            IsSetAssessment = 0;
+            $('#' + ctrl).prop('disabled', true);
+            alert("Please read the complete content to attempt the Assessment!!");
+            $('#' + ctrl).unbind('click');
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return false;
+        }
+        else {
+            IsSetAssessment = 1;
+            $('#' + ctrl).prop('disabled', false);
+            $('#' + ctrl).unbind('click');
+        //    //////event.preventDefault();
+        //    //////event.stopImmediatePropagation();
+            return false;
+        }
+    }
+
+    function AddProgramCompletionStatus() {
+        var KPIName = "Assessment Score in learning programs";
+        var Score = 5;
+
+        $.ajax({
+            url: '/Dashboard/AddPointsAPI?KPIName=' + KPIName + '&Score=' + Score,
+            type: "POST",
+            data: { KPIName: KPIName, Score: Score },
+            cache: false,
+            async: false,
+            success: function (resul) {
+
+            }
+        });
+    }
+
+    function TranslateAuthentication() {
+     var apiFullValue = "@apiFullValue";
+     debugger
+         $.ajax({
+             url: apiFullValue + "Translate/MakeFirstApiRequest",
+             type: "GET",
+             //data: { KPIName: KPIName, Score: Score },
+             cache: false,
+             async: false,
+             success: function (result) {
+                 // Handle success response
+                 console.log("shubham 123")
+             },
+             error: function (xhr, status, error) {
+                 // Handle error response
+             }
+         });
+
+ }
+
+    function GetKPIScoreData() {
+            var Content_Assessment_ID = AssessmentID;
+            var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+            $.ajax({
+                url: ApplicationUrl + 'api/KPI/GetUserKPILogDetails?AssessmentID=' + Content_Assessment_ID + '&UserID=' + @usersession.ID_USER,
+                type: "POST",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    $('#divTotalScore').html("");
+                    if (data != null && data.length > 0) {
+                        debugger
+                        var TotalScore = 0;
+                        $('.scoreboxContainer').html("");
+                        for (var i = 0; i < data.length; i++) {
+                            var CorrectAnsData = "", td = "";
+                            var correct = '', questions = '';
+                            $('#lblAttemptNo').text(data[i].AttemptNo);
+                            if (data[i].KPI_SubType == 'Right Answer') {
+                                td = "<div class='scorebox'><div class='text-center score'>" + data[i].points_scored + "</div><div class='scoretext text-center'>" + data[i].KPI_Name + ": " + data[i].scoring_value + "/" + data[i].TotalQuestions +"</div></div>";
+                                }
+                            else {
+                                td = "<div class='scorebox'><div class='text-center score'>" + data[i].points_scored + "</div><div class='scoretext text-center'>" + data[i].KPI_Name + " </div></div>";
+                            }
+
+                            $('.scoreboxContainer').append(td);
+
+
+                            var Score = parseInt(data[i].points_scored);
+                            TotalScore = TotalScore + Score;
+                        }
+                        $('#divTotalScore').append(TotalScore);
+                        AssessmentID = 0;
+                        ShowPopup();
+                    }
+                }
+            });
+    }
+
+
+    function CalculateInduction(AsID) {
+        //$('#CoinsScore').html("");
+        //$('#coinsAttempt').html("");
+        //const currentDate = new Date();
+
+        //// Get the current date
+        //const year = currentDate.getFullYear();
+        //const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-indexed
+        //const day = currentDate.getDate().toString().padStart(2, '0');
+
+        //// Get the current time
+        //const hours = currentDate.getHours().toString().padStart(2, '0');
+        //const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+        //const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+        //// Format the date and time
+        //const formattedDate = `${year}-${month}-${day}`;
+        //const formattedTime = `${hours}:${minutes}:${seconds}`;
+        //const contact = formattedDate + ' ' + formattedTime;
+        //var Content_Assessment_ID = AsID;
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+        $.ajax({
+            url: ApplicationUrl + "/Dashboard/CoinsMethod", // Replace with your controller and action method
+            type: "POST",
+            data: {
+                AssessmentID: AsID,
+                UserID: @usersession.ID_USER,
+               // contact: contact
+
+            }, // Pass AsID as data if needed
+            success: function (data) {
+                debugger;
+
+                if (data.Coin == 0 && data.AttemptNo == 0) {
+
+                }
+                else {
+                    if (data.Coin != null) {
+
+                        console.log(data.Coin);
+                        console.log(data.AttemptNo);
+                        $('#coinsAttempt').empty();
+                        $('#CoinsScore').empty();
+                        var coinAttemptNo = data.AttemptNo;
+                        if (coinAttemptNo > 2) {
+                            $('#coinsAttempt').append(data.AttemptNo);
+                            $('#coinsText').text('You have completed the assessment successfully')
+                        }
+                        else {
+                            var img = $('<img>').attr('src', '../Templates/images/assignment/Rewardpoint.png').addClass('me-2').attr('alt', '');
+                            $('#CoinsScore').prepend(img);
+                            $('#CoinsScore').append(data.Coin);
+                            $('#coinsAttempt').append(data.AttemptNo)
+                        }
+                        //AssessmentID = 0;
+                        //ShowCoinPopup();
+                        if (!isPopupShown) {
+                            isPopupShown = true; // Set the flag to true
+                            ShowCoinPopup();
+                            //$('#CoinsScore').html("");
+                            //$('#coinsAttempt').html("");// Show the popup
+                        }
+                    }
+                }
+
+
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Error occurred:", error);
+            }
+        });
+    }
+
+
+        //change for
+    function CalculateInduction1(AsID) {
+        const currentDate = new Date();
+
+        // Get the current date
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-indexed
+        const day = currentDate.getDate().toString().padStart(2, '0');
+
+        // Get the current time
+        const hours = currentDate.getHours().toString().padStart(2, '0');
+        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+        const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+        // Format the date and time
+        const formattedDate = `${year}-${month}-${day}`;
+        const formattedTime = `${hours}:${minutes}:${seconds}`;
+        const contact = formattedDate + ' ' + formattedTime;
+        var Content_Assessment_ID = AsID;
+       var ApplicationUrl = $('#hdnApplicationUrl').val();
+         $.ajax({
+             url: ApplicationUrl + 'api/KPI/CalculateInduction?AssessmentID=' + Content_Assessment_ID + '&UserID=' + @usersession.ID_USER + '&contact=' + contact,
+         type: "POST",
+         //data: JSON.stringify(oParam),
+         cache: false,
+         async: false,
+             success: function (data) {
+                 debugger;
+                 $('#CoinsScore').html("");
+                 $('#coinsAttempt').html("");
+                 if (data.Coin == 0 && data.AttemptNo == 0) {
+
+                 }
+                 else {
+                     if (data.Coin != null) {
+
+                         console.log(data.Coin);
+                         console.log(data.AttemptNo);
+                         $('#coinsAttempt').empty();
+                         $('#CoinsScore').empty();
+                         var coinAttemptNo = data.AttemptNo;
+                         if (coinAttemptNo > 2) {
+                             $('#coinsAttempt').append(data.AttemptNo);
+                             $('#coinsText').text('You have completed the assessment successfully')
+                         }
+                         else {
+                             var img = $('<img>').attr('src', '../Templates/images/assignment/Rewardpoint.png').addClass('me-2').attr('alt', '');
+                             $('#CoinsScore').prepend(img);
+                             $('#CoinsScore').append(data.Coin);
+                             $('#coinsAttempt').append(data.AttemptNo)
+                         }
+                         AssessmentID = 0;
+                         ShowCoinPopup();
+                     }
+                 }
+
+
+             }
+         });
+
+    }
+
+
+        function ShowPopup() {
+            $('#pointspopup').modal('show');
+        }
+    function ShowCoinPopup() {
+        $('#coinspopup').modal('show');
+    }
+
+    function SetAssessmentID(AsID) {
+       // CalculateInduction(AsID);
+        if (IsSetAssessment==1) {
+            AssessmentID = AsID;
+        }
+    }
+</script>
+<script type="text/javascript">
+
+
+
+
+    //function func() {
+    //    var ApplicationUrl = $('#hdnApplicationUrl').val();
+    //    var FeedBackText = document.getElementById("FeedBackText").value.replace(/\n/g, "").trim();
+
+    //    var ContentId = document.getElementById("CatId").value;
+    //    var CategoryName = document.getElementById("CatName").value;
+    //    debugger;
+    //    if (FeedBackText === "") {
+    //        alert("FeedBack cannot be empty.");
+    //        return false;
+    //    }
+    //    else if (FeedBackText.length = 0) {
+    //        alert("FeedBack cannot contain only spaces.");
+    //        return false;
+    //    }
+    //    else {
+
+
+    //        //if (FeedBackText == null || FeedBackText == "") {
+    //        //    alert("Please give the feedback");
+    //        //    return false;
+    //        //}
+    //        $.ajax({
+    //            url: ApplicationUrl + 'Dashboard/Feedback',
+    //            type: 'POST',
+    //            cache: false,
+    //            data: { TextArea: FeedBackText, ContentId: ContentId, CategoryName: CategoryName },
+    //            success: function (data) {
+    //                if (data.TotalContent == 1) {
+    //                    $('#FeedbackPopup').modal('hide');
+    //                    $('#FeedBackText').val("");
+    //                    alert("Feedback Successfully Submitted");
+    //                } else {
+    //                    alert("Feedback Failed to Submit");
+    //                }
+    //            }
+    //        });
+    //    }
+    //}
+    function func() {
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+        var FeedBackText = $('#FeedBackText').val().trim();
+        var ContentId = $('#CatId').val();
+        var CategoryName = $('#CatName').val();
+        debugger;
+        if (FeedBackText === "") {
+            alert("Feedback cannot be empty.");
+            return false;
+        } else if (FeedBackText.length === 0) {
+            alert("Feedback cannot contain only spaces.");
+            return false;
+        } else {
+            $.ajax({
+                url: ApplicationUrl + 'Dashboard/Feedback',
+                type: 'POST',
+                data: {
+                    TextArea: FeedBackText,
+                    ContentId: ContentId,
+                    CategoryName: CategoryName
+                },
+                success: function (data) {
+                    if (data.TotalContent == 1) {
+                        $('#FeedbackPopup').modal('hide');
+                        $('#FeedBackText').val("");
+                        alert("Feedback Successfully Submitted");
+                    } else {
+                        alert("Feedback Failed to Submit");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+        }
+    }
+
+
+    function OpenFeedback() {
+        debugger;
+        $.ajax({
+            url: '/Dashboard/FeedbackGetData',
+            type: 'POST',
+            success: function (response) {
+                debugger;
+                // Handle success, maybe remove the row from the UI
+                if (response.success) {
+                    $('#FeedbackPopup').modal('show');
+
+
+                } else {
+                    alert('Failed to delete the record.');
+                }
+            },
+            error: function () {
+                alert('Error occurred while deleting the record.');
+            }
+        });
+    }
+
+
+
+
+
+
+</script>
+<script>
+    function showLoader() {
+        // Display the loader
+        $("#loading").show();
+
+        // Optionally, you can perform additional actions before navigating to the next page
+        console.log('Loader displayed');
+        // After a delay (simulating some asynchronous operation), hide the loader and navigate
+        setTimeout(function () {
+            $("#loading").hide();
+
+            console.log('Loader hidden');
+        }, 2000);
+    }
+</script>
+<script src="~/Content/New_Landing_Page/dub/dashboardmain.js"></script>
+<style>
+    .textAreaFeedback::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .textAreaFeedback::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #919191;
+    }
+
+    .textAreaFeedback::-webkit-scrollbar-track {
+        background: transparant;
+    }
+
+    .popup-body {
+        max-height: 75vh !important;
+        width: auto;
+        background: #FFFFFF;
+        border-radius: 5px;
+    }
+
+    .cross-button {
+        padding: 2% 0%;
+        color: #000;
+        background: #FFF;
+        width: 3vh;
+        height: 3vh;
+        border-radius: 100%;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .succesiocn {
+        border-radius: 100%;
+        height: 10vh;
+        width: 10vh;
+        border: 0.5px solid #D3D3D3;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        margin-top: -42px;
+        padding: 1rem !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0px;
+    }
+
+        .succesiocn img {
+            height: 7vh;
+            width: 7vh;
+        }
+
+    .commonfontstyle {
+        color: #000;
+        font-style: normal;
+        text-align: center;
+    }
+
+    .attempt {
+        font-size: 1em;
+        font-weight: 400;
+        line-height: 24.5px;
+        letter-spacing: 0.6px;
+        margin-top: 3px !important;
+    }
+
+    .rewardPoint {
+        font-size: 2em;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -0.48px;
+    }
+
+    .successText {
+        font-size: 1.3em;
+        font-weight: 400;
+        line-height: 26.5px;
+        letter-spacing: 0.6px;
+        padding: 1% 18%;
+    }
+
+    .scorebox {
+        width: 40%;
+        min-height: 50px;
+        border-radius: 8px;
+        border: 1px solid #000;
+        background: #FFF;
+        display: grid;
+        place-content: center;
+        margin: 2% 4%;
+        padding: 2% !important;
+    }
+
+    .scoreboxContainer {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        place-content: center;
+        margin: 2% 0% 0%;
+        color: #000;
+        font-size: 1em;
+        font-style: normal;
+        font-weight: 200;
+        /* line-height: 24.5px; */
+        letter-spacing: 0.6px
+    }
+
+    .notmasteryPoint {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .score {
+        color: #000;
+        font-size: 0.875em;
+        font-style: normal;
+        font-weight: 700;
+        /* line-height: 24.5px; */
+        letter-spacing: 0.6px;
+    }
+
+    .scoretext {
+        color: #000;
+        font-size: 0.625em;
+        font-style: normal;
+        font-weight: 400;
+        /* line-height: 24.5px;  */
+        letter-spacing: 0.6px;
+    }
+
+    .success-box {
+        display: flex;
+        justify-content: center
+    }
+
+    .cross-button {
+        padding: 2% 0%;
+        border-radius: 100%;
+        color: #000;
+        background: #fff;
+        width: 3vh;
+        height: 3vh;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer
+    }
+
+    .cross-button-box {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .Ballon {
+        height: 30vh;
+    }
+
+    @@media screen and (min-width:270px) and (max-width:767px) {
+        .Ballon {
+            max-height: 23vh;
+        }
+    }
+</style>
+<style>
+    #FeedbackPopup {
+    }
+
+    .pop-header {
+        border-radius: 0.49rem 0.49rem 0rem 0rem;
+        background: #E2001A;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        height: 7vh;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        align-items: center;
+        color: #FFF;
+    }
+
+    .popup-title {
+        color: #FFF;
+        font-family: sans-serif;
+        font-size: 1em;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-align: center;
+    }
+
+    .ginie_image {
+        /* width: 200px;
+    height: 200px; */
+        width: 60%;
+        filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.45));
+        margin-top: -10vh;
+    }
+
+    .content-modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ratingContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ratingTitle {
+        color: #AAA;
+        font-family: sans-serif;
+        font-size: 1.3em;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        display: flex;
+        justify-content: center;
+        margin-right: 2em;
+    }
+
+    .textAreaFeedback {
+        border-radius: 1.25rem;
+        border: 1px solid #797979;
+        width: 95%;
+        padding: 0.5em;
+        margin-top: 0.5em;
+    }
+
+    .feedBackContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .feedbackSubmitBtn {
+        border: none;
+        border-radius: 0.625rem;
+        background: #E2001A;
+        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.25) !important;
+        width: auto;
+        height: auto;
+        flex-shrink: 0;
+        color: #fff;
+        margin-top: 0.5em;
+        padding: 1% 2%;
+    }
+
+    .starContainer {
+        display: flex;
+    }
+
+    .star {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+        .star:hover,
+        .star.active {
+            color: #FFB23F;
+        }
+
+    @@media screen and (min-width:270px) and (max-width:767px) {
+        .ginie_image {
+            width: 100%;
+        }
+    }
+</style>
+

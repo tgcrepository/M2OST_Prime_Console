@@ -1,0 +1,975 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AnswerStep";
+    List<IBHFL.Models.NewAnswerSteps> detail = (List<IBHFL.Models.NewAnswerSteps>)ViewData["obj"];
+    IBHFL.Models.AnswerResponse content = (IBHFL.Models.AnswerResponse)ViewData["additional"];
+    int sCount = (int)ViewData["sCount"];
+    int i = 1;
+    string message = (string)ViewData["message"];
+    int z = 1;
+
+}
+<script src="~/Content/New_Landing_Page/dub/dashboardmain.js"></script>
+<style>
+    pre {
+        display: block;
+        unicode-bidi: embed;
+        font-family: Calibri;
+        white-space: pre-line;
+        font-size: 16px;
+    }
+
+    /*   added new css for zoom the image in modal function by sridhar on 3-7-2018*/
+    /* The Modal (background) */
+    .modal {
+        margin-top: 3%;
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 50px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 95%;
+        height: 550px;
+    }
+
+
+    /* Add Animation */
+    .modal-content, #caption {
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    /* The Close Button */
+    .close1 {
+        position: absolute;
+        top: 5px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .close1:hover,
+        .close1:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    /* end of  sridhar code*/
+    .products-innerview {
+        inset: 50px 18px 62px 16px !important;
+        background:none;
+    }
+
+</style>
+<body oncontextmenu="return false">
+
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+
+    <div class="products-innerview">
+        <div class="" id="" style="font-size:12px;">
+            <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+            <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+            <div class="barscroll" style="border-bottom: solid; border-width: 1px;overflow: hidden; height: 29px;">
+                <ul class="nav nav-tabs list" id="myTab">
+                    @foreach (var itm in detail)
+                    {
+                        <li class="steplist" style="">
+
+                            <a href="#tab_@i" title="Step @i"
+                               data-toggle="tab" style="font-size:12px;padding:7px"><span>Step @i</span></a>
+                        </li>
+                        i++;
+                    }
+                </ul>
+            </div>
+        </div>
+
+        @{ i = 1; }
+
+        <div class="tab-content" style="padding: 1%;margin-left: 0%;width:100%">
+
+            @foreach (var steps in detail)
+            {
+                <div class="tab-pane" id="tab_@i">
+
+                    <div class="clearfix"></div>
+                    <div class="" style="border-bottom:1px solid #ddd;margin-top:5px;">
+
+                        @if (steps.ID_THEME == 8)
+                        {
+                            <div class="" style="">
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 9)
+                        {
+                            <div class="" style="">
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                            </div>
+
+                        }
+                        else if (steps.ID_THEME == 10)
+                        {
+                            <div class="" style="">
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                            </div>
+
+                        }
+                        else if (steps.ID_THEME == 11)
+                        {
+                            <div class="row" style="">
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 12)
+                        {
+                            <div class="row" style="">
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                <a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 13)
+                        {
+                            <div class="row" style="">
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG3">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG3">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG3" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG4">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG4">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG4" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART4  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 14)
+                        {
+                            <div class="row" style="">
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG3">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG3">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG3" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG4">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG4">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG4" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART4  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG5">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG5">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG5" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART5  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG6">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG6">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG6" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART6  </pre>
+                            </div>
+
+                        }
+                        else if (steps.ID_THEME == 15)
+                        {
+                            <div class="row" style="">
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG3">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG3">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG3" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG4">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG4">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG4" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART4  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG5">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG5">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG5" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART5  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG6">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG6">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG6" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART6  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG7">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG7">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG7" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART7  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG8">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG8">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG8" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART8  </pre>
+                            </div>
+
+                        }
+                        else if (steps.ID_THEME == 16)
+                        {
+                            <div class="row" style="">
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG3">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG3">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG3" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 17)
+                        {
+                            <div class="row" style="">
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG3">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG3">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG3" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART3  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG4">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG4">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG4" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART4  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG5">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG5">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG5" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART5  </pre>
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG6">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG6">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG6" />
+                                @{z++;}
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART6  </pre>
+                            </div>
+
+                        }
+                        else if (steps.ID_THEME == 18)
+                        {
+                            <div class="row" style="">
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 19)
+                        {
+                            <div class="" style="">
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                <br />
+                                <br />
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                @{z++;}
+                                <br />
+                                <br />
+                                <br />
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                <br />
+                                <br />
+                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG2">
+                                </a>*@
+                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG2">
+                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG2" />
+                                @{z++;}
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 20)
+                        {
+                            <div class="row" style="">
+                                <table class="table table-bordered" style="background-color:#e1f3fa">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="" style="background-color:#4f3a2a;border-radius:15px;padding: 2px 5px 2px 5px;color:white">Technical Aids</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" style="background-color:#4f3a2a;border-radius:15px;padding: 2px 5px 2px 5px;color:white">Do</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 21)
+                        {
+                            <div class="row" style="">
+                                <table class="table table-bordered" style="background-color:#e1f3fa">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="" style="background-color:#4f3a2a;border-radius:15px;padding: 2px 5px 2px 5px;color:white">Say</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" style="background-color:#4f3a2a;border-radius:15px;padding: 2px 5px 2px 5px;color:white">Ask</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 22)
+                        {
+                            <div class="row" style="">
+                                <table class="table table-bordered" style="background-color:#e1f3fa">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="" style="background-color:#4f3a2a;border-radius:15px;padding:  2px 5px 2px 5px;color:white">Say</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @*<a data-fancybox="gallery" href="@steps.ANSWER_STEPS_IMG1">
+                                                </a>*@
+                                                <img onclick="img_zoom(@z)" class="img" style="width:100%" src="@steps.ANSWER_STEPS_IMG1">
+                                                <input type="hidden" id="@(z)_img" value="@steps.ANSWER_STEPS_IMG1" />
+                                                @{z++;}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="control-label" style="background-color:#4f3a2a;border-radius:15px;padding:  2px 5px 2px 5px;color:white">Ask</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 23)
+                        {
+                            <div class="row" style="">
+                                <table class="table table-bordered" style="background-color:#e1f3fa">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label class="" style="background-color:#4f3a2a;border-radius:15px;padding:  2px 5px 2px 5px;color:white">Notes</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="" style="background-color:#4f3a2a;border-radius:15px;padding:  2px 5px 2px 5px;color:white">Variations</label>
+                                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART2  </pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 24)
+                        {
+                            <div class="row" style="">
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 25)
+                        {
+                            <div class="row" style="">
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+
+                                @*<video id="video"id="video"src="" autostart="true"  controls controlsList="nodownload" showcontrols="true" showstatusbar="1" bgcolor="white" width="623" height="310"></video>*@
+                                <video id="video" src="@steps.ANSWER_STEPS_IMG1" autostart="true" controls controlsList="nodownload" bgcolor="white" width="100%" height="310"></video>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 26)
+                        {
+
+                            <div class="row" style="">
+                                <pre style="padding:3%;"> @steps.ANSWER_STEPS_PART1  </pre>
+                                @{
+                                    string input = @steps.ANSWER_STEPS_IMG1;
+                                    string output = input.Substring(input.IndexOf("v=") + 2);
+
+                                }
+                                <iframe width="100%" height="345" src="https://www.youtube.com/embed/@output"></iframe>
+                            </div>
+                        }
+                        else if (steps.ID_THEME == 27)
+                        {
+                            <div class="row" style="" align="center">
+                                @Html.Raw(steps.ANSWER_STEPS_PART1)
+                            </div>
+
+                        }
+                    </div>
+                </div>
+
+                i++;
+            }
+        </div>
+
+        <!---------------------------------------Steps content------------------------------------------------------------------------------->
+
+        <div class="qa-footer" style="">
+
+            <div class="col-md-6">
+                @*@if (StepCount > 0)
+                {
+                    <a href="@Url.Action("AnswerStep", "Dashboard", new { ID_CONTENT_ANSWER = @content.ID_CONTENT_ANSWER, ContentID= @content.ID_CONTENT })"><i style="font-size:30px;color:#620382" class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                }*@
+                @if (sCount > 0)
+                {
+                    <a href="@Url.Action("LinksView", "Dashboard", new { ID_CONTENT_ANSWER = @content.ID_CONTENT_ANSWER })" style="margin-left:5%" class="hvr-icon-linkwobble-horizontal"> Link </a>
+                    @*<a style="padding-left:5%" href="@Url.Action("LinksView", "Dashboard", new { ID_CONTENT_ANSWER = @content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-link"></i></a>*@
+                }
+                @*@if (aCount > 0)
+                {
+                    <i style="color:#910a07" class="glyphicon glyphicon-list-alt"></i>
+                }*@
+            </div>
+            <div class="like-dislike" align="right">
+                @*<a href="@Url.Action("LikeContentStep", "Dashboard", new { choice = 1, cid = @content.ID_CONTENT,IDcontentanswer= @content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-up"></i></a>
+                <a style="padding-left:5%" href="@Url.Action("LikeContentStep", "Dashboard", new { choice = 0, cid = @content.ID_CONTENT,IDcontentanswer= @content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-down"></i></a>*@
+                <a href="@Url.Action("LikeContentStep", "Dashboard", new { choice = 1, cid = @content.ID_CONTENT,IDcontentanswer= @content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-up hvr-icon-up"></i></a>
+                <a style="padding-left:5%" href="@Url.Action("LikeContentStep", "Dashboard", new { choice = 0, cid = @content.ID_CONTENT,IDcontentanswer= @content.ID_CONTENT_ANSWER })"><i style="font-size:30px;color:gray" class="glyphicon glyphicon-thumbs-down hvr-icon-down"></i></a>
+            </div>
+
+            <br />
+        </div>
+        <div class="">
+            <br />
+            @if (content.LinkedQuestion == null || content.LinkedQuestion.Count == 0)
+            {
+                @*<div class="">
+                    <div class="col-md-12" align="center">
+                        <h3 style="color:black;background-color:white" class="categories_header_text"> No Linked Queries Found</h3>
+                    </div>
+                </div>*@
+            }
+            else
+            {
+
+
+                bool flag_color_change = true;
+                @*<div class="col-md-12">
+                    <div class="row">
+                        <div id="list_view" style="">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                                            <strong>   Linked Queries</strong>
+                                        </a>
+                                    </h4>
+
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <table class="table " width="100%;">
+
+
+
+                                            @foreach (IBHFL.Models.SearchResponce itm in content.LinkedQuestion)
+                                            {
+                                                if (flag_color_change == true)
+                                                {
+                                                    flag_color_change = false;
+                                                    <tr>
+                                                        <td class="odd" style="background-color:#d4d9d9">
+                                                            <a style="color :#000000" href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+
+                                                    flag_color_change = true;
+                                                    <tr>
+                                                        <td class="odd" style="background-color:white">
+                                                            <a style="color :#000000" href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+
+            }
+
+            @if (content.RelatedQuestion == null || content.RelatedQuestion.Count == 0)
+            {
+                @*<div class="row">
+                    <div class="col-md-12" align="center">
+                        <h3 style="color:black;background-color:white" class="categories_header_text">No Related Queries Found</h3>
+                    </div>
+                </div>*@
+            }
+            else
+            {
+
+                bool flag_color_change = true;
+
+                @*<div class="col-md-12">
+                    <div class="row">
+                        <div id="list_view" style="">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <strong> Related Queries</strong>
+                                        </a>
+                                    </h4>
+
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <table class="table " width="100%;">
+                                            @foreach (IBHFL.Models.SearchResponce itm in content.RelatedQuestion)
+                                            {
+                                                if (flag_color_change == true)
+                                                {
+                                                    flag_color_change = false;
+                                                    <tr style="background-color:#a0e18a">
+                                                        <td class="odd" style="background-color:#d4d9d9">
+                                                            <a style="color :#000000" href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+
+                                                    flag_color_change = true;
+                                                    <tr style="background-color:#a0e18a">
+                                                        <td class="odd" style="background-color:white">
+                                                            <a style="color :#000000" href="@Url.Action("ProductQueAns", "Dashboard" , new { ContentID=@itm.ID_CONTENT,CategoryID=content.ID_CATEGORY })">@itm.CONTENT_QUESTION</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>*@
+
+
+            }
+        </div>
+    </div>
+        <br />
+
+        <br />
+        <br />
+
+        @*modal value appending in this div*@
+        <div id="myModal" class="modal">
+            <span class="close1">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
+
+        @if (message != null)
+        {
+            <script>
+                            alert("@message")
+            </script>
+        }
+        <br />
+
+        <script>
+            //$('[data-fancybox]').fancybox({
+            //    protect: true, buttons: [
+            //        'slideShow',
+            //        'fullScreen',
+            //        'thumbs',
+            //        'zoom',
+            //        'close'
+            //    ],
+            //});
+
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            var img = document.getElementById('myImg');
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+
+            function img_zoom(id) {
+                //console.log(modalImg);
+                modal.style.display = "block";
+                var src = $("#" + id + "_img").val();
+                modalImg.src = src;
+                //captionText.innerHTML = this.alt;
+            }
+
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close1")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+        </script>
+
+        <style>
+            .barscroll {
+                position: relative;
+                /*margin: 0 auto;*/
+                margin: 0px 35px 10px 20px;
+                overflow: hidden;
+                padding: 5px;
+                height: 29px;
+            }
+
+            .list {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                min-width: 650px;
+                margin-left: 12px;
+                margin-top: 0px;
+            }
+
+                .list li {
+                    display: table-cell;
+                    position: relative;
+                    text-align: center;
+                    cursor: grab;
+                    cursor: -webkit-grab;
+                    color: #efefef;
+                    vertical-align: middle;
+                }
+
+            .scroller {
+                text-align: center;
+                cursor: pointer;
+                /*display: none;*/
+                padding: 7px;
+                padding-top: 7px;
+                white-space: normal;
+                vertical-align: middle;
+                background-color: #fff;
+            }
+
+            .scroller-right {
+                float: right;
+            }
+
+            .scroller-left {
+                float: left;
+            }
+        </style>
+        <style>
+            .panel-title > a:before {
+                float: right !important;
+                font-family: FontAwesome;
+                content: "\f068";
+                padding-right: 5px;
+            }
+
+            .panel-title > a.collapsed:before {
+                float: right !important;
+                content: "\f067";
+            }
+
+            .panel-title > a:hover,
+            .panel-title > a:active,
+            .panel-title > a:focus {
+                text-decoration: none;
+            }
+        </style>
+
+        <script>
+            $(document).ready(function () {
+                activaTab('tab_1');
+            });
+
+            function activaTab(tab) {
+                $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+            };
+
+            var hidWidth;
+            var scrollBarWidths = 60;
+
+            var widthOfList = function () {
+                var itemsWidth = 0;
+                $('.list li').each(function () {
+                    var itemWidth = $(this).outerWidth();
+                    itemsWidth += itemWidth;
+                });
+                return itemsWidth;
+            };
+
+            var widthOfHidden = function () {
+                return (($('.barscroll').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
+            };
+
+            var getLeftPosi = function () {
+                return $('.list').position().left;
+            };
+
+            var reAdjust = function () {
+                if (($('.barscroll').outerWidth()) < widthOfList()) {
+                    $('.scroller-right').show();
+                }
+                else {
+                    $('.scroller-right').hide();
+                }
+
+                if (getLeftPosi() < 0) {
+                    $('.scroller-left').show();
+                }
+                else {
+                    $('.item').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow');
+                    $('.scroller-left').hide();
+                }
+            }
+
+            reAdjust();
+
+            $(window).on('resize', function (e) {
+                reAdjust();
+            });
+
+            $('.scroller-right').click(function () {
+
+                $('.scroller-left').fadeIn('slow');
+                $('.scroller-right').fadeOut('slow');
+
+                $('.list').animate({ left: "+=" + widthOfHidden() + "px" }, 'slow', function () {
+
+                });
+            });
+
+            $('.scroller-left').click(function () {
+
+                $('.scroller-right').fadeIn('slow');
+                $('.scroller-left').fadeOut('slow');
+
+                $('.list').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow', function () {
+
+                });
+            });
+        </script>
+
+        <div class="customflybutton" id="customflybutton">
+
+            <a href="javascript:void(0);" class="float" id="backfloat">
+
+                <i class="fa fa-fw my-float" aria-hidden="true" title="Go Back"></i>
+            </a>
+        </div>
+
+        <script>
+            $(".steplist").click(function () {
+
+                $("#video").each(function () {
+                    $(this).get(0).pause();
+                });
+
+                $("iframe").each(function () {
+                    var src = $(this).attr('src');
+                    $(this).attr('src', src);
+                });
+
+            });
+        </script>
+</body>

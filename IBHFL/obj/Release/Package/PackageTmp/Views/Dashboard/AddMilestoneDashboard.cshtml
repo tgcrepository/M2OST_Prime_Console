@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@model List<IBHFL.tbl_user>
+@{
+    int i = 1;
+    int j = 1;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour-standalone.css" integrity="sha512-ORucsD7YODPUurPZ4qD14QH3p1hLaNNtLH1mGvAWvNpAQ3LsotwDXE6er5GwAKW2LzX/Sg1T5Y502DbCwIQQpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour-standalone.min.css" integrity="sha512-Ip/QaNzZ+ktVF+SKYnWTriTa3MY5PB1toFS0wmFUuqoHEmxhfUn8dQUse70nJdonrKvwmYYvAGByX9pjePYboA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour.css" integrity="sha512-k0XYpyAS0ktvoOnp8InzAZm15/dYemXkB93kb/y84EwWMYu4YN0feGXwKLK37qKoF1oaPAZnooxJgtm4sjqA1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour.min.css" integrity="sha512-sFyS37kke5UvcMHcV8k0NSAT2QWjeLEXKVm0JOXgFd8cd1XMMWqez/mL64g6m+HAS8jBjvPwi5ctTiYX2BRRpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour.min.js" integrity="sha512-kcDHM4gaMoZGaCaJ56XjGiknuwMeQFxssvIDnuuCp22PJYO8XvOeMibWtkdZTZtbPXfvLE9WweEVToVtM/wlMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour-standalone.js" integrity="sha512-/wP19kxPz0T+haB/7K1tSMfZcZYEgE5ng90xWcKMICZkbP2Vkx7IDg0IgZX8QmzmLjhQd66cjE1KcAE+Nu3NqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour-standalone.min.js" integrity="sha512-KlU17Q8b+noPYQtMWXM8BO08lReJoX3AHxYm7Zyi3UpYYkE4ch7r8d82DGitdIE3r82OW20VMQLVwsYyXo99sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour.js" integrity="sha512-2J1oe/iXZZroN8TQl1kbLBqBGp2zyulBVw9IXnFb/Iun6YppB6qncJB0xjkYjsMr+KdiYs5Fs787pjSaeW43Mg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+
+    <!-- leaderboard -->
+    <style>
+        .nav {
+            display: block !important;
+        }
+
+        .dropdown-toggle::after {
+            content: none
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        #web-view {
+            width: 100%;
+            height: 100vh;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        #mobile-view {
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .Tab-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+        }
+
+        .GamePointRewardPointTab {
+            width: 48%;
+            height: 12vh;
+            border-radius: 1rem;
+            border: 2px solid #6dcffc;
+            /* border-image: linear-gradient(to left, #1b2e4e, #6dcffc);
+        border-image-slice: 1; */
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .rewardAndPoint {
+            height: 10vh;
+        }
+
+            .rewardAndPoint img {
+                height: 100%;
+            }
+
+        .rewardPointTitle,
+        .gamePointTitle {
+            color: #000;
+            text-align: center;
+            font-family: 'Lato';
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1.25rem;
+            letter-spacing: 0.025rem;
+        }
+
+        .ledearboardHeader {
+            width: 100%;
+            height: 4vh;
+            border-radius: 0.5rem 0.5rem 0rem 0rem;
+            border: 0.5px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 3% 0% 1%;
+            display: flex;
+            align-items: center;
+            /* gap:1%; */
+            padding: 0% 2%;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .leaderboardRow {
+            width: 100%;
+            height: 6vh;
+            border-radius: 0.375rem;
+            border: 2px solid var(--g, #FEE717);
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin: 1% 0%;
+            display: flex;
+            align-items: center;
+            /* gap:1%; */
+            padding: 0% 2%;
+        }
+
+        .name-web,
+        .team-name {
+            color: #000;
+            font-family: 'Lato';
+            font-size: 1.2rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%;
+            /* 1.125rem */
+        }
+
+        .team-name {
+            margin-top: 3px;
+        }
+
+        .lederboardtext {
+            color: #000;
+            font-family: 'Lato';
+            font-size: 1.5em;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%;
+        }
+
+        .products-innerview {
+            overflow: hidden !important;
+        }
+
+        #ProfileDetails {
+            padding-left: 0px !important;
+        }
+        /*  */
+        .ledearboardBody {
+            height: 24vh;
+            overflow-y: auto;
+        }
+
+        .points-web {
+            padding-left: 6%;
+        }
+
+        #info {
+            width: 80% !important;
+        }
+
+        @@media only screen and (min-height:270px) and (max-height:280px) {
+            .ledearboardBody {
+                height: 26vh !important;
+                overflow-y: scroll;
+            }
+        }
+
+        @@media screen and (min-width:270px) and (max-width:767px) {
+            .modal-content {
+                width: 100%;
+            }
+
+            #web-view {
+                display: none;
+            }
+
+            .rewardAndPoint {
+                height: 50px;
+                width: 50px
+            }
+
+            .points-web {
+                padding-left: 10%;
+            }
+
+            .rewardPointTitle,
+            .gamePointTitle {
+                font-size: 1rem;
+            }
+
+            .ledearboardHeader {
+                font-size: 1.2rem;
+            }
+
+            .GamePointRewardPointTab {
+                height: 8vh;
+            }
+
+            .leaderboardRow {
+                margin: 2% 0%;
+            }
+
+            .ledearboardBody {
+                height: 36vh;
+                overflow-y: scroll;
+            }
+
+            .name-web {
+                white-space: nowrap;
+                width: 90%;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+
+            #info {
+                width: 100% !important;
+            }
+
+            .infoIcon {
+                margin-right: 3px;
+            }
+        }
+
+
+
+        @@media screen and (min-width:767.1px) {
+            #mobile-view {
+                display: none;
+            }
+
+            .modal-content {
+                width: 80%;
+            }
+        }
+
+
+        .infodiv {
+            height: 65vh;
+            width: 100%;
+        }
+
+        .infoIcon {
+            cursor: pointer;
+        }
+    </style>
+
+   
+</head>
+
+<body>
+
+    @*@if ((bool)TempData["tour"] == false)
+
+    {
+        <script>
+            debugger
+            console.log("ADD Milestone")
+            debugger
+            $(document).ready(function () {
+
+                tour.init();
+                tour.start();
+                tour.restart();
+
+            });
+
+        </script>
+    }*@
+
+
+    <div id="web-view">
+        <div class="row top">
+            <div class="col-4"></div>
+            <div class="col-4 d-flex justify-content-center">
+                <div class="lederboardtext" id="leaderboard1">
+                    Leaderboard
+                </div>
+            </div>
+            <div class="col-4" style="display:flex;justify-content:flex-end;padding:0% 2%">
+                <div class="infoIcon" data-bs-toggle="modal" onclick="$('#InfoPopup').modal('show');" data-bs-target="#InfoPopup">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732
+8.26801 30 16 30Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 21.6V16" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 10.4H16.0144" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+
+        <hr>
+        <div class="row">
+
+            <div class="col-12">
+
+                <div class="Tab-container">
+                    <div class="GamePointRewardPointTab" id="gamePoint1">
+                        <div class="rewardAndPoint">
+                            <img class="" src="~/images/lederboard/gamePoints.png" alt=""
+                                 height="100%" width="100%">
+                        </div>
+                        <div class="gamePointTitle">Game Points: @ViewBag.PointsScored </div>
+
+                    </div>
+                    <div class="GamePointRewardPointTab" id="rewardPoint1">
+                        <div class="rewardAndPoint"><img src="~/Images/lederboard/rewardPoints.png" alt=""></div>
+                        <div class="rewardPointTitle">Reward Coins: @ViewBag.CoinPoints</div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="ledearboardHeader">
+                    <div class="col-2 d-flex justify-content-start">
+                        <div class="rank-web">Rank</div>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-7">
+                        <div class="nameHeader-web">Name</div>
+                    </div>
+                    <div class="col-2">
+                        <div class="points-web1">Points</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="leaderboardRow">
+                        <div class="col-2 d-flex justify-content-start">
+                            <div class="rank-web">@ViewBag.MyRank</div>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center">
+                            <div class="profile-web">
+                                @*<img src="~/Images/lederboard/profile.png" alt="" srcset="">*@
+                            </div>
+                        </div>
+
+                        <div class="col-7 d-flex flex-column">
+                            <div class="name-web">@ViewBag.Name </div>
+                            <div class="team-name">@ViewBag.UserId</div>
+                        </div>
+                        <div class="col-2">
+                            <div class="points-web" style="padding-left:4%">@ViewBag.PointsScored</div>
+                        </div>
+                    </div>
+                    <div class="ledearboardBody">
+
+                        @if (Model != null)
+                        {
+                            foreach (tbl_user user in Model)
+                            {
+
+                                <div class="leaderboardRow">
+                                    <div class="col-2 d-flex justify-content-start">
+                                        <div class="rank-web">@user.Dense_Rank</div>
+                                    </div>
+                                    <div class="col-1 d-flex justify-content-center">
+                                        <div class="profile-web">
+                                            @*<img src="~/Images/lederboard/profile.png" alt="" srcset="">*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-7 d-flex flex-column">
+                                        <div class="name-web">@user.FullName</div>
+                                        <div class="team-name">@user.USERID </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="points-web">@user.PointsScored</div>
+                                    </div>
+                                </div>
+                                i++;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="InfoPopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content" id="info">
+
+                <div class="d-flex justify-content-end align-items-center" style="padding:0% 1%;">
+                    <div class="cross-button" onclick="$('#InfoPopup').modal('hide');" data-bs-dismiss="modal" aria-label="Close" style="margin-bottom:5px;font-size:16px">X</div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <div style="padding:0px 8px 8px;" class="infodiv">
+                        <img class="infoImage" src="https://www.m2ost.in/Bata_Content/Image/Leaderboard_Info.png" alt="Info" srcset="" height="100%" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mobile-view">
+        <div class="shedulecontainer">
+            <div class="row top">
+                <div class="col-4"></div>
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="lederboardtext" id="leaderboard">
+                        Leaderboard
+                    </div>
+                </div>
+                <div class="col-4" style="display:flex;justify-content:flex-end;padding:0% 2%">
+                    <div class="infoIcon" data-bs-toggle="modal" onclick="$('#InfoPopup').modal('show');" data-bs-target="#InfoPopup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2C8.26801 2 2 8.26801 2 16C2 23.732
+8.26801 30 16 30Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M16 21.6V16" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M16 10.4H16.0144" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <div class="Tab-container">
+                        <div class="GamePointRewardPointTab" id="gamePoint">
+                            <div class="rewardAndPoint">
+                                <img class="" src="~/images/lederboard/gamePoints.png" alt=""
+                                     height="100%" width="100%">
+                            </div>
+                            <div class="gamePointTitle">
+                                <div>Game Points</div>
+                                <div>@ViewBag.PointsScored</div>
+                            </div>
+
+
+                        </div>
+                        <div class="GamePointRewardPointTab" id="rewardPoint">
+                            <div class="rewardAndPoint"><img src="~/images/lederboard/rewardPoints.png" alt=""></div>
+                            <div class="rewardPointTitle">
+                                <div>Reward Coins</div>
+                                <div>@ViewBag.CoinPoints</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="ledearboardHeader">
+                        <div class="col-2 d-flex justify-content-start">
+                            <div class="rank-web">Rank</div>
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="col-7">
+                            <div class="nameHeader-web">Name</div>
+                        </div>
+                        <div class="col-2">
+                            <div class="points-web1">Points</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="leaderboardRow">
+                            <div class="col-2 d-flex justify-content-start">
+                                <div class="rank-web">@ViewBag.MyRank</div>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <div class="profile-web">
+                                    @*<img src="~/Images/lederboard/profile.png" alt="" srcset="">*@
+                                </div>
+                            </div>
+
+                            <div class="col-7 d-flex flex-column">
+                                <div class="name-web">@ViewBag.Name </div>
+                                <div class="team-name">@ViewBag.UserId</div>
+                            </div>
+                            <div class="col-2">
+                                <div class="points-web" style="padding-left:8%">@ViewBag.PointsScored</div>
+                            </div>
+                        </div>
+                        <div class="ledearboardBody">
+                            @if (Model != null)
+                            {
+                                foreach (tbl_user user in Model)
+                                {
+
+                                    <div class="leaderboardRow">
+                                        <div class="col-2 d-flex justify-content-start">
+                                            <div class="rank-web">@user.Dense_Rank</div>
+                                        </div>
+                                        <div class="col-1 d-flex justify-content-center">
+                                            <div class="profile-web">
+                                                @*<img src="~/Images/lederboard/profile.png" alt="" srcset="" style="margin:-15px;">*@
+                                            </div>
+                                        </div>
+
+                                        <div class="col-7 d-flex flex-column">
+                                            <div class="name-web">@user.FullName</div>
+                                            <div class="team-name">@user.USERID</div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="points-web">@user.PointsScored</div>
+                                        </div>
+                                    </div>
+                                    j++;
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--<script>
+
+    debugger
+      var tour = new Tour({
+      steps: [
+          {
+              element: "#leaderboard1",
+              title: "Leaderboard",
+              content: "Leaderboard Dashboard",
+              placement: "bottom"
+          },
+          {
+              element: "#gamePoint1",
+              title: "Game Point",
+              content: "Game Point",
+              placement: "bottom"
+          },
+          {
+              element: "#rewardPoint1",
+              title: "Reward Point",
+              content: "Reward Point",
+              placement: "bottom"
+          }
+      ],
+      backdrop: true,
+      storage: false,
+
+  });
+
+  var tour = new Tour({
+      steps: steps,
+      backdrop: true,
+      storage: false,
+      onEnd: function (tour) {
+          console.log(tour)
+          var formData = new FormData();
+          formData.append('Page_name','Leaderboard_Page')
+          //var Page_name =
+          debugger;-->
+          @*$.ajax({
+              url: '@Url.Action("ProductTour", "Dashboard")',
+              type: 'POST',
+              processData: false,
+              contentType:false,// Change the type according to your API endpoint
+              data:formData,
+              success: function (data) {
+                  console.log('API call successful');
+              },
+              error: function (xhr, status, error) {
+
+                  console.error('API call failed:', error);
+              }
+          });*@
+      <!--}
+  });
+    </script>-->
+
+</body>
+
+</html>
+
+
+<script>
+
+    function showLoader() {
+        // Display the loader
+        $("#loading").show();
+
+        // Optionally, you can perform additional actions before navigating to the next page
+        console.log('Loader displayed');
+        // After a delay (simulating some asynchronous operation), hide the loader and navigate
+        setTimeout(function () {
+            $("#loading").hide();
+
+            console.log('Loader hidden');
+        }, 5000);
+    }
+
+
+
+
+
+</script>

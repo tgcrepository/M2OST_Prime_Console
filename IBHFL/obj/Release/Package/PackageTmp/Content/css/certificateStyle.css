@@ -1,0 +1,91 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+.bg-container {
+    /* border: 5px solid white; */
+    box-sizing: border-box;
+    background: url('../../certificateFiles/Bg.png') center no-repeat;
+    background-size:cover;
+    /* height: 980px;  */
+    height: 100vh;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.image-container {
+    flex: 1;
+    margin-right: 80px;
+}
+
+.text-container {
+    flex: 5;
+    font-family: "Times New Roman", Times, serif;
+    /* padding-left: 10px; */
+}
+
+.logo {
+    max-width: 100%;
+}
+
+.container1 {
+    /* margin-top: 100px; */
+    font-family: "Times New Roman", Times, serif;
+    font-size: large;
+    width: 90%;
+    padding-left: 40px;
+}
+
+.content2 {
+    /* margin-top: 100px;  */
+    font-family: "Times New Roman", Times, serif;
+    padding-left: 80px;
+    width: 80%;
+}
+
+.flex-container2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-container2 {
+    flex: 1;
+}
+
+.container3 {
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+}
+
+.container3-p {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+}
+
+#footer-img {
+    height: 150px;
+    width: 300px;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+    }
+
+    .bg-container {
+        /* border: 1px solid white; */
+        height: 300px;
+    }
+}

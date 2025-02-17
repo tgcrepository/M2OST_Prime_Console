@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Event List";
+    IBHFL.Models.EventResponse result = (IBHFL.Models.EventResponse)ViewData["obj"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+
+
+
+<style>
+    .type {
+        white-space: pre-line;
+        font-size: 20px;
+        margin-left: -8px;
+    }
+
+    /*.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        color: #fff;
+        cursor: default;
+        background-color: #019934;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        font-size: 20px;
+    }*/
+  
+</style>
+<body oncontextmenu="return false">
+    <div class="container" style="width:100%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-border">
+
+                    <div class="row">
+                        <div class="">
+                            <ul class="nav nav-tabs cstmnav">
+                                @{
+                                    string addition = "class=active";
+                                }
+
+
+                                <li class="active">
+                                    <a href="#tab_1"
+                                       data-toggle="tab" style=" ">Unread</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_2"
+                                       data-toggle="tab" style="">Read</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    @{
+                addition = " active";
+                    }
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="tab_1">
+                            @if (result.UNREAD.Count != 0)
+                            {
+                                foreach (var itm in result.UNREAD)
+                                {
+
+                                    <div class="row" style="border-bottom:1px solid #808080;">
+                                        <div class="" >
+
+                                          
+                                                
+                                                <div class="">
+
+
+                                                    <p>
+                                                        <pre style="background-color:gray;color:white;white-space: pre-line"> Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;@itm.event_title</pre>
+                                                    </p>
+                                                    <p>
+                                                        <pre style="white-space: pre-line"> Event Type&nbsp;:&nbsp;@itm.event_type</pre>
+                                                    </p>
+                                                    <p>
+                                                        <pre style="background-color:gray;color:white;white-space: pre-line"> Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;@itm.MESSAGE</pre>
+                                                    </p>
+                                                    <br />
+
+                                                    <a style="float:right" href="@Url.Action("ScheduledEvent", "Dashboard", new { sid = @itm.id_scheduled_event })"><button class="btn btn-info btn-mini" style="width:100%"><i class="icon-folder-open"></i>Detail</button></a>
+
+                                                </div>
+                                               
+                                            
+                                           
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                        <h4 style="margin-top: 71px;text-align:center">....There are no unread event notifications....</h4>
+                    }
+
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+
+                            @foreach (var itm in result.READ)
+                    {
+                        <div class="row" style="border-bottom:1px solid #808080;">
+                            <div class="">
+                              
+                                <div class="">
+                                 
+                                    <div class="">
+                                      
+
+                                        <p>
+                                            <pre style="background-color:gray;color:white;white-space: pre-line"> Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;@itm.event_title</pre>
+                                        </p>
+                                        <p>
+                                            <pre style="white-space: pre-line"> Event Type&nbsp;:&nbsp;@itm.event_type</pre>
+                                        </p>
+                                        <p >
+                                            <pre style="background-color:gray;color:white;white-space: pre-line"> Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;@itm.MESSAGE</pre>
+                                        </p>
+                                        <br />
+                                    
+                                        <a style="float:right" href="@Url.Action("ScheduledEvent", "Dashboard", new { sid = @itm.id_scheduled_event })"><button class="btn btn-info btn-mini" style="width:100%"><i class="icon-folder-open"></i>Detail</button></a>
+
+                                    </div>
+                                    
+                                </div>
+                               
+                            </div>
+                        </div>
+                    }
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>

@@ -1,0 +1,132 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "ViewShowPdf";
+    bool flag_color_change = true;
+}
+<style>
+    .shadowBox {
+        position: absolute;
+        inset: 50px 27px 62px 27px !important;
+        padding: 10px;
+        background: #d8d8d8;
+        border-radius: 11px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+    }
+     @@media screen and (min-width:270px) and (max-width:767px) {
+        .shadowBox {
+            inset: 50px 10px 62px 10px !important;
+        }
+
+        .padd {
+            padding:0px !important;
+        }
+
+        #pdfImage1 {
+            margin-top:20px;
+            height: 25vh;
+        }
+    }
+</style>
+
+<body oncontextmenu="return false">
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width:100%;">
+        <div class="row shadowBox" align="center">
+            <div class="col-lg-12 padd">
+                <div class="box-border" style="background-image: url('~/Content/images/LinkPage.png');">
+                    <div style="">
+                        <div class="nav-buttons">
+                            <a onclick="previewPage()" class="prev-btn">
+                                <span class="glyphicon glyphicon-chevron-left"></span>  Prev
+                            </a>
+                            <a onclick="nextPage()" class="prev-btn">
+                                <span class="glyphicon glyphicon-chevron-right"></span>  Nxt
+                            </a>
+                        </div>
+
+                        <img id="pdfImage1" src="@ViewBag.ImageDataUrl" alt="PDF Page" style="width:100%;">
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      var currentPage = @Html.Raw(Json.Encode(ViewBag.CurrentPage));
+      var totalPages = @Html.Raw(Json.Encode(ViewBag.TotalPages));
+
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '37') {
+
+                previewPage();
+
+            }
+            else if (e.keyCode == '39') {
+
+                nextPage();
+
+            }
+
+        }
+
+
+
+
+
+
+   function previewPage() {
+
+
+       if (currentPage > 1) {
+           currentPage--;
+           loadPage();
+       }
+   }
+
+   function nextPage() {
+
+
+       if (currentPage < totalPages) {
+           currentPage++;
+           loadPage();
+       }
+   }
+
+    function loadPage() {
+        debugger;
+            $.ajax({
+                type: "GET",
+        url: "@Url.Action("NextPage", "Dashboard")",
+        data: { currentPage: currentPage },
+                success: function (data) {
+                    var data1 = data;
+                    var tempDiv = $("<div>").html(data1)
+                    var imgElement = tempDiv.find("#pdfImage1");
+                    var imageUrl = imgElement.attr("src");
+
+                    /*var imageUrl = $(data).find("#pdfImage1").attr("src");*/
+                    console.log(imageUrl);
+                    $("#pdfImage1").attr("src", imageUrl);
+
+                    },
+                    error: function () {
+                        alert("Error loading PDF page.");
+                    }
+                });
+            }
+
+
+    </script>
+</body>

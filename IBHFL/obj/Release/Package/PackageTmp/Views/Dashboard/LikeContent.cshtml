@@ -1,0 +1,69 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "LikeContent";
+    int cid = (int)ViewData["cid"];
+    string mes = (string)ViewData["mes"];
+    int x = 10;
+	    int catID = (int)ViewData["catID"];
+}
+
+<body oncontextmenu="return false">
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width:100%">
+
+        <form class="form-horizontal" method="post" action="@Url.Action("emaildata", "Dashboard")">
+            <h4 align="center" style="">Please Send Us Your Feedback</h4>
+            <input type="hidden" name="cid" value="@cid" />
+            <input type="hidden" name="mes" value="@mes" />
+			            <input type="hidden" name="CAT" value="@catID" />
+
+            <div class="form-group col-md-12">
+                <div class="col-md-2">
+                    <label for="" style="color:#000000">To</label>
+                </div>
+                <div class="col-md-10">
+                    <h6 style="color:#000000">paathshala-learningtech@paathshala.biz</h6>
+                </div>
+
+
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-2">
+                    <label for="" style="color:#000000">Subject</label>
+                </div>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="sub" name="sub">
+                </div>
+
+
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-2">
+                    <label for="" style="color:#000000">Message</label>
+                </div>
+                <div class="col-md-10">
+                    <textarea class="form-control" rows="5" id="msg" name="msg"></textarea>
+                </div>
+
+
+                @*<input type="text" class="form-control" id="msg" name="msg">*@
+            </div>
+
+            <div class="form-group col-md-12 ">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-success" style="background-color:#019934">Send</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</body>

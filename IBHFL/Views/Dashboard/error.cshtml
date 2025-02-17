@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "error";
+ 
+}
+
+    <body class="error-page" oncontextmenu="return false">
+        <section>
+            <div class="container" style="width:75%;">
+                <section class="error-wrapper text-center">
+                    <h1>
+
+                        <img src="~/Content/images/404-error1.png" />
+                    </h1>
+                    <h2>Sorry Something went wrong</h2>
+                    <h1>You Will be redirected to Home page!!</h1>
+
+                    <script>
+
+
+                    var count =6 ;
+                    setInterval(function () {
+
+
+                        if (count <= 6)
+                        {
+                            var div = document.querySelector("#counter");
+
+                         count = count - 1;
+                         if (count == 0)
+                        {
+                             location.href = "\Index";
+                        }
+                        }
+
+                        }, 1000);
+
+
+
+
+
+
+
+                    </script>
+
+
+                    @*<a class="back-btn" href="@Url.Action(" Index", "Dashboard" )"> Back To Home</a>*@
+                </section>
+            </div>
+        </section>
+        <!-- Placed js at the end of the document so the pages load faster -->
+        <!--common scripts for all pages-->
+        <!--<script src="js/scripts.js"></script>-->
+    </body>

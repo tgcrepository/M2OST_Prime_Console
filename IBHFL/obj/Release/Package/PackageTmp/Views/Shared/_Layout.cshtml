@@ -1,0 +1,2585 @@
+﻿@{
+
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+
+    List<IBHFL.Models.Task>
+    tasklist = (List<IBHFL.Models.Task>
+        )ViewData["Tasklist"];
+    int icnt = 0;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2OST</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link href="~/Content/New_Landing_Page/dub/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/dub/Mainstyle.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/css/sidenav.min.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/css/animate.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/css/style.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/css/responsive-calendar.css" rel="stylesheet" />
+    <link href="~/Content/New_Landing_Page/dub/skillalert.min.css" rel="stylesheet">
+    <link href="~/Content/New_Landing_Page/dub/loading.min.css" rel="stylesheet">
+    <script src="~/Content/New_Landing_Page/js/jquery1.9.1.js"></script>
+    <script src="~/Content/New_Landing_Page/js/jquery-3.2.1.js"></script>
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/popper.min.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/bootstrap.min.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/jquery.loading.min.js"></script>
+    <link rel="stylesheet" href="~/Content/js_validation/css/validationEngine.jquery.css" media="screen" type="text/css" />
+    <script type="text/javascript" src="~/Content/js_validation/js/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="~/Content/js_validation/js/jquery.validationEngine-en.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/skillalert.js"></script>
+    <script src="~/Content/New_Landing_Page/js/jquery.slimscroll.min.js"></script>
+    <!-- Mainly scripts -->
+    <script src="~/Content/New_Landing_Page/js/jquery.metisMenu.js"></script>
+    <script src="~/Content/New_Landing_Page/js/dashbaord.js"></script>
+    <script src="~/Content/New_Landing_Page/js/CustomDashboard.js"></script>
+
+    <!-- Round Bar -->
+    <script src="~/Content/New_Landing_Page/js/jquery.dashboard-2.0.0.min.js"></script>
+    <script src="~/Content/New_Landing_Page/js/sidenav.min.js"></script>
+    <script src="~/Content/New_Landing_Page/js/responsive-calendar.js"></script>
+
+    <link rel="stylesheet" href="~/Content/New_Landing_Page/dub/morris-0.4.3.min.css">
+    <script src="~/Content/New_Landing_Page/dub/raphael-2.1.0.min.js"></script>
+    <script src="~/Content/New_Landing_Page/dub/morris.js"></script>
+
+
+    <!-- Include Bootstrap Tour JS from jsDelivr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour-standalone.css" integrity="sha512-ORucsD7YODPUurPZ4qD14QH3p1hLaNNtLH1mGvAWvNpAQ3LsotwDXE6er5GwAKW2LzX/Sg1T5Y502DbCwIQQpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour-standalone.min.css" integrity="sha512-Ip/QaNzZ+ktVF+SKYnWTriTa3MY5PB1toFS0wmFUuqoHEmxhfUn8dQUse70nJdonrKvwmYYvAGByX9pjePYboA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour.css" integrity="sha512-k0XYpyAS0ktvoOnp8InzAZm15/dYemXkB93kb/y84EwWMYu4YN0feGXwKLK37qKoF1oaPAZnooxJgtm4sjqA1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour.min.css" integrity="sha512-sFyS37kke5UvcMHcV8k0NSAT2QWjeLEXKVm0JOXgFd8cd1XMMWqez/mL64g6m+HAS8jBjvPwi5ctTiYX2BRRpQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour.min.js" integrity="sha512-kcDHM4gaMoZGaCaJ56XjGiknuwMeQFxssvIDnuuCp22PJYO8XvOeMibWtkdZTZtbPXfvLE9WweEVToVtM/wlMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour-standalone.js" integrity="sha512-/wP19kxPz0T+haB/7K1tSMfZcZYEgE5ng90xWcKMICZkbP2Vkx7IDg0IgZX8QmzmLjhQd66cjE1KcAE+Nu3NqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour-standalone.min.js" integrity="sha512-KlU17Q8b+noPYQtMWXM8BO08lReJoX3AHxYm7Zyi3UpYYkE4ch7r8d82DGitdIE3r82OW20VMQLVwsYyXo99sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour.js" integrity="sha512-2J1oe/iXZZroN8TQl1kbLBqBGp2zyulBVw9IXnFb/Iun6YppB6qncJB0xjkYjsMr+KdiYs5Fs787pjSaeW43Mg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#profileDropdown").hide();
+            $("#profileDropdownTrigger").click(function () {
+                $("#profileDropdown").toggle();
+/*                $("#ProfileDetails").hide();*/
+
+            });
+            //$("#profileDropdown").click(function () {
+            //    $("#ProfileDetails").toggle();
+            //});
+
+            //$("#ProfileDetails").click(function () {
+            //    $("#ProfileDetails").toggle();
+            //});
+
+
+            BindLanguageDropdown()
+            $('.events-dropdown span').click(function () {
+
+                var dropDownList = $(this).parent();
+                $(this).parent().find('ul').slideToggle().find('li').click(function () {
+                    var v = $(this).attr('data-val');
+                    var t = $(this).text();
+                    $(this).closest('.events-dropdown').find('.search').attr('value', v);
+                    $(this).closest('.events-dropdown').find('.subTextLanguage').text(t);
+                });
+            });
+
+            $('.events-dropdown .language-container li').click(function () {
+
+                var v = $(this).attr('data-val');
+                var t = $(this).text();
+                var dropDown = $(this).closest('.events-dropdown');
+                dropDown.find('.search').val('');
+                dropDown.find('.language-container li').show();
+                dropDown.find('.subTextLanguage').attr('data-val', v).text(t);
+                dropDown.find('.dropdown-content').slideUp();
+            });
+
+            $('.events-dropdown .search').on('input', function () {
+
+                var searchItem = $(this).val().toLowerCase();
+                var languageContainer = $(this).closest('.events-dropdown').find('.language-container li');
+                var noDataMsg = $(this).closest('.events-dropdown').find('.no-data-msg');
+                var matchingItems = 0;
+                languageContainer.each(function () {
+                    var languageText = $(this).text().toLowerCase();
+                    if (languageText.includes(searchItem)) {
+                        $(this).show();
+                        matchingItems++;
+                    } else {
+                        console.log('hello');
+                        $(this).hide();
+                    }
+                });
+                if (matchingItems === 0) {
+                    noDataMsg.show();
+                } else {
+                    noDataMsg.hide();
+                }
+            });
+
+            UserPreferenceExistenceCheck();
+        });
+
+        function UserPreferenceExistenceCheck() {
+            var id_user = @usersession.ID_USER;
+            var APIUrl = $('#hdnAPIUrl').val();
+
+            $.ajax({
+                url: APIUrl + 'api/Translate/GetIsExistsUserPreference?id_user=' + id_user,
+                type: "GET",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        if (data.MESSAGE == "false") {
+                            ShowUserLanguagePopup();
+                        }
+                        else {
+                            GetUserPreferredLanguage();
+                        }
+                    }
+                }
+            });
+        }
+
+        function BindLanguageDropdown() {
+            var APIUrl = $('#hdnAPIUrl').val();
+
+            $.ajax({
+                url: APIUrl + 'api/Translate/GetAllLanguagesDropdown',
+                type: "GET",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        if (data.MESSAGE.length > 0) {
+                            var Data = data.MESSAGE;
+                            var LanguageData = $.parseJSON(Data);
+
+                            for (var i = 0; i < LanguageData.length; i++) {
+                                $('.language-container').append('<li data-val="' + LanguageData[i].id_language + '">' + LanguageData[i].language_name + '</li>');
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function GetUserPreferredLanguage() {
+            debugger;
+            var id_user = @usersession.ID_USER;
+            var APIUrl = $('#hdnAPIUrl').val();
+
+            $.ajax({
+                url: APIUrl + 'api/Translate/GetUserLanguagePreference?id_user=' + id_user,
+                type: "GET",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        if (data.MESSAGE.length > 0) {
+                            var Data = data.MESSAGE;
+                            var UserPreferenceData = $.parseJSON(Data);
+
+                            if (UserPreferenceData.length>0) {
+                                var Id = UserPreferenceData[0].id_language;
+                                var Name = UserPreferenceData[0].language_name;
+
+                                var dropDown = $('.events-dropdown .language-container li').closest('.events-dropdown');
+                                dropDown.find('.search').val('');
+                                dropDown.find('.language-container li').show();
+                                dropDown.find('.subTextLanguage').attr('data-val', Id).text(Name);
+                                dropDown.find('.dropdown-content').slideUp();
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function SubmitUserLanguagePreferredLanguage() {
+            var id_user = @usersession.ID_USER;
+            var APIUrl = $('#hdnAPIUrl').val();
+
+            var dropDown = $('.events-dropdown .language-container li').closest('.events-dropdown');
+            var SelectedLanguageID = dropDown.find('.subTextLanguage').attr('data-val');
+
+            $.ajax({
+                url: APIUrl + 'api/Translate/InsertUpdateUserPreference?id_user=' + id_user + '&id_language=' + SelectedLanguageID,
+                type: "POST",
+                //data: JSON.stringify(oParam),
+                cache: false,
+                async: false,
+                success: function (data) {
+
+                    if (data.KEY == "SUCCESS") {
+                        alert(data.MESSAGE);
+                    }
+                    else {
+                        alert(data.MESSAGE);
+                    }
+                    $('#languagePopup').modal('hide');
+                }
+            });
+        }
+    </script>
+
+    @if (usersession.id_ORGANIZATION == 93)
+    {
+        <script type="text/javascript">
+                $(document).ready(function () {
+
+                    /**/
+@*$('body').css('background-image', 'url(@Url.Content("~/Content/New_Landing_Page/images/01.jpg"))')*@
+                /**/
+                /**/
+                $('#CenterBg').css('background-image', 'url(@Url.Content("~/Content/New_Landing_Page/images/01.jpg"))')
+                /**/
+                $("#CenterBg").addClass("centerbg");
+
+                $("#marque1").css('background-color', '#6e266e')
+            });
+        </script>
+        <style>
+            .ibox-content {
+                background-color: transparent;
+            }
+
+            .centerbg {
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+            }
+        </style>
+
+    }
+    else
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //getNotificationContent();
+                loadDateList();
+                //loadDateListUNREAD();
+                //loadmessage();
+                //eventlist();
+            });
+        </script>
+    }
+
+    <script>
+                $(document).ready(function () {
+                    ////getNotification();
+     //               getScheduleContent();
+     //               //getTask();
+     //               changePerformance();
+     //               getMyGames();
+     //               getSkill();
+     //               checkProgramCompletion();
+     //               getLeaderBoard();
+                    getTicker();
+     //               check_force_password_change();
+					//getNonDisclosureContent();
+     //               check_force_password_change();
+					// termscontent();
+					  ////Notificationcall();
+					   ////getAssessmentScore();
+					  ////getAssignedAssessmentScore();
+                });
+                function getNotification() {
+                    /**/
+                    /**/
+                    /**/
+                    var url1 = '@Url.Action("NotificationCount", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+                        if (data == 0) {
+
+                        }
+                        else {
+                            $("#notification_count").empty().append('<span>' + data + '</span>');
+                            $("#notification_count").show('fade');
+                        }
+                    }
+                });
+            }
+            //---------------------------session-----------------------
+            $(document).ready(function () {
+                //setInterval('updateClock()', 1000);
+            });
+
+            setInterval(function () {
+                /**/
+                /**/
+                /**/
+                var url = '@Url.Action("getSessionStatus", "Account")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: null,
+                    success: function (data) {
+                        if (data == "0") {
+                            var uname = $.cookie("username");
+                            var password = $.cookie("password");
+                            if (uname && password) {
+                                setSessionCookie(uname, password);
+                            }
+                        }
+                    }
+                });
+            }, 60000);
+
+            function setSessionCookie(u, p) {
+                /**/
+                /**/
+                /**/
+                var url = '@Url.Action("setSessionStatus", "Account")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: { uname: u, password: p },
+                    success: function (data) {
+                        if (data == "0") {
+                            /**/
+                            /**/
+                            /**/
+                            var url = '@Url.Action("Index", "Dashboard", new { Flag = "N" })';
+                /**/
+                /**/
+                /**/
+                window.location.href = url;
+            }
+        }
+    });
+}
+
+//$(function () {
+ //   var $toastlast;
+  //  $(function () {
+    //   $(this).bind("contextmenu", function (e) {
+       //   e.preventDefault();
+         //   Mouseclickcall();
+      // });
+  // );
+  // }
+
+
+//}
+    </script>
+    <script>
+
+                var datecl;
+                var dates = "";
+                var datesUnread = "";
+
+                function getNotificationContent() {
+                    /**/
+                    /**/
+                    /**/
+                    var url1 = '@Url.Action("NotificationAlert", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+                        if (data == 0) {
+
+                        }
+                        else {
+                            $("#notification_count").empty().append('<span>' + data + '</span>');
+                            $("#notification_count").show('fade');
+                            //alert(notification.);
+                        }
+                    }
+                });
+            }
+            function getScheduleContent() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("ScheduleContent", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        if (data == "null") {
+                            $("#event_append").empty().append("<p style='text-align:center;'>No Events Available</p>");
+                            $("#event_appendbox,").empty().append("<p style='text-align:center;'>No Events Available</p>");
+
+                        }
+                        else {
+                            $("#event_append").empty().append(data);
+                            $("#event_appendbox").empty().append(data);
+
+                            //alert(notification.);
+                        }
+                    }
+                });
+            }
+
+            function getTask() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getTask", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        if (data == "null") {
+                            $("#apend_tasks").empty().append("");
+
+                        }
+                        else {
+
+                            $("#apend_tasks").empty().append(data);
+
+                            //alert(notification.);
+                        }
+                    }
+                });
+            }
+            function deleteTask(id) {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("deleteTask", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    data: { id: id },
+                    success: function (data) {
+
+                        location.reload();
+                    }
+                });
+            }
+            function changePerformance() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getPerformance", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        $("#append_Performance").empty().append(data);
+                        $("#PreviewGaugeMeter_4").gaugeMeter();
+                    }
+                });
+
+            }
+            function getMyGames() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getMyGames", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+                        if (data == "null") {
+                            $("#append_games").empty().append("<p style='text-align:center;'>No Games Available</p>");
+                        }
+                        else {
+                            $("#append_games").empty().append(data);
+                        }
+
+                    }
+                });
+
+            }
+            function getTicker() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getTicker", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+                        if (data.ticker_news == null) {
+                            ////$("#append_ticker").empty().append("");
+                            $("#append_ticker1").empty().append("");
+
+                            $(".append_ticker").hide();
+                        }
+                        else {
+                            var ticker = data;
+
+                            var TickerData = "<marquee id= 'marque1' style='background-color:" + ticker.background_color + ";color:" + ticker.font_color + "'  behavior = 'scroll' direction = 'left' >" + ticker.ticker_news + "</ marquee >";
+                            ////$("#append_ticker").empty().append(TickerData);
+                            $("#append_ticker1").empty().append(TickerData);
+
+                            $(".append_ticker").show();
+                        }
+                    }
+                });
+
+            }
+            function getSkill() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getSkill", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        $("#append_skill_level").empty().append(data);
+
+                    }
+                });
+
+            }
+            function checkProgramCompletion() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("checkProgramCompletion", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        $("#append_Progress").empty().append(data);
+                        $("#PreviewGaugeMeter_5").gaugeMeter();
+
+                    }
+                });
+
+            }
+
+            function getLeaderBoard() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("getLeaderBoard", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+                        if (data == "null") {
+                            $("#tab-5").empty().append("<p style='text-align:center;'>No Games Available</p>");
+                        }
+                        else {
+                            $("#tab-5").empty().append(data);
+                        }
+
+                    }
+                });
+
+            }
+            $(function () {
+                $('marquee').mouseover(function () {
+                    $(this).attr('scrollamount', 0);
+                }).mouseout(function () {
+                    $(this).attr('scrollamount', 5);
+                });
+            });
+
+            function check_old_password()
+            {
+                  var url1 = '@Url.Action("checkpassword", "Dashboard")';
+                /**/
+                /**/
+                  /**/
+                  var password = $("#oldpassword").val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    data: {password:password},
+                    success: function (data) {
+
+                        if (data == "F") {
+                            alert("Current Password You Entered Is Wrong");
+                            $("#oldpassword").val("");
+
+                        }
+
+                    }
+                });
+            }
+            function checknewpassword()
+            {
+                var pswd1 = $("#newpassword1").val();
+                var pswd2 = $("#newpassword2").val();
+
+                if (pswd1 == pswd2) { }
+                else
+                {
+                    alert("Password doesn't match. Please enter again")
+                    $("#newpassword2").val("");
+                }
+            }
+
+            function changepassword()
+            {
+                  var url1 = '@Url.Action("ChangePassword", "Dashboard")';
+
+                  var password = $("#newpassword1").val();
+                  var result = validateForm();
+                  if (result == false) { }
+                  else {
+
+                      $.ajax({
+                          type: 'POST',
+                          url: url1,
+                          data: { password: password },
+                          success: function (data) {
+
+                              alert(data);
+                              location.reload();
+
+                          }
+                      });
+                  }
+
+            }
+
+                        function validateForm() {
+                var oldpswd = $("#oldpassword").val();
+                var pswd1 = $("#newpassword1").val();
+                var pswd2 = $("#newpassword2").val();
+
+
+                if (oldpswd == "" || pswd1 == "" || pswd2 == "") {
+                    alert("All the fields are mandatory");
+                    return false;
+                }
+                else if (pswd1.length < 8)
+                {
+                    alert("Your password has to be 8 characters long");
+                    $("#newpassword1").val("");
+
+                    return false;
+                }
+                else if (pswd1 != pswd2) {
+                    alert("Password doesn't match. Please enter again")
+                    $("#newpassword2").val("");
+                    return false;
+                }
+				  //else if (pswd1.match(/^[a-zA-Z0-9]+/))
+                //{
+                   // alert("Password should contain atleast 1 alphabet and 1 numeric values")
+                   // $("#newpassword1").val("");
+                   // return false;
+                //}
+                else { return true; }
+            }
+
+           function check_force_password_change()
+            {
+                  var url1 = '@Url.Action("checkforcepasswordchange", "Dashboard")';
+                /**/
+                /**/
+                  /**/
+
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+
+                    success: function (data) {
+
+                        //sridhar done for the force password by pass 3-1-2019
+                       //if (@usersession.REURL == "OPP")
+					   if (@usersession.id_ORGANIZATION == 103)
+                       {
+
+                       }
+                       else if (data == "\"FAILURE\"") {
+                           if (@usersession.IsSSO==false) {
+                               $('#forcechangepassword').modal({ backdrop: 'static', keyboard: false })
+                               $("#forcechangepassword").modal('show');
+                           }
+                        }
+
+
+
+                    }
+                });
+            }
+           function sendGCM()
+           {
+                var url1 = '@Url.Action("sendGCM", "Account")';
+
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+
+                    success: function (data) {
+
+                    }
+                });
+
+           }
+         function check_old_password1()
+            {
+                  var url1 = '@Url.Action("checkpassword", "Dashboard")';
+                /**/
+                /**/
+                  /**/
+                  var password = $("#oldpassword1").val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    data: {password:password},
+                    success: function (data) {
+
+                        if (data == "F") {
+                            alert("Current Password You Entered Is Wrong");
+                            $("#oldpassword1").val("");
+
+                        }
+
+                    }
+                });
+            }
+            function checknewpassword1()
+            {
+                var pswd1 = $("#newpassword11").val();
+                var pswd2 = $("#newpassword21").val();
+
+                if (pswd1 == pswd2) { }
+                else
+                {
+                    alert("Password doesn't match. Please enter again")
+                    $("#newpassword21").val("");
+                }
+            }
+
+            function changepassword1()
+            {
+                  var url1 = '@Url.Action("ChangePassword", "Dashboard")';
+
+                  var password = $("#newpassword11").val();
+                  var result = validateForm1();
+                  if (result == false) { }
+                  else {
+
+                      $.ajax({
+                          type: 'POST',
+                          url: url1,
+                          data: { password: password },
+                          success: function (data) {
+
+                              alert(data);
+							   sendGCM();
+                              location.reload();
+
+                          }
+                      });
+                  }
+
+            }
+
+                       function validateForm1() {
+                var oldpswd = $("#oldpassword1").val();
+                var pswd1 = $("#newpassword11").val();
+                var pswd2 = $("#newpassword21").val();
+                if (oldpswd == "" || pswd1 == "" || pswd2 == "") {
+                    alert("All the fields are mandatory");
+                    return false;
+                }
+                else if (pswd1.length < 8) {
+                    alert("Your password has to be 8 characters long");
+                    $("#newpassword11").val("");
+
+                    return false;
+                }
+                else if (pswd1 != pswd2) {
+                    alert("Password doesn't match. Please enter again")
+                    $("#newpassword21").val("");
+                    return false;
+                }
+				  //else if (pswd1.match(/^[a-zA-Z0-9]+/))
+               // {
+                   // alert("Password should contain atleast 1 alphabet and 1 numeric values")
+                   // $("#newpassword11").val("");
+                   // return false;
+                //}
+                else { return true; }
+            }
+ function getNonDisclosureContent()
+            {
+                  var url1 = '@Url.Action("getNonDisclosureContent", "Dashboard")';
+
+                      $.ajax({
+                          type: 'POST',
+                          url: url1,
+
+                          success: function (data) {
+
+                              if (data == "2")
+                              {
+                                  url2 = '@Url.Action("getNonDisclosureContentlog", "Dashboard")';
+
+                                  $.ajax({
+                                      type: 'POST',
+                                      url: url2 ,
+
+                                      success: function (data3) {
+
+
+                                          if (data3 == "\"FAILURE\"")
+                                          {
+
+                                              url3 = '@Url.Action("getNonDisclosureContentload", "Dashboard")';
+                                              $.ajax({
+                                                  type: 'POST',
+                                                  url: url3,
+
+                                                  success: function (data4) {
+
+
+                                                      $('#terms').modal({ backdrop: 'static', keyboard: false })
+                                                      $("#terms").modal('show');
+                                                      $("#termsbody").append(data4.content);
+                                                      $("#title-terms").append(data4.content_title);
+
+                                                  }
+                                              });
+
+                                          }
+
+                                      }
+                                  });
+
+                              }
+
+                          }
+                      });
+
+            }
+            function termsLog()
+            {
+                  var url1 = '@Url.Action("NonDisclosureLogRecord", "Dashboard")';
+
+                      $.ajax({
+                          type: 'POST',
+                          url: url1,
+
+                          success: function (data) {
+
+                              location.reload();
+                          }
+                      });
+
+            }
+	  function termscontent()
+            {
+                  var url1 = '@Url.Action("getNonDisclosureContent", "Dashboard")';
+
+                      $.ajax({
+                          type: 'POST',
+                          url: url1,
+
+                          success: function (data) {
+
+                              if (data == "2")
+                              {
+                                  var con ="<a onclick='get_cont_non()'><i class='	fa fa-exclamation-triangle'></i>Terms And Condition</a>";
+                                  $("#terms_cond").append(con);
+                              }
+
+                          }
+                      });
+
+            }
+
+         function get_cont_non()
+         {
+              url3 = '@Url.Action("getNonDisclosureContentload", "Dashboard")';
+                                              $.ajax({
+                                                  type: 'POST',
+                                                  url: url3,
+
+                                                  success: function (data4) {
+
+                                                      $("#terms_menu").modal('show');
+                                                      $("#terms_menu_body").append(data4.content);
+                                                      $("#terms_menu_title").append(data4.content_title);
+
+                                                  }
+                                              });
+         }
+		 	  function getAssessmentScore() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("GetAssessmentsAverage", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        $("#append_assessment_score").empty().append(data);
+
+                    }
+                });
+
+            }
+  function getAssignedAssessmentScore() {
+                /**/
+                /**/
+                /**/
+                var url1 = '@Url.Action("GetUserAssignedAssessmentAverage", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        $("#append_assigned_assessment_score").empty().append(data);
+
+                    }
+                });
+
+           }
+    </script>
+
+    <style>
+                html,body
+                      {
+                      background: url('@Url.Content("~/Content/New_Landing_Page/images/Skillmuni home page image.jpg")')no-repeat center center fixed;
+
+                      -webkit-background-size: 100% 100%;
+                      -moz-background-size: 100% 100%;
+                      -o-background-size: 100% 100%;
+                      background-size: 100% 100%;
+                          background: #f0f0f0;
+                      }
+        .fontbolddesignation{
+            font-weight:700;
+        }
+
+    </style>
+</head>
+<body id="main_body" class="main_body">
+    <input id="hdnAPIUrl" type="hidden" value="@usersession.APIUrl" />
+    <div id="wrapper">
+        <nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
+            <div class="sidenav-brand">
+                @*MENU*@
+            </div>
+            <br />
+            <div class="sidenav-header">
+                <i class="glyphicon glyphicon-list"></i>     MENU
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard", new { Flag = "N" } )">
+                            <i class="glyphicon glyphicon-home"></i>  Home
+                            @*<span class="label label-primary">8</span>*@
+                        </a>
+                    </li>
+
+                    @if (usersession.id_ORGANIZATION == 16 || usersession.id_ORGANIZATION == 89 || usersession.id_ORGANIZATION == 113 || usersession.id_ORGANIZATION == 115)
+                    {
+                        <li>
+                            <a href="@Url.Action("RedirectToGamificationDashboard", "Account" )">
+                                <i class="glyphicon glyphicon-asterisk" style=""></i>  Gamification Dashboard
+                            </a>
+                        </li>
+                    }
+
+                    @*@if (usersession.id_ORGANIZATION == 117)
+                        {
+                            <li>
+                                <a href="@Url.Action("RedirectToBataRetailMastersPage", "Dashboard" )">
+                                    <i class="glyphicon glyphicon-download" style=""></i>Bata Retail Masters
+                                </a>
+                            </li>
+                        }*@
+
+                    <!-- added organization 103 validation by sridhar 7-1-2019 -->
+                    @if (usersession.id_ORGANIZATION == 48 || usersession.id_ORGANIZATION == 103 || usersession.id_ORGANIZATION == 100)
+                    {
+                    }
+                    else
+                    {
+                        @*<li>
+                                <a href="@Url.Action("Marketplace", "Dashboard" )">
+                                    <i class="glyphicon glyphicon-shopping-cart" style=""></i>  The Marketplace
+                                </a>
+                            </li>*@
+                    }
+                    <li>
+                        <a href="@Url.Action("Notification", "Dashboard" )">
+                            <i class="fa fa-bell"></i>    Notification
+                            @*<span class="label label-primary">8</span>*@
+                            <div id="notification_count1" style="background-color:red; opacity: 1; top: -2px;"></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Events", "Dashboard" )" data-toggle="modal" data-target="#calenderbox">
+                            <i class="glyphicon glyphicon-calendar"></i>  Calendar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Calender", "Dashboard" )" data-toggle="modal" data-target="#eventnbox">
+                            <i class="glyphicon glyphicon-time"></i>  Event
+                        </a>
+                    </li>
+
+                    @if (usersession.id_ORGANIZATION == 100)
+                    {
+
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#guide">
+                                <i class="fa fa-book"></i>User Guide
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#support">
+                                <i class="fa fa-life-ring"></i>User Support
+                            </a>
+                        </li>
+                    }
+                    <li id="terms_cond">
+                    </li>
+                    <li id="liUserPreferredLanguage">
+                        <a href="#" onclick="ShowUserLanguagePopup();">
+                            <i class="fa fa-user" style="width:16px"></i>Change User Preferred Language
+                        </a>
+                    </li>
+                    <li>
+                        <a class="logout" href="@Url.Action("Logout", "Account" )">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="dashboard">
+            <nav class="nav-bar" role="navigation">
+                <div class="nav-left">
+                    <div class="navbar-header">
+                        <a class="menu-icon" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="sidenav-toggle"><i class="fa fa-bars mnu"></i> </a>
+                    </div>
+                    <a href="@Url.Action("Index", "Dashboard" ,new { Flag = "N" })"><img src="@usersession.logo_path"></a>
+                </div>
+
+                <div class="nav-right">
+                    <p>Welcome @usersession.Username !</p>
+                    @*<a href="#search" class="search"><i class="glyphicon glyphicon-search icon-hover"></i></a>*@
+                    <a href="@Url.Action("Index", "Dashboard",new { Flag = "N" } )" class="home-icon">
+                        <i class="glyphicon glyphicon-home icon-hover"></i>
+                    </a>
+                    <!-- added organization 103 validation by sridhar 7-1-2019 -->
+                    @if (usersession.id_ORGANIZATION == 48 || usersession.id_ORGANIZATION == 103 || usersession.id_ORGANIZATION == 100)
+                    {
+                    }
+                    else
+                    {
+                        @*<a href="@Url.Action("Marketplace", "Dashboard" )" class="r">
+                                <i class="glyphicon glyphicon-shopping-cart icon-hover" style=""></i>  The Marketplace
+                            </a>*@
+                    }
+                    <a href="@Url.Action("Notification", "Dashboard" )">
+                        <i class="fa fa-bell icon-hover"></i>  @*<span class="label label-primary">8</span>*@
+                        <div id="notification_count" class="label label-primary" style=""></div>
+                    </a>
+                    <a class="dropdown-toggle" id="profileDropdownTrigger" href="#" style="display:block;">
+                        <div style="display:flex">
+                            <i class="glyphicon glyphicon-user icon-hover"></i>
+                            <i class="fa fa-sort-down" style="position: relative;z-index:1"></i>
+
+                        </div>
+                    </a>
+
+                    <ul class="profile-dropdown" id="profileDropdown">
+                        <li>
+                            <span>
+                                <i class="fa fa-user fa-fw"
+                                   style="color: @((usersession.GENDER == "m" || usersession.GENDER == "MALE" || usersession.GENDER == "male" || usersession.GENDER == "Male")  ? "#6495ED" : "#DA70D6");"></i>
+                                @usersession.Username
+                            </span>
+                        </li>
+                        <ul id="ProfileDetails" style="display:block;margin-left:24px">
+                            <li><span class="fontbolddesignation">DESIGNATION :</span><div> @usersession.DESIGNATION.ToUpper()</div> </li>
+                            <li><span class="fontbolddesignation">ROLE :</span>@usersession.Role.ToUpper()</li>
+                            <li><span class="fontbolddesignation">EMPLOYEE CODE :</span>@usersession.EMPLOYEEID.ToUpper()</li>
+                            <li><span class="fontbolddesignation">UNIQUE CODE :</span>@usersession.USERID.ToUpper()</li>
+                            <li><span class="fontbolddesignation">GENDER :</span>@usersession.GENDER.ToUpper()</li>
+                            <li><span class="fontbolddesignation">STORE CODE :</span>@usersession.UserGrade.ToUpper()</li>
+                            <li><span class="fontbolddesignation">REGION :</span>@usersession.OFFICE_ADDRESS.ToUpper()</li>
+                            <li><span class="fontbolddesignation">CONCEPT :</span>@usersession.UserFunction.ToUpper()</li>
+                            <li><span class="fontbolddesignation">LEVEL 1:</span>@usersession.SM.ToUpper()</li>
+                            <li><span class="fontbolddesignation">LEVEL 2:</span>@usersession.DM.ToUpper()</li>
+                            <li><span class="fontbolddesignation">LEVEL 3:</span>@usersession.RM.ToUpper()</li>
+                        </ul>
+
+                        @if (usersession.REURL == "OPP")
+                        {
+
+                        }
+                        else
+                        {
+                            if (usersession.IsSSO == false && usersession.id_ORGANIZATION != 117)
+                            {
+                                <li>
+                                    <a data-toggle="modal" data-target="#changepassword"><i class="fa fa-key fa-fw"></i> Change Password</a>
+                                </li>
+                            }
+                        }
+
+                        <li>
+                            @if (usersession.id_ORGANIZATION != 117)
+                            {
+                                <a class="logout" href="@Url.Action("Logout", "Account")">
+                                    <span>
+                                        <i class="fa fa-sign-out">&nbsp;</i><span>Log out</span>
+                                    </span>
+                                </a>
+                            }
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </nav>
+
+
+            <div class="content-area">
+                @if (usersession.id_ORGANIZATION == 93)
+                {
+
+                }
+                else
+                {
+                    if (@usersession.id_ORGANIZATION != 103 && @usersession.id_ORGANIZATION != 112)
+                    {
+                        <div class="column column-left" style="display:none;">
+                            <div class="ibox float-e-margins fadeIn  animated">
+
+                                <div class="ibox-title" style="background-image: url('@Url.Content("~/Content/New_Landing_Page/images/smbg2.png")'); background-size: 100% 100%; background-repeat: no-repeat; color: #fff;">
+                                    <h5 class="titlehd">Events</h5>
+                                    <span class="label label-primary"></span>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content tsk">
+                                    <div id="event_append">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox float-e-margins ">
+                                <div class="ibox-title">
+                                    <h5><i class="glyphicon glyphicon-calendar font-size:20px;"></i>  &nbsp;Calendar</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div>
+                                        <div class="box-border">
+                                            <div id="event_count" style="display:none; opacity: 1; top: -2px;">2</div>
+                                            <div class="responsive-calendar">
+                                                <div class="controls">
+                                                    <a class="pull-left" data-go="prev">
+                                                        <div class="cldrfnt nomrginbtm">
+                                                            <i class="glyphicon glyphicon-arrow-left"></i>
+                                                        </div>
+                                                    </a>
+                                                    <h4><span data-head-year></span> <span data-head-month></span></h4>
+                                                    <a class="pull-right" data-go="next">
+                                                        <div class="cldrfnt nomrginbtm">
+                                                            <i class="glyphicon glyphicon-arrow-right"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <hr class="hr1" />
+                                                <div class="day-headers">
+                                                    <div class="day header">Mon</div>
+                                                    <div class="day header">Tue</div>
+                                                    <div class="day header">Wed</div>
+                                                    <div class="day header">Thu</div>
+                                                    <div class="day header">Fri</div>
+                                                    <div class="day header">Sat</div>
+                                                    <div class="day header">Sun</div>
+                                                </div>
+                                                <div class="days" data-group="days">
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                                        function loadDateList() {
+
+                                                            /**/
+                                                            /**/
+                                                            /**/
+                                                            var url = '@Url.Action("GetAlldate", "Dashboard")';
+                                                        /**/
+                                                        /**/
+                                                        /**/
+
+                                                        $.ajax({
+                                                            url: url,
+                                                            type: "GET",
+                                                            datatype: "JSON",
+                                                            success: function (data) {
+                                                                if (data.READ.length != 0 || data.UNREAD.length != 0) {
+
+                                                                    var curl = "{"
+                                                                    //console.log(data.READ)
+                                                                    for (var i = 0; i < data.READ.length; i++) {
+                                                                        dates += '"' + formatDate(data.READ[i].event_start_datetime) + '": { },'
+                                                                        //console.log(dates);
+
+                                                                    }
+                                                                    dates = curl + dates;
+                                                                    //dates += '}'
+
+                                                                    for (var i = 0; i < data.UNREAD.length; i++) {
+                                                                        datesUnread += '"' + formatDate(data.UNREAD[i].event_start_datetime) + '": {},'
+                                                                        //console.log(datesUnread);
+                                                                    }
+                                                                    datesUnread = (datesUnread.substr(0, datesUnread.length - 1));
+                                                                    datesUnread += '}'
+
+                                                                    var children = dates.concat(datesUnread);
+
+                                                                    if (data.UNREAD.length == 0) {
+                                                                        children = children.substr(0, children.length - 2) + "}";
+                                                                    }
+
+                                                                    $(".responsive-calendar").responsiveCalendar({
+                                                                        events: JSON.parse(children),
+                                                                        onActiveDayClick: function () {
+
+                                                                            datecl = getclickeddate($(this).attr('data-year') + "-" + $(this).attr('data-month') + "-" + $(this).attr('data-day'));
+
+                                                                            location.href = "EventList?datecl=" + datecl + "";
+
+                                                                        },
+
+                                                                    });
+                                                                }
+                                                                else {
+                                                                    $(".responsive-calendar").responsiveCalendar({
+
+                                                                    });
+                                                                }
+                                                            },
+
+                                                            error: function (error) {
+                                                                showErrorMessage(error);
+                                                            },
+
+                                                        });
+                                                    }
+                                                    function getclickeddate(date) {
+
+                                                        var values = date;
+                                                        values = values.split("-");
+                                                        var year = values[0];
+                                                        var month = values[1];
+                                                        var day = values[2];
+                                                        var s = [day, month, year].join('-')
+
+                                                        return [day, month, year].join('-');
+
+                                                    }
+
+                                                    function formatDate(date) {
+                                                        var values = date.substr(0, 10);
+                                                        values = values.split("-");
+                                                        var day = values[0];
+                                                        var month = values[1];
+                                                        var year = values[2];
+                                                        return [year, month, day].join('-');
+                                                    }
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox float-e-margins fadeIn  animated">
+
+                                <div class="ibox-title" style="background-image: url('@Url.Content("~/Content/New_Landing_Page/images/smbg3.png")'); background-size: 100% 100%; background-repeat: no-repeat; color: #fff;">
+
+                                    <h5 class="titlehd">Tasks</h5>
+                                    @if (tasklist != null)
+                                    {
+                                        <span class="badgetsk">@tasklist.Count()</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badgetsk">0</span>
+                                    }
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content tsk" style="background-color: #2b2b2b;display: none;">
+                                    <div>
+
+                                        <table class="table-responsive full">
+                                            <tr>
+
+                                                @using (Html.BeginForm("addEvent", "Dashboard", FormMethod.Post, new { id = "addEvent" }))
+                                                {
+                                                    <td>
+                                                        <small class="font-bold sml">
+                                                            <input type="text" name="task" placeholder="Add New Task" class="form-control input-sm" required>
+                                                        </small>
+                                                    </td>
+                                                    <td class="pull-right text-right">
+                                                        <input class="btn btn-sm btn-primary pull-right" value="Add" type="submit">
+                                                    </td>
+                                                }
+                                            </tr>
+                                        </table>
+
+                                        <div id="apend_tasks">
+                                            <table class='table' width='100%'>
+                                                <tbody>
+                                                    @if (tasklist != null)
+                                                    {
+                                                        foreach (IBHFL.Models.Task tlist in tasklist)
+                                                        {
+                                                            if (icnt % 2 == 0)
+                                                            {
+                                                                <tr style='background-color:white;'>
+                                                                    <td class='' style=''>
+                                                                        <small style='' class='font-bold sml'>&nbsp;&nbsp;@tlist.task</small>
+                                                                    </td>
+                                                                    <td class=''>
+                                                                        <small class='font-bold'><span class='label label-danger pull-right'></span></small>
+                                                                        <a style='float:right;' onclick='deleteTask(@tlist.id_task)'>
+                                                                            <i class='glyphicon glyphicon-trash' style='color: #ed5565; top: 2px; font-size: 14px;'>
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                icnt++;
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr style='background-color:grey;'>
+                                                                    <td class='' style=''>
+                                                                        <small style='color:#fff;' class='font-bold sml'>&nbsp;&nbsp;@tlist.task</small>
+                                                                    </td>
+                                                                    <td class=''>
+                                                                        <small class='font-bold'><span class='label label-danger pull-right'></span></small>
+                                                                        <a style='float:right;' onclick='deleteTask(@tlist.id_task)'>
+                                                                            <i class='glyphicon glyphicon-trash' style='color: #ed5565; top: 2px; font-size: 14px;'>
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                icnt++;
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div id="CenterPart" class="column column-center">
+
+                    <div class="ibox float-e-margins fadeIn animated" id="CenterBg">
+                        @*<div class="ibox-title append_ticker">
+                                <div id="append_ticker"></div>
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>*@
+                        <div class="ibox-content scroll" style="" id="scrollbox">
+
+                            @RenderBody()
+                        </div>
+                        @*<div class="row">
+                                        <div class="col-md-6" style="padding:0px 0px 0px 15px">
+                                            <div class="ibox-title" style="height: 60px;border: 1px solid;background-image:url('@Url.Content(" ~/Content/New_Landing_Page/images/banner-img-2.jpg")');background-size:100% 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="padding: 0px 15px 0px 0px;">
+                                        <div class="ibox-title" style="height: 60px;border: 1px solid;background-image:url('@Url.Content(" ~/Content/New_Landing_Page/images/banner-img-1.jpg")');background-size:100% 100%;">
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="ibox-title append_ticker" style="border-color: transparent">
+                            <div class="ibox-tools" style="display: block;  float: none; ">
+                                <div id="append_ticker1"><marquee id="marque1" behavior=""></marquee></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (usersession.id_ORGANIZATION != 113)
+                {
+                    <div class="column column-right" style="display:none;">
+                        <div class="ibox float-e-margins fadeIn  animated">
+                            <div class="ibox-title">
+                                <h5>My Progress & Performance</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content percentage-progress-parent" align="center" style="background-color:#fff;color:#000;">
+
+                                <div class="" id="append_Progress" align="center">
+                                </div>
+                                <div class="" id="append_Performance" align="center">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ibox float-e-margins fadeIn  animated assessment-score">
+                            <div class="ibox-title">
+                                <h5>Assessment Score</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content assessment-score" align="center" style="background-color: #fff;color:#000;">
+
+                                <div id="append_assessment_score">
+                                </div>
+                                <div id="append_assigned_assessment_score">
+                                </div>
+                            </div>
+                        </div>
+                        @if (false)
+                        {
+                            <div class="ibox float-e-margins fadeIn  animated">
+                                <div class="ibox-title">
+                                    <h5>Skill level</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content" align="center" style="padding: 5px 0px 0px 80px;background-color: #343b45;">
+                                    <div id="append_skill_level">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ibox float-e-margins fadeIn  animated">
+                                <div class="ibox-title">
+                                    <h5>Ongoing Games</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ibox-content" align="center" style="display:none;">
+                                    <div id="append_games">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ibox float-e-margins fadeIn  animated">
+                                <div>
+                                    <div class="panel blank-panel">
+                                        <div class="panel-heading">
+                                            <div class="panel-options">
+                                                <ul class="nav nav-tabs">
+                                                    <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="true">Rewards <i class="fa fa-star"></i></a></li>
+                                                    <li class="active"><a data-toggle="tab" href="#tab-5" aria-expanded="false"><i class="fa fa-trophy"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="tab-content" style="margin-left: 0;margin-right: 0;">
+                                                <div id="tab-4" class="tab-pane ">
+                                                    <table class="table-responsive full">
+                                                        <tr>
+                                                            <td> <small class="font-bold sml"> Pizza</small></td>
+                                                            <td class="pull-right text-right"> <small class="font-bold sml"></small></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td> <small class="font-bold sml"> movie Ticket</small></td>
+                                                            <td class="pull-right text-right"> <small class="font-bold sml"> </small></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div id="tab-5" class="tab-pane active">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div id="search">
+
+                <input type="search" id="srchcnt" value="" placeholder="Search Content" />
+                <div id="errorsearch" style="display:none">
+                    <p>Enter Search Query</p>
+                </div>
+                <input type="submit" id="Cntsearch" value="Search" class="btn btn-primary" />
+            </div>
+            <div class="footer">
+                <p>Powered by The Gamification Company©</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal calender-->
+    <div id="calenderbox" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Calender</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="event_count" style="display:none; opacity: 1; top: -2px;">2</div>
+                    <div class="responsive-calendar">
+                        <div class="controls">
+                            <a class="pull-left" data-go="prev">
+                                <div class="cldrfnt nomrginbtm">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                </div>
+                            </a>
+                            <h4><span data-head-year></span> <span data-head-month></span></h4>
+                            <a class="pull-right" data-go="next">
+                                <div class="cldrfnt nomrginbtm">
+                                    <i class="glyphicon glyphicon-arrow-right"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <hr class="hr1" />
+                        <div class="day-headers">
+                            <div class="day header">Mon</div>
+                            <div class="day header">Tue</div>
+                            <div class="day header">Wed</div>
+                            <div class="day header">Thu</div>
+                            <div class="day header">Fri</div>
+                            <div class="day header">Sat</div>
+                            <div class="day header">Sun</div>
+                        </div>
+                        <div class="days" data-group="days">
+                        </div>
+                    </div>
+
+                    <script>
+                                                        function loadDateList() {
+
+                                                            /**/
+                                                            /**/
+                                                            /**/
+                                                            var url = '@Url.Action("GetAlldate", "Dashboard")';
+                                                        /**/
+                                                        /**/
+                                                        /**/
+
+                                                        $.ajax({
+                                                            url: url,
+                                                            type: "GET",
+                                                            datatype: "JSON",
+                                                            success: function (data) {
+                                                                if (data.READ.length != 0 || data.UNREAD.length != 0) {
+
+                                                                    var curl = "{"
+                                                                    //console.log(data.READ)
+                                                                    for (var i = 0; i < data.READ.length; i++) {
+                                                                        dates += '"' + formatDate(data.READ[i].event_start_datetime) + '": { },'
+                                                                        //console.log(dates);
+
+                                                                    }
+                                                                    dates = curl + dates;
+                                                                    //dates += '}'
+
+                                                                    for (var i = 0; i < data.UNREAD.length; i++) {
+                                                                        datesUnread += '"' + formatDate(data.UNREAD[i].event_start_datetime) + '": {},'
+                                                                        //console.log(datesUnread);
+                                                                    }
+                                                                    datesUnread = (datesUnread.substr(0, datesUnread.length - 1));
+                                                                    datesUnread += '}'
+
+                                                                    var children = dates.concat(datesUnread);
+
+                                                                    if (data.UNREAD.length == 0) {
+                                                                        children = children.substr(0, children.length - 2) + "}";
+                                                                    }
+
+                                                                    $(".responsive-calendar").responsiveCalendar({
+                                                                        events: JSON.parse(children),
+                                                                        onActiveDayClick: function () {
+
+                                                                            datecl = getclickeddate($(this).attr('data-year') + "-" + $(this).attr('data-month') + "-" + $(this).attr('data-day'));
+
+                                                                            location.href = "EventList?datecl=" + datecl + "";
+
+                                                                        },
+
+                                                                    });
+                                                                }
+                                                                else {
+                                                                    $(".responsive-calendar").responsiveCalendar({
+
+                                                                    });
+                                                                }
+                                                            },
+
+                                                            error: function (error) {
+                                                                showErrorMessage(error);
+                                                            },
+
+                                                        });
+                                                    }
+                                                    function getclickeddate(date) {
+
+                                                        var values = date;
+                                                        values = values.split("-");
+                                                        var year = values[0];
+                                                        var month = values[1];
+                                                        var day = values[2];
+                                                        var s = [day, month, year].join('-')
+
+                                                        return [day, month, year].join('-');
+
+                                                    }
+
+                                                    function formatDate(date) {
+                                                        var values = date.substr(0, 10);
+                                                        values = values.split("-");
+                                                        var day = values[0];
+                                                        var month = values[1];
+                                                        var year = values[2];
+                                                        return [year, month, day].join('-');
+                                                    }
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal event-->
+    <div id="eventnbox" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Events</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="event_appendbox">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="changepassword" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row" style="padding:2%">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input onchange="check_old_password()" style="margin-left:7%" id="oldpassword" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password <sup style="color:red">*</sup></label>
+                            <input id="newpassword1" style="margin-left:10%" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Re-enter New Password</label>
+                            <input onchange="checknewpassword()" id="newpassword2" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <button onclick="changepassword()" style="margin-left: 34%;" type="button" class="btn btn-info">Submit</button>
+
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <br />
+
+
+
+                    </div>
+                </div>
+                <p style="color:red;margin-left: 2%;"><sup>*</sup> Your password has to be 8 characters long.</p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="forcechangepassword" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row" style="padding:2%">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input onchange="check_old_password1()" style="margin-left:7%" id="oldpassword1" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>New Password <sup style="color:red">*</sup></label>
+                            <input id="newpassword11" style="margin-left:10%" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Re-enter New Password</label>
+                            <input onchange="checknewpassword1()" id="newpassword21" type="password" required />
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button onclick="changepassword1()" style="" type="button" class="btn btn-info">Submit</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    <p style="color:red;margin-left: 2%;"><sup>*</sup> Your password has to be 8 characters long.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="terms" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="title-terms" class="modal-title"></h4>
+                </div>
+                <div id="termsbody" class="modal-body">
+                </div>
+                <div class="row" style=" padding: 2%;">
+                    <button onclick="termsLog()" style="float:right;margin-right: 3%;" type="button" class="btn btn-info">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="terms_menu" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="terms_menu_title" class="modal-title"></h4>
+                </div>
+                <div id="terms_menu_body" class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="support" class="modal fade" role="dialog" style="width:100%;height:100%">
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="    width: 127%;    margin-top: -12%;">
+                <div class="modal-header">
+                    <h4 id="title-terms" class="modal-title">User Support</h4>
+                </div>
+                <div id="support" class="modal-body">
+                    <iframe src="http://www.m2ost.in/walkthrough/Jeena/Support.pdf#zoom=80" height="500px" width="711px;"></iframe>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="guide" class="modal fade" role="dialog" style="width:100%;height:100%">
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="    width: 127%;    margin-top: -12%;">
+                <div class="modal-header">
+                    <h4 id="title-terms" class="modal-title">User Guide</h4>
+                </div>
+                <div id="support" class="modal-body">
+                    <iframe src="http://www.m2ost.in/walkthrough/Jeena/Guide.pdf#zoom=60" height="500px" width="711px;"></iframe>
+                </div>
+
+            </div>
+
+            <div class="modal fade" id="languagePopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:grid;align-items:center;padding-top:0px!important">
+                <div class="modal-dialog modal-dialog-centered ">
+                    <div class="modal-content" style="background: transparent;border: 0px;">
+                        <div class="cross-button-box">
+                            <div class="cross-button" onclick="$('#languagePopup').modal('hide');" data-bs-dismiss="modal" aria-label="Close">X</div>
+                        </div>
+                        <div class="language-popup-body col-12 p-3">
+                            <div class="col-12 d-flex justify-content-center flex-column">
+                                <div class="chooseLanguage">Select Language For Assessment </div>
+                                @*<div class="subTextLanguage commonfontstyle">Learn in your desired language </div>
+                                    <div class="subTextLanguage commonfontstyle"> for assessment</div>*@
+                            </div>
+                            <div class="events-dropdown mt-2">
+                                <span class="language-dropdown-trigger">
+                                    <span data-val="" class="subTextLanguage language p-0">Select Language For Assessment</span>
+                                    <img src="../images/arrow.svg" alt="" />
+                                </span>
+                                <ul class="dropdown-content language-dropdown-content">
+                                    <div class="search-container">
+                                        <input class="search" type="search" name="search" placeholder="Search">
+                                        <button type="submit" class="search-button">
+                                            <img src="../images/zoom-out.svg" alt="search" />
+                                        </button>
+                                    </div>
+                                    <div class="language-container">
+                                        <div class="no-data-msg" style="display: none;text-align: center;">
+                                            No matching languages
+                                            found.
+                                        </div>
+                                        @*<li data-val="">English</li>
+                                            <li data-val="">Hindi</li>
+                                            <li data-val="">Gujarati</li>
+                                            <li data-val="">Tamil</li>
+                                            <li data-val="">Telgu</li>*@
+                                    </div>
+
+                                </ul>
+                                <div class="submit mt-2" onclick="SubmitUserLanguagePreferredLanguage();">Submit</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="UserPreferredLanguage" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Select Language</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row" style="padding:2%">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label>Current Preference</label>
+                                        <label id="lblCurrentPreference">N/A</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Select Preference <sup style="color:red">*</sup></label>
+                                        <select id="cmbPreferences">
+                                            <option value="0">Select</option>
+                                            <option value="1">Hindi</option>
+                                            <option value="2">English</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top:60px!important;">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <button onclick="" style="" type="button" class="btn btn-info">Update Preference</button>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*
+        <script src="~/Content/New_Landing_Page/js/CustomDashboard.js"></script>*@
+    <style>
+        #iFeatures {
+            position: absolute;
+            width: 50%;
+            height: 73px;
+            left: 0;
+            bottom: 126px;
+            background-color: rgba(0,39,62,.85);
+        }
+
+        .ticker {
+            position: absolute;
+            top: 25%;
+            left: 40px;
+            right: 10px;
+            bottom: 10%;
+            overflow: hidden;
+        }
+
+            .ticker p {
+                position: relative;
+                top: 0;
+                white-space: nowrap;
+                width: auto;
+                color: white;
+            }
+
+            .ticker a {
+                color: white;
+            }
+
+        .sml {
+            text-transform: capitalize;
+        }
+
+        .fadeIn {
+            animation: kk !important;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#languagePopup').hide();
+                    /**/
+@*$('#Cntsearch').click(function (e) {
+                location.href = '@Url.Content("~/Dashboard/Search/")';
+                location.href = '@Url.Content("~/Dashboard/Search.aspx?id=" +  $("#srchcnt").val() + " ")
+            });*@
+                /**/
+
+                $("#Cntsearch").on('click', function () {
+                    /**/
+                    var sr = $("#srchcnt").val();
+                    if (sr == "") {
+                        $('#errorsearch').show();
+                        $('#errorsearch').delay(1000).fadeOut();
+                    }
+                    else {
+                        url = '@Url.Action("Search", "Dashboard", new { s = "----" })'.replace("----", $("#srchcnt").val());
+                        location.href = url;
+                    }
+
+                /**/
+
+            });
+
+            $('#Cntsearch1').click(function () {
+                var sr = $("#srchcnt").val();
+                /**/
+                url = "@Url.Action("Search", "Dashboard", new { s = "value" })";
+                /**/
+                alert(url);
+
+                $.ajax({
+                    url: '/Dashboard/Search/?s=' + $("#srchcnt").val(),
+                    type: "POST",
+                    data: { s: sr },
+                    cache: false,
+                    async: true,
+                    success: function (resul) {
+                        window.location.href = url.replace('value', sr);
+
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+
+            $("figure").mouseleave(
+                function () {
+                    $(this).removeClass("hover");
+                }
+            );
+
+            //$(".responsive-calendar").responsiveCalendar({
+            //    time: '2013-05',
+            //    events: {
+            //        "2013-05-03": {},
+            //        "2013-06-12": {}
+            //    }
+            //});
+        });
+
+        //ticker_ready();
+        //function ticker_ready()
+        //{
+
+        //    var block_arr = $('.ticker li p').map(function () { return $(this).get(0); }).toArray();
+
+        //    var ticker_item = $(block_arr[0]);
+        //    $(".ticker").html(ticker_item);
+        //    var ticker_width = $(".ticker").width();
+        //    var text_x = ticker_width;
+
+        //    console.log(block_arr.indexOf(ticker_item.get(0)));
+        //    console.log(block_arr.length);
+
+        //    scroll_ticker = function () {
+        //        text_x--;
+        //        ticker_item.css("left", text_x);
+        //        if (text_x < -1 * ticker_item.width()) {
+        //            ticker_item = $(block_arr[(block_arr.indexOf(ticker_item.get(0)) + 1 == block_arr.length) ? 0 : block_arr.indexOf(ticker_item.get(0)) + 1]);
+        //            ticker_item.css("left", text_x);
+        //            $(".ticker").html(ticker_item);
+        //            text_x = ticker_width;
+        //        }
+        //    }
+        //    setInterval(scroll_ticker, 10);
+        //    getTicker();
+        // }
+
+
+        function ShowUserLanguagePopup() {
+            $('#languagePopup').modal('show');
+            //$('#pointspopup').modal('show');
+
+        }
+
+        $(function () {
+            $('a[href="#search"]').on('click', function (event) {
+                event.preventDefault();
+                $('#search').addClass('open');
+                $('#search > form > input[type="search"]').focus();
+            });
+
+            $('#search, #search button.close').on('click keyup', function (event) {
+                if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                    $(this).removeClass('open');
+                }
+            });
+
+            //Do not include! This prevents the form from submitting for DEMO purposes only!
+            //$('form').submit(function (event) {
+            //    event.preventDefault();
+            //    return false;
+            //})
+        });
+    </script>
+    <script>
+        $('[data-sidenav]').sidenav();
+        $(".GaugeMeter").gaugeMeter();
+    </script>
+    <script type="text/javascript">
+                $(document).ready(function () {
+
+                });
+
+                function taskcall() {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                        //"timeOut": 0,
+                        //"extendedTimeOut": 0
+
+                    }
+                    /**/
+                    /**/
+                    /**/
+                    @*@if (tasklist != null) {
+                        var Data = tasklist.Count() " Pending Tasks In List";
+                    }*@
+                    ////toastr["task"]("tasklist.Count() Pending Tasks In List");
+                /**/
+                /**/
+                /**/
+                toastr.options = null;
+            }
+
+            //////setInterval(function () { taskcall(); }, 60000);
+					      function Notificationcall() {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                        //"timeOut": 0,
+                        //"extendedTimeOut": 0
+
+                    }
+                    /**/
+                    /**/
+                    /**/
+                      var url1 = '@Url.Action("getNotificationcount", "Dashboard")';
+                /**/
+                /**/
+                /**/
+                $.ajax({
+                    type: 'POST',
+                    url: url1,
+                    success: function (data) {
+
+                        if (data != "0") { toastr["task"](data + " unread notifications pending in list."); }
+
+
+                    }
+                });
+
+                /**/
+                /**/
+                /**/
+                toastr.options = null;
+            }
+
+        setInterval(function () { Notificationcall(); }, 90000);
+
+            $("#backLink").click(function (event) {
+                event.preventDefault();
+                history.back(1);
+            });
+
+            $("#backfloat").click(function (event) {
+                event.preventDefault();
+                history.back(1);
+            });
+    </script>
+    <style>
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: white;
+            cursor: default;
+            background-color: #343b45;
+            border: 1px solid #ddd;
+            border-bottom-color: transparent;
+        }
+
+        h3 {
+            background: white;
+        }
+    </style>
+
+    <style>
+        /* language css */
+        .language-popup-body {
+            height: auto;
+            width: auto;
+            background: #FFFFFF;
+            border-radius: 5px;
+            padding: 1.3rem !important;
+        }
+
+        .commonfontstyle {
+            color: #000;
+            font-style: normal;
+            text-align: center;
+        }
+
+        .chooseLanguage {
+            color: #E40A17;
+            text-align: center;
+            font-size: 2em;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 130%;
+        }
+
+        .subTextLanguage {
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 175%;
+        }
+
+        .language-dropdown-trigger {
+            width: 100%;
+            padding: 1% 4%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 400;
+            border-radius: 4px;
+            border: 1px solid #000;
+            background: var(--FFFFFF-Bg-1, #FFF);
+        }
+
+        .language-dropdown-content {
+            max-height: 33vh;
+            box-shadow: none;
+            border-radius: 4px;
+            border: 1px solid #000;
+            background: var(--FFFFFF-Bg-1, #FFF);
+            margin: 0px;
+        }
+
+        .dropdown-content {
+            width: 100%;
+            padding: 15px;
+            display: none;
+        }
+
+            .dropdown-content.active {
+                display: block;
+            }
+
+        .language-container {
+            height: 20vh;
+            overflow-y: scroll;
+            margin-top: 2%;
+            cursor: pointer;
+        }
+
+            .language-container::-webkit-scrollbar {
+                width: 15px;
+            }
+
+            .language-container::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+            }
+
+
+        .search {
+            border-radius: 4px;
+            border: 0.5px solid #969696;
+            background: #F7F7F7;
+            width: 100%;
+        }
+
+        /* Style for the search container */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Style for the search input */
+        .search {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding-left: 10%;
+            outline: none;
+        }
+
+        /* Style for the search button */
+        .search-button {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .events-dropdown .dropdown-content li {
+            padding: 2% 1% !important;
+        }
+
+            .events-dropdown .dropdown-content li:hover {
+                border-radius: 4px;
+                background: #F7F7F7 !important;
+            }
+
+        .search-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        ::placeholder {
+            color: #999;
+        }
+
+        .submit {
+            border-radius: 4px;
+            background: #E40A17;
+            color: #FFFFFF;
+            padding: 8px 24px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1em;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 175%;
+            cursor: pointer;
+            /* 28px */
+            margin-top: 1rem;
+        }
+
+        .cross-button {
+            padding: 2% 0%;
+            border-radius: 100%;
+            color: #000;
+            background: #fff;
+            width: 3vh;
+            height: 3vh;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer
+        }
+
+        .cross-button-box {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    </style>
+
+    <style>
+        .popup-body {
+            max-height: 55vh;
+            width: auto;
+            background: #FFFFFF;
+            border-radius: 5px;
+        }
+
+        .cross-button {
+            padding: 2% 0%;
+            border-radius: 100%;
+            color: #000;
+            background: #FFF;
+            width: 3vh;
+            height: 3vh;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .succesiocn {
+            border-radius: 100%;
+            height: 10vh;
+            width: 10vh;
+            border: 0.5px solid #D3D3D3;
+            background: #FFF;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            margin-top: -42px;
+            padding: 1rem !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0px;
+        }
+
+            .succesiocn img {
+                height: 7vh;
+                width: 7vh;
+            }
+
+        .commonfontstyle {
+            color: #000;
+            font-style: normal;
+            text-align: center;
+        }
+
+        .attempt {
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 24.5px;
+            letter-spacing: 0.6px;
+            margin-top: 5.1vh;
+        }
+
+        .rewardPoint {
+            font-size: 2em;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: -0.48px;
+        }
+
+        .successText {
+            font-size: 1.3em;
+            font-weight: 400;
+            line-height: 26.5px;
+            letter-spacing: 0.6px;
+            padding: 1% 18%;
+        }
+
+        .scorebox {
+            width: 40%;
+            min-height: 50px;
+            border-radius: 8px;
+            border: 1px solid #000;
+            background: #FFF;
+            display: grid;
+            place-content: center;
+            margin: 2% 4%;
+        }
+
+        .scoreboxContainer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            place-content: center;
+            margin: 2% 0% 0%;
+            color: #000;
+            font-size: 1em;
+            font-style: normal;
+            font-weight: 200;
+            /* line-height: 24.5px; */
+            letter-spacing: 0.6px
+        }
+
+        .notmasteryPoint {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .score {
+            color: #000;
+            font-size: 0.875em;
+            font-style: normal;
+            font-weight: 700;
+            /* line-height: 24.5px; */
+            letter-spacing: 0.6px;
+        }
+
+        .scoretext {
+            color: #000;
+            font-size: 0.625em;
+            font-style: normal;
+            font-weight: 400;
+            /* line-height: 24.5px;  */
+            letter-spacing: 0.6px;
+        }
+
+        .success-box {
+            display: flex;
+            justify-content: center
+        }
+
+        .cross-button {
+            padding: 2% 0%;
+            border-radius: 100%;
+            color: #000;
+            background: #fff;
+            width: 3vh;
+            height: 3vh;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer
+        }
+
+        .cross-button-box {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .modal-backdrop.in {
+            opacity: 0.5 !important;
+        }
+    </style>
+</body>
+</html>

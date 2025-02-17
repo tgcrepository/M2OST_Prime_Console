@@ -1,0 +1,20 @@
+﻿@{
+    string url = (string)TempData["url"];
+    ViewBag.Title = "";
+    Layout = null;
+
+}
+@*<link href="~/Content/New_Landing_Page/dub/bootstrap.min.css" rel="stylesheet">
+<script src="~/Content/New_Landing_Page/js/jquery1.9.1.js"></script>
+<script src="~/Content/New_Landing_Page/js/jquery-3.2.1.js"></script>*@
+
+<br /><br />
+      <div class="container">
+          <a id="btnLogOut" class="logout" href="@Url.Action("Logout", "Account" )">
+              <i class="fa fa-sign-out"></i>Log Out
+          </a>
+      </div>
+
+<script type="text/javascript">
+    window.location.href = '/Account/Logout';
+</script>

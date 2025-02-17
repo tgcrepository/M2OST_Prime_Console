@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Notification";
+    IBHFL.Models.NotificationList notification = (IBHFL.Models.NotificationList)ViewData["result"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+<style>
+    .type {
+        white-space: pre-line;
+        font-size: 20px;
+        margin-left: -8px;
+    }
+
+
+    
+</style>
+
+
+ 
+            <div class="">
+              
+
+                    <div class="">
+                        <div class="">
+                            <ul class="nav nav-tabs cstmnav">
+                                @{
+                                    string addition = "class=active";
+                                }
+
+
+                                <li class="active" >
+                                    <a href="#tab_1"
+                                       data-toggle="tab" style="">Unread</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_2"
+                                       data-toggle="tab" style="">Read</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    @{
+                addition = " active";
+                    }
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="tab_1">
+                            @foreach (var itm in notification.UNREAD)
+                    {
+                        <div class="row" style="border-bottom:1px solid #808080;">
+                            <div class="col-md-12" align="justify">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p>
+                                            <h5 class="categories_header_text"></h5>
+                                        </p>
+                                    </div>
+                                    <div class="col-md- pull-right" align="right">
+                                        <pre style="white-space: pre-line"></pre>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <h3 style="background-color:white"><pre class="type" style="white-space: pre-line">Type: @itm.NOTIFICATION_TYPE</pre></h3>
+                                        </p>
+
+                                        <p>
+                                            <pre style="white-space: pre-line"> Message:@itm.NOTIFICATION_MESSAGE</pre>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" align="right">
+                                        <p>
+                                            <pre style="white-space: pre-line">Date: @itm.SENTDATE</pre>
+                                        </p>
+                                        <a href="@Url.Action("NotificationAlert", "Dashboard", new { configid = @itm.NOTIFICATION_CONFIG_ID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Open</button></a>
+                                   
+                                        <br />
+                                        <br />
+                                        <br />
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            @foreach (var itm in notification.READ)
+                    {
+                        <div class="row" style="border-bottom:1px solid #808080;">
+                            <div class="col-md-12" align="justify">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <p>
+                                            <h5 class="categories_header_text"></h5>
+                                        </p>
+                                    </div>
+                                    <div class="col-md- pull-right" align="right">
+                                        <pre style="white-space: pre-line"></pre>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <h3 style="background-color:white" class="categories_header_text"><pre class="type" style="white-space: pre-line;">Type: @itm.NOTIFICATION_TYPE</pre></h3>
+                                        </p>
+
+                                        <p>
+                                            <pre style="white-space: pre-line"> Message:@itm.NOTIFICATION_MESSAGE</pre>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" align="right">
+                                        <p>
+                                            <pre style="white-space: pre-line">Date: @itm.SENTDATE</pre>
+                                        </p>
+                                        <a href="@Url.Action("NotificationAlert", "Dashboard",new { configid = @itm.NOTIFICATION_CONFIG_ID })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Open</button></a>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                        </div>
+                    </div>
+
+
+            </div>
+        
+

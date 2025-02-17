@@ -1,0 +1,64 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "LikeContentStep";
+    int cid = (int)ViewData["cid"];
+    string mes = (string)ViewData["mes"];
+    int x = 10;
+}
+
+<body oncontextmenu="return false">
+
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+
+
+    <form class="form-horizontal" method="post" action="/Dashboard/emaildata">
+        <h4 align="center" style="color:#000000">Please Send Us Your Feedback</h4>
+        <input type="hidden" name="cid" value="@cid" />
+        <input type="hidden" name="mes" value="@mes" />
+        <div class="form-group col-md-12">
+            <div class="col-md-2">
+                <label for="" style="color:#000000">To</label>
+            </div>
+            <div class="col-md-6">
+                <h6 style="color:#000000">paathshala-learningtech@paathshala.biz</h6>
+            </div>
+
+
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-2">
+                <label for="" style="color:#000000">Subject</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="sub" name="sub">
+            </div>
+
+
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-2">
+                <label for="" style="color:#000000">Message</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="form-control" rows="5" id="msg" name="msg"></textarea>
+            </div>
+
+
+            @*<input type="text" class="form-control" id="msg" name="msg">*@
+        </div>
+
+        <div class="form-group col-md-12 " align="center">
+
+
+            <button type="submit" class="btn btn-success" style="background-color:#019934"> Send </button>
+        </div>
+
+
+    </form>
+
+</body>
+
+

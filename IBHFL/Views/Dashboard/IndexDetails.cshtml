@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "IndexDetails";
+}
+<br />
+<body oncontextmenu="return false">
+    <div class="container" style="width:75%;">
+        <div class="box-border">
+
+            <div class="row">
+                <div align="right">
+                    <a href="@Url.Action("Index", "Dashboard")">  <img src="~/Content/images/back.png" alt="" /></a>
+                </div>
+                <div class="col-md-2" align="center">
+                    <h3 style="color:#019934" class="categories_header_text">
+                        About Us
+                    </h3>
+                    <img src="~/Content/images/SuccessStory.png" alt="" class="img-thumbnail" />
+
+                </div>
+                <div class="col-md-10" align="justify">
+                    <br />
+                    <h3 class="categories_header_text">
+                        Success Stories
+                    </h3>
+                    <br />
+
+                    <p class="feature_desc_short">
+
+
+                        Sharing a success story is a simple way of building brand & business awareness by the leaders of the organization.
+
+                        Visit this section to know some of your organizations past & current success stories. If you have a success story yourself, you can start by sharing it with your Line Manager today!!.
+
+                    </p>
+                    <br />
+                    <div id="list_view">
+
+                        <div class="odd" style="padding:10px;">
+                            <a style="color:#fff" href="@Url.Action("IndexViewMore","Dashboard")"
+                               class="test_btn">
+                                Mr Banga Talks about the success of IBHL
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>

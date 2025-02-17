@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="dub/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sidenav.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel='stylesheet' href='http://fonts.googleapis.com/icon?family=Material+Icons' type='text/css'>
+    <link href="css/glyphicons.css" rel="stylesheet">
+
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/responsive-calendar.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="css/jquery.gritter.css" rel="stylesheet">
+
+    <style>
+        .toggle {
+            color: #666;
+            display: block;
+            height: 72px;
+            line-height: 72px;
+            text-align: center;
+            width: 72px;
+        }
+
+        .Logo {
+            width: 7em;
+            border-radius: 12px;
+            /* float: right; */
+            /* padding: 7px; */
+            /* margin-top: 9px; */
+            /* border: 1px solid #fff; */
+            margin-top: 9px;
+            float: right;
+        }
+
+        .sidenav::-webkit-scrollbar-thumb {
+            background-color: #cad20f;
+            outline: 1px solid slategrey;
+        }
+
+        .sidenav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .menu {
+            color: #fff;
+            font-size: 15px;
+            margin: 12px 33px;
+        }
+
+            .menu:hover .mnu {
+                color: #6FFFE9;
+                -webkit-transform: scale(1.5);
+                -moz-transform: scale(1.5);
+                -ms-transform: scale(1.5);
+                -o-transform: scale(1.5);
+                transform: scale(1.5);
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                -ms-transition: all 1s ease;
+                -o-transition: all 1s ease;
+                transition: all 1s ease;
+            }
+
+        .bg-cstm {
+            background-color: #2f93b1;
+        }
+
+        html, body {
+            background: url('images/Skillmuni home page image.jpg')no-repeat center center fixed;
+            -webkit-background-size: 100% 100%; /* For WebKit*/
+            -moz-background-size: 100% 100%; /* Mozilla*/
+            -o-background-size: 100% 100%; /* Opera*/
+            background-size: 100% 100%; /* Generic*/
+        }
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+    </style>
+</head>
+<body style="">
+
+    <div id="wrapper">
+
+
+        <nav class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
+            <div class="sidenav-brand">
+                BRAND
+            </div>
+
+            <div class="sidenav-header">
+                Prabashanash
+                <small>Web Designing</small>
+            </div>
+
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+
+
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Options</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Options 1<span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="#">Item</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Item</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Item</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Options 2</a></li>
+                            <li>
+                                <a href="#">Options 3</a>
+                            </li>
+                            <li>
+                                <a href="#">Options 4</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+
+
+        </nav>
+
+        <div id="page-wrapper" class="dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+
+                        <a class="nminimalize-styl-2 btn btn-primary menu" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="sidenav-toggle"><i class="fa fa-bars mnu"></i> </a>
+                        <!--<form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>-->
+                        <!--<img src="images/logo.png" class="img-responsive Logo">-->
+
+                    </div>
+
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="glyphicon glyphicon-home"></i>
+                            </a>
+
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                            </a>
+                            
+                        </li>
+
+                        <li>
+                            <a href="login.html">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content">
+                        <div class="row">
+                            <div class="col-lg-3  padlft10">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title" style="background-image:url(images/smbg2.png);background-size: 100% 100%; background-repeat: no-repeat;color:#fff;">
+                                        <h5 class="titlehd">Tasks</h5> <span class="label label-primary"></span>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content tsk">
+                                        <div>
+                                            <table class="table-responsive full">
+                                                <tr>
+                                                    <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                    <td class="pull-right text-right"> <small class="font-bold"><span class="label1 label-default">NEW</span> 1234</small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                    <td class="pull-right text-right"> <small class="font-bold"> 1234</small></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5><i class="glyphicon glyphicon-calendar font-size:20px;"></i>  &nbsp;Calendar</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div>
+                                            <div class="box-border">
+
+                                                <div id="event_count" style="display:none; opacity: 1; top: -2px;">2</div>
+                                                <div class="responsive-calendar">
+                                                    <div class="controls">
+                                                        <a class="pull-left" data-go="prev">
+                                                            <div class="cldrfnt nomrginbtm">
+                                                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                                            </div>
+                                                        </a>
+                                                        <h4><span data-head-year></span> <span data-head-month></span></h4>
+                                                        <a class="pull-right" data-go="next">
+                                                            <div class="cldrfnt nomrginbtm">
+                                                                <i class="glyphicon glyphicon-arrow-right"></i>
+                                                            </div>
+                                                        </a>
+                                                    </div><hr class="hr1" />
+                                                    <div class="day-headers">
+                                                        <div class="day header">Mon</div>
+                                                        <div class="day header">Tue</div>
+                                                        <div class="day header">Wed</div>
+                                                        <div class="day header">Thu</div>
+                                                        <div class="day header">Fri</div>
+                                                        <div class="day header">Sat</div>
+                                                        <div class="day header">Sun</div>
+                                                    </div>
+                                                    <div class="days" data-group="days">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title" style="background-image:url(images/smbg3.png);background-size: 100% 100%; background-repeat: no-repeat;">
+                                        <h5 class="titlehd">Add Tasks</h5> <span class="label label-primary"></span>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content tsk" style="background-color: #2b2b2b;display: none;">
+                                        <div>
+                                            <table class="table-responsive full">
+                                                <tr>
+                                                    <td> <small class="font-bold"> <input type="text" placeholder="Add New Task" class="form-control input-sm"> </small></td>
+                                                    <td class="pull-right text-right">
+                                                        <button class="btn btn-sm btn-primary pull-right " type="submit"><strong><i class="glyphicon glyphicon-plus"></i></strong></button>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdpad3"> <small class="font-bold"> Task 1 added</small></td>
+                                                    <td class="pull-right text-right"> <small class="font-bold"><span class="label label-danger pull-right"><i class="glyphicon glyphicon-welcom"></i></span></small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdpad3"> <small class="font-bold"> Task 1 added</small></td>
+                                                    <td class="pull-right text-right"> <small class="font-bold"><span class="label label-danger pull-right"><i class="glyphicon glyphicon-welcom"></i></span></small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="tdpad3"> <small class="font-bold"> Task 1 added</small></td>
+                                                    <td class="pull-right text-right"> <small class="font-bold"><span class="label label-danger pull-right"><i class="glyphicon glyphicon-welcom"></i></span></small></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-6 pad5">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div>
+                                            <div class="row">
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/15.png" alt="sample47" />
+
+                                                        <div class="quotes">
+                                                            <p> Self Development </p>
+                                                        </div>
+
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/16.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Trainer Zone </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/15.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Self Development </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/16.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Trainer Zone </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/16.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Trainer Zone </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+                                                <div class="col-md-3" align="center">
+                                                    <figure class="dashcstm yellow list-quotes">
+                                                        <img src="images/BGS/14.png" alt="sample47" />
+                                                        <div class="quotes">
+                                                            <p> Industry </p>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 padlft10">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>My Progress & Performance</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" align="center" style="background-color: #343b45;padding: 15px 20px 5px 20px;color:#fff;">
+                                        <div class="row">
+                                            <div class="col-md-6" align="center">
+
+                                                <div class="GaugeMeter" id="PreviewGaugeMeter_4" data-percent="80" data-append="%" data-size="180" data-theme="Red-Gold-Green" data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15" data-label="Flux Capacitor" data-label_color="#FFF" data-stripe="3"></div>
+                                                <p>Progress</p>
+                                                <!--<div class="progress">
+                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                                         aria-valuemin="0" aria-valuemax="100" style="width:80%">
+                                                        Progress 80% Complete
+                                                    </div>
+                                                </div>-->
+
+                                            </div>
+
+                                            <div class="col-md-6" align="center">
+
+                                                <div class="GaugeMeter" id="PreviewGaugeMeter_4" data-percent="40" data-append="%" data-size="180" data-theme="Red-Gold-Green" data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15" data-label="Flux Capacitor" data-label_color="#FFF" data-stripe="3"></div>
+                                                <p>Performance</p>
+
+                                                <!--<div class="progress">
+                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                                                         aria-valuemin="0" aria-valuemax="100" style="width:60%">
+                                                        Performance 60% Complete
+                                                    </div>
+                                                </div>-->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Skill level</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" align="center" style="padding: 5px 20px 0px 20px;background-color: #343b45;">
+                                        <div>
+                                            <div class="row bs-wizard" style="border-bottom:0;" align="center">
+
+                                                <div class="col-xs-2 col2 bs-wizard-step complete">
+                                                    <div class="text-center bs-wizard-stepnum">BEGINNER</div>
+                                                    <div class="progress"><div class="progress-bar"></div></div>
+                                                    <a href="#" class="bs-wizard-dot"></a>
+                                                    <!--<div class="bs-wizard-info text-center">BEGINNER</div>-->
+                                                </div>
+
+                                                <div class="col-xs-2 col2 bs-wizard-step complete">
+                                                    <!-- complete -->
+                                                    <div class="text-center bs-wizard-stepnum">AVERAGE</div>
+                                                    <div class="progress"><div class="progress-bar"></div></div>
+                                                    <a href="#" class="bs-wizard-dot"></a>
+                                                </div>
+
+                                                <div class="col-xs-2 col2 bs-wizard-step active">
+                                                    <!-- complete -->
+                                                    <div class="text-center bs-wizard-stepnum">SKILLED</div>
+                                                    <div class="progress"><div class="progress-bar"></div></div>
+                                                    <a href="#" class="bs-wizard-dot"></a>
+                                                </div>
+
+                                                <div class="col-xs-2 col2 bs-wizard-step disabled">
+                                                    <!-- active -->
+                                                    <div class="text-center bs-wizard-stepnum">SPECIALIST</div>
+                                                    <div class="progress"><div class="progress-bar"></div></div>
+                                                    <a href="#" class="bs-wizard-dot"></a>
+
+                                                </div>
+                                                <div class="col-xs-2 col2 bs-wizard-step disabled">
+                                                    <!-- active -->
+                                                    <div class="text-center bs-wizard-stepnum">EXPERT</div>
+                                                    <div class="progress"><div class="progress-bar"></div></div>
+                                                    <a href="#" class="bs-wizard-dot"></a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Ongoing Games</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" align="center" style="display:none;">
+                                        <div>
+                                            <table class="table-responsive full">
+                                                <tbody>
+                                                    <tr>
+                                                        <td> <small class="font-bold"> Game Name 1</small></td>
+                                                        <td class=""> <a href=""><img alt="image" class="img-circle img-responsive crcl" src="img/a3.jpg"></a></td>
+                                                        <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <small class="font-bold"> Game Name 1</small></td>
+                                                        <td class=""> <a href=""><img alt="image" class="img-circle crcl" src="img/a3.jpg"></a></td>
+                                                        <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <small class="font-bold"> Game Name 1</small></td>
+                                                        <td class=""> <a href=""><img alt="image" class="img-circle crcl" src="img/a3.jpg"></a></td>
+                                                        <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ibox float-e-margins">
+                                    <div>
+                                        <div class="panel blank-panel">
+
+                                            <div class="panel-heading">
+
+                                                <div class="panel-options">
+
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a data-toggle="tab" href="#tab-4" aria-expanded="true">Rewards <i class="fa fa-star"></i></a></li>
+                                                        <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false"><i class="fa fa-trophy"></i></a></li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-body">
+
+                                                <div class="tab-content">
+                                                    <div id="tab-4" class="tab-pane active">
+                                                        <table class="table-responsive full">
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"><span class="label1 label-default">NEW</span> 1234</small></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"> 1234</small></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <div id="tab-5" class="tab-pane">
+                                                        <table class="table-responsive full">
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"><span class="label1 label-default">NEW</span> 1234</small></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"> 1234</small></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"><span class="label1 label-default">NEW</span> 1234</small></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <small class="font-bold"> sample text for testing in this box</small></td>
+                                                                <td class="pull-right text-right"> <small class="font-bold"> 1234</small></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+
+                        <div class="pull-left">
+                            <strong>Copyright</strong> Paathshala &copy; 2016-2017
+                        </div>
+                        <div class="pull-right">
+                            <div class="">
+
+                                <a href="http://facebook.com" class="btn-social-icon btn-facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a class="btn-social-icon btn-google-plus"><i class="fa fa-google-plus"></i></a>
+                                <a class="btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+                                <a class="btn-social-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                                <a class="btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <script src="js/jquery1.9.1.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <!-- Mainly scripts -->
+    <script src="js/jquery.metisMenu.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="js/dashbaord.js"></script>
+    <!-- GITTER -->
+    <script src="js/jquery.gritter.min.js"></script>
+    <!-- Toastr -->
+    <script src="js/toastr.min.js"></script>
+    <!-- Round Bar -->
+    <script src="js/jquery.dashboard-2.0.0.min.js"></script>
+
+    <!--<script src="js/popper.min.js"></script>-->
+    <!--<script src="dub/bootstrap.min.js"></script>-->
+    <script src="dub/bootstrap.min.js"></script>
+    <script src="js/sidenav.min.js"></script>
+    <script src="js/responsive-calendar.js"></script>
+    <script>
+        $('[data-sidenav]').sidenav();
+        $(".GaugeMeter").gaugeMeter();
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("figure").mouseleave(
+           function () {
+               $(this).removeClass("hover");
+           }
+         );
+
+            $(".responsive-calendar").responsiveCalendar({
+                time: '2013-05',
+                events: {
+                    "2013-05-03": {},
+                    "2013-06-12": {}
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

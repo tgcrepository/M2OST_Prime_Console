@@ -1,0 +1,1067 @@
+﻿@{
+    ViewBag.Title = "Dashboard Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    IBHFL.Models.NotificationList notification = (IBHFL.Models.NotificationList)ViewData["result"];
+    List<IBHFL.Models.CategoryTile> detail = (List<IBHFL.Models.CategoryTile>)ViewData["obj"];
+    List<IBHFL.Models.GameElements> mygames = (List<IBHFL.Models.GameElements>)ViewData["Mygames"];
+    List<IBHFL.Models.tbl_video_configuration> videoList = (List<IBHFL.Models.tbl_video_configuration>)ViewData["videoList"];
+
+    string message = (string)ViewData["message"];
+    IBHFL.Models.EventResponse eventdate = (IBHFL.Models.EventResponse)ViewData["event"];
+    int i = 1;
+    int rd = 0;
+    int ur = 0;
+    String datetoday = DateTime.Now.ToString();
+    int orgid = (int)ViewData["orgid"];
+    string username = (string)ViewData["userName"];
+    int userid = (int)ViewData["userid"];
+    string nxtapi = "https://www.m2ost.in/desktopgame/Home/Index?oid=" + @orgid + "&uid=" + @userid;
+
+    string mygamecontent = "https://www.m2ost.in/desktopgame/Dashboard/GameContent?gids=";
+    int tiles_count = detail.Count;
+    int last_row_count = tiles_count % 4;
+    int extra_tiles = 4 - last_row_count;
+    if (last_row_count == 0) extra_tiles = 0;
+    int z = 0;
+    var isMobileDevice = Request.Browser.IsMobileDevice;
+    int _Type = 0;
+
+    string greetingsNames = (string)ViewData["greetingsNames_1"];
+    string name = (string)ViewData["Name"];
+
+
+}
+<style>
+    button.close {
+        background: #d73e4d;
+        background: rgba(215, 62, 77, 0.75);
+        border: 0 none !important;
+        color: #fff7cc;
+        display: inline-block;
+        float: right;
+        font-size: 34px;
+        height: 40px;
+        line-height: 1;
+        margin: 0px 1px;
+        opacity: 1;
+        text-align: center;
+        text-shadow: none;
+        -webkit-transition: background 0.2s ease-in-out;
+        transition: background 0.2s ease-in-out;
+        vertical-align: top;
+        width: 46px;
+    }
+
+    .genieVideoModal {
+        width: 80% !important;
+    }
+
+    .pop-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        align-items: center;
+        color: #FFF;
+    }
+
+    @@media screen and (min-width:270px) and (max-width:767px) {
+        .genieVideoModal {
+            width: 100% !important;
+        }
+
+        .popup-title {
+            font-size: 15px !important;
+        }
+    }
+
+    #startTourBtn {
+        margin-top: 20px;
+    }
+</style>
+
+<!-- Toast Notification -->
+<div id="toast"
+     style="display: none; position: fixed; top: 52%; left: 50%; transform: translate(-50%, -50%); max-width: 400px; background: #f2f2f2 url('/Images/grey&whiteBG.jpg') no-repeat center center; background-size: cover; color: black; padding: 11px; padding-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1050;">
+    <button id="closeToast"
+            style="position: absolute; top: 6px; right: 6px; background: none; border: none; font-size: 18px; color: black; font-weight: bold; cursor: pointer; background-color: #fff; border-radius: 5px; padding: 5px; font-size: 1.5rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); "
+            aria-label="Close">
+        &times;
+    </button>
+
+    <!-- Welcome Message -->
+    <div style="text-align: center;">
+        <p style=" font-weight: 500; margin-bottom: 10px; font-size: 15px; font-weight: bold; ">Hi, @name!</p>
+        <!-- Dynamic Content (Image or Video) -->
+        <div id="mediaContent" style="max-width: 100%; height: auto; border-radius: 5px; overflow: hidden;"></div>
+    </div>
+</div>
+
+<script>
+    closeToast.addEventListener('click', function () {
+        toast.style.display = 'none'; // Hide the toast when clicked
+    });
+</script>
+
+<style>
+    #toast {
+        display: none;
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.4s ease-in-out; /* Smooth fade-in and fade-out */
+    }
+    @@keyframes fadein {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+</style>
+@*@if ((bool)TempData["tour"] == false)
+    {
+        <script>
+            $(document).ready(function () {
+
+                    tour.init();
+                    tour.start();
+
+
+                });
+
+        </script>
+    }*@
+
+<div class="apnd_productview products">
+    @*<h3 style="text-align:center;background-color:white">Category Tiles</h3>*@
+
+    @if (videoList == null || videoList.Count == 0)
+    {
+
+    }
+    else
+    {
+        if (ViewBag.DisplayVideo == true)
+        {
+            <div class="modal fade" id="main-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="dialog">
+                    <div class="modal-content genieVideoModal">
+                        <div class="modal-header" id="modal-header" style="background-color: #F21323; text-align: center; color: white; font-weight: bold; font-size: large; background-color: #F21323; text-align: center">
+                            <div class="pop-header">
+                                <div></div>
+                                <div class="popup-title">
+                                    @videoList[0].Header_text
+                                    @*Meet our mascot: Genie and Jane*@
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center" style="cursor:pointer">
+
+                                    <button onclick="closeModal()" type="button" class="close" style="color:white;"
+                                            data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                                        ×
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                            @if (isMobileDevice)
+
+                            {
+
+                                <video id="modal-video" width="100%" height="310" controls style="height:310px !important;" autoplay>
+                                    @*<source src="https://www.m2ost.in/Bata_Videos/Video_1.mp4" type="video/mp4" width="100%" height="20%">*@
+                                    <source src="@videoList[0].Video_name_mobile" type="video/mp4" width="100%" height="20%">
+                                </video>
+                                // <iframe width="100%" height="310" class="embed-responsive-item" src="https://www.m2ost.in/Bata_Videos/Video_1.mp4" allowfullscreen="" frameborder="0"></iframe>
+                            }
+                            else
+                            {
+                                <video id="modal-video" width="100%" height="310" controls style="height:310px !important;" autoplay>
+                                    @*<source src="https://www.m2ost.in/Bata_Videos/M2OST_console_Walkthough_VIdeo_Desktop.mp4" type="video/mp4" width="100%" height="20%">*@
+                                    <source src="@videoList[0].Video_name_web" type="video/mp4" width="100%" height="20%">
+                                </video>
+                                //  <iframe width="100%" height="310" class="embed-responsive-item" src="https://www.m2ost.in/Bata_Videos/M2OST_console_Walkthough_VIdeo_Desktop.mp4" allowfullscreen="" frameborder="0"></iframe>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+    @foreach (var itm in detail)
+    {
+        if (itm.Template == "1")
+        {
+            <div class="item" align="center" id="@itm.ORDERID">
+                <figure class="">
+
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName">
+                    </a>
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "2")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName">
+                    </a>
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+
+            </div>
+
+        }
+        else if (itm.Template == "3")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName" />
+                    </a>
+
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "4")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName" />
+                    </a>
+
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "5")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName" />
+                    </a>
+
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "6")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name)" name="@itm.CategoryName" />
+                    </a>
+
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "7" || itm.Template == "11")
+        {
+            <div class="item" align="center">
+                <figure class="">
+                    @if (itm.NEXTAPI == "https://www.m2ost.in/Gamificatiomobiprod/Home/index?")
+                    {
+                        <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI =@nxtapi})">
+                            <img src="@itm.CategoryImagePath" class="img-responsive" />
+                        </a>
+                    }
+                    else if (itm.NEXTAPI == "http://www.m2ost.in/communityforum/sso.php?name=")
+                    {
+                        <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @itm.NEXTAPI + @username })">
+                            <img src="@itm.CategoryImagePath" class="img-responsive" />
+                        </a>
+                    }
+                    else
+                    {
+                        ///Test
+                        <!--if (@@itm.NEXTAPI.Contains("http") && !@@itm.NEXTAPI.Contains("onelink.me"))
+                        {-->
+                        @*<a href="@Url.Action("RedirectPage", "Dashboard", new { NEXTAPI = itm.NEXTAPI})">*@
+                        <!--<a target="_blank" href="@@itm.NEXTAPI">
+                                <img src="@@itm.CategoryImagePath" class="img-responsive" onclick="getType1(this.name)" name="@@itm.CategoryName" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@@itm.NEXTAPI">
+                                <img src="@@itm.CategoryImagePath" class="img-responsive" onclick="getType1(this.name)" name="@@itm.CategoryName" />
+                            </a>
+                        }-->
+
+                        //
+
+                        string nextApiUrl = itm.NEXTAPI;
+
+                        if (!string.IsNullOrEmpty(nextApiUrl))
+                        {
+                            // Decode the URL to fix any encoding issues
+                            nextApiUrl = System.Web.HttpUtility.UrlDecode(nextApiUrl);
+
+                            // Replace incorrectly encoded `_` characters with proper `&` separators
+                            nextApiUrl = nextApiUrl.Replace("_org_id%3D", "&org_id=")
+                                                   .Replace("_userID%3D", "&userID=")
+                                                   .Replace("_org_id=", "&org_id=")
+                                                   .Replace("_userID=", "&userID=");
+                        }
+
+
+                        if (itm.NEXTAPI == "https://www.m2ost.in/PypUserapi/")
+                        {
+                            <a target="_blank" href="@nextApiUrl">
+                                <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType1(this.name)" name="@itm.CategoryName" />
+                            </a>
+                        }
+                        else if (!string.IsNullOrEmpty(nextApiUrl) && nextApiUrl.Contains("http") && !nextApiUrl.Contains("onelink.me"))
+                        {
+                            <a target="_blank" href="@nextApiUrl">
+                                <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType1(this.name)" name="@itm.CategoryName" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@itm.NEXTAPI">
+                                <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType1(this.name)" name="@itm.CategoryName" />
+                            </a>
+                        }
+                    }
+
+
+                </figure>
+            </div>
+        }
+        else if (itm.Template == "8")
+        {
+            <div class="item" align="center" id="@itm.ORDERID">
+                <figure class="">
+
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name); loader()" name="@itm.CategoryName">
+                    </a>
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="@itm.NEXTAPI" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "9")
+        {
+            <div class="item" align="center">
+                <figure class="">
+
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name); loader()" name="@itm.CategoryName">
+                    </a>
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        else if (itm.Template == "10")
+        {
+            <div class="item" align="center">
+                <figure class="">
+
+                    <a class="corsextn" data-value="@z">
+                        <img src="@itm.CategoryImagePath" class="img-responsive" onclick="getType(this.name); loader()" name="@itm.CategoryName">
+                    </a>
+                </figure>
+                <input type="hidden" id="@(z)_nextapi" value="" />
+                <input type="hidden" id="@(z)_caid" value="@itm.CategoryID" />
+            </div>
+        }
+        z++;
+    }
+    @*For the commingsoon*@
+    @*@if (extra_tiles != 0)
+        {
+            for (int j = 1; j <= extra_tiles; j++)
+            {
+                <div class="item" align="center">
+                    <figure class="">
+                        <a href="#">
+                            <img src="~/Content/images/commingsoon.png" class="img-responsive" />
+                        </a>
+
+                        </figure>
+                    </div>
+                }
+            }*@
+
+</div>
+
+<div id="loading" class="loading" style="display:none"></div>
+
+@if (message != null)
+{
+    <script>
+	/* alert("@message")  */
+
+    </script>
+}
+@{
+    if (TempData["Loginnotify"].ToString() == "true")
+    {
+    <script type="text/javascript">
+     $(document).ready(function () {
+         debugger;
+var isPopupShown = localStorage.getItem("LoginPopupShown");
+ toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+
+    }
+    toastr["welcom"]("Welcome @usersession.Username");
+toastr.options = null;
+      var thoughtsNames = '@(ViewData["thoughtsNames"] ?? "")';
+
+         if (thoughtsNames) {
+             var toast = document.getElementById('toast');
+             var mediaContent = document.getElementById('mediaContent');
+
+             // Determine whether the content is an image or video
+             if (thoughtsNames.endsWith('.mp4') || thoughtsNames.endsWith('.webm') || thoughtsNames.endsWith('.ogg')) {
+                 // Display video
+                 mediaContent.innerHTML = `
+        <video controls style="width: 100%; max-width: 170px; height: 90%; border-radius: 5px;">
+             <source src="${thoughtsNames}" type="video/${thoughtsNames.split('.').pop()}">
+             Your browser does not support the video tag.
+         </video>`;
+             } else {
+                 // Display image
+                 mediaContent.innerHTML = `
+         <img src="${thoughtsNames}" alt="Greeting"
+              style="width: 100%; height: auto; border-radius: 5px; border: 1px solid #888; max-width: 190px; height: 90%;" />`;
+             }
+
+             // Show the toast
+             toast.style.display = 'block';
+             setTimeout(function () {
+                 toast.style.opacity = '1'; // Fade in the popup
+             }, 50); // Slight delay for smooth appearance
+
+             // Automatically hide toast after 4 seconds
+             //setTimeout(function () {
+             //    toast.style.opacity = '0'; // Fade out
+             //    setTimeout(function () {
+             //        toast.style.display = 'none'; // Hide completely
+             //    }, 400); // Match the fade-out duration
+             //}, 4000); // Total display duration before fade out
+          }
+
+     });
+    </script>
+    }
+    else { }
+}
+@*@{
+        if (TempData["Loginnotify"].ToString() == "true")
+        {
+            <script type="text/javascript">
+       $(document).ready(function () {
+
+            toastr.options = {
+                   "closeButton": true,
+                   "debug": false,
+                   "newestOnTop": false,
+                   "progressBar": true,
+                   "positionClass": "toast-top-right",
+                   "preventDuplicates": false,
+                   "onclick": null,
+                   "showDuration": "300",
+                   "hideDuration": "1000",
+                   "timeOut": "5000",
+                   "extendedTimeOut": "1000",
+                   "showEasing": "swing",
+                   "hideEasing": "linear",
+                   "showMethod": "fadeIn",
+                   "hideMethod": "fadeOut"
+
+               }
+               toastr["welcom"]("Welcome @usersession.Username");
+               toastr.options = null;
+
+                });
+            </script>
+        }
+        else { }
+    }*@
+
+<style>
+
+    figure.hovercustm1 {
+        font-family: 'Raleway', Arial, sans-serif;
+        position: relative;
+        float: left;
+        overflow: hidden;
+        margin: 10px 0%;
+        /* width: 93%; */
+        color: #ffffff;
+        text-align: left;
+        background-color: #07090c;
+        font-size: 16px;
+        -webkit-perspective: 50em;
+        perspective: 50em;
+    }
+
+    .modal-body {
+        padding: 20px 20px 20px 20px;
+    }
+
+    figure.hovercustm1 * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all 0.6s ease;
+        transition: all 0.6s ease;
+    }
+
+    figure.hovercustm1 img {
+        max-width: 100%;
+        -webkit-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+        backface-visibility: hidden;
+    }
+
+    figure.hovercustm1 figcaption {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        -webkit-transform: rotateX(90deg) translate(0%, -50%);
+        transform: rotateX(90deg) translate(0%, -50%);
+        -webkit-transform-origin: 0% 0%;
+        -ms-transform-origin: 0% 0%;
+        transform-origin: 0% 0%;
+        z-index: 1;
+        opacity: 0;
+        /*padding: 0 30px;*/
+    }
+
+    figure.hovercustm1 h3,
+    figure.hovercustm1 p {
+        line-height: 1.5em;
+    }
+
+    figure.hovercustm1 h3 {
+        margin: 0;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    figure.hovercustm1 p {
+        font-size: 0.8em;
+        font-weight: 500;
+        margin: 0 0 15px;
+    }
+
+    figure.hovercustm1 .read-more {
+        border: 2px solid #ffffff;
+        padding: 0.5em 1em;
+        font-size: 0.8em;
+        text-decoration: none;
+        color: #ffffff;
+        display: inline-block;
+    }
+
+        figure.hovercustm1 .read-more:hover {
+            background-color: #ffffff;
+            color: red;
+        }
+
+    figure.hovercustm1:hover img,
+    figure.hovercustm1.hover img {
+        -webkit-transform: scale(1.07);
+        transform: scale(1.07);
+    }
+
+    figure.hovercustm1:hover figcaption,
+    figure.hovercustm1.hover figcaption {
+        -webkit-transform: rotateX(0deg) translate(0, -50%);
+        transform: rotateX(0deg) translate(0, -50%);
+        opacity: 1;
+        -webkit-transition-delay: 0.35s;
+        transition-delay: 0.35s;
+    }
+
+
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        border: 1px solid #888;
+        width: 100%;
+    }
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modal.fade {
+        opacity: 1;
+    }
+
+        .modal.fade .modal-dialog {
+            -webkit-transform: translate(0);
+            -moz-transform: translate(0);
+            transform: translate(0);
+        }
+
+    .animate-top {
+        animation: animatetop 0.9s;
+        box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+    }
+</style>
+
+
+<style>
+    /***loading screen***/
+    /* Absolute Center Spinner */
+    .loading {
+        position: fixed;
+        z-index: 999;
+        height: 2em;
+        width: 2em;
+        overflow: show;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+        /* Transparent Overlay */
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+            .loading:not(:required):after {
+                content: '';
+                display: block;
+                font-size: 10px;
+                width: 1em;
+                height: 1em;
+                margin-top: -0.5em;
+                -webkit-animation: spinner 1500ms infinite linear;
+                -moz-animation: spinner 1500ms infinite linear;
+                -ms-animation: spinner 1500ms infinite linear;
+                -o-animation: spinner 1500ms infinite linear;
+                animation: spinner 1500ms infinite linear;
+                border-radius: 0.5em;
+                -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+                box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+            }
+
+    /* Animation */
+
+    @@-webkit-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-moz-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@-o-keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spinner {
+        0% {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    /***loading end****/
+</style>
+
+<script>
+    var _typeValue = 0;
+    var PageName=""
+    function getType(x) {
+        PageName = x;
+        if (x == "Learning Corner") {
+            _typeValue = 1;
+
+        }
+
+
+    }
+    //$(document).ajaxStart(function () {
+    //    $("#loading").show();
+    //});
+    //$(document).ajaxComplete(function () {
+    //    $("#loading").hide();
+    //});
+    $(document).ready(function () {
+        $("#main-modal").show();
+    });
+    var modal = document.getElementById('main-modal');
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+		$(document).ready(function() {
+            $('.corsextn').on('click', function (e) {
+                debugger;
+                console.log(PageName)
+        var z = $(this).data("value");
+        if (z != null) {
+            var nextapi = $("#" + z + "_nextapi").val();
+        } else {
+            var nextapi = "";
+        }
+
+        var catid = $("#" + z + "_caid").val();
+
+        $("#loading").show();
+
+        @*link = '@Url.Action("ProductView", "Dashboard",new { NEXTAPI = "-id", CategoryID = "ciid", _categoryHeader = string.Empty, _categoryType = "_type_val",page= "PageName" })';
+        link = link.replace("-id", nextapi);
+        link = link.replace("ciid", catid);
+        link = link.replace("_type_val", _typeValue);
+
+        link = link.replace(/&amp;/g, "&");*@
+          link = '@Url.Action("ProductView", "Dashboard",new { NEXTAPI = "-id", CategoryID = "ciid", _categoryHeader = string.Empty, _categoryType = "_type_val", Page= "_PageName" })';
+          link = link.replace("-id", nextapi);
+          link = link.replace("ciid", catid);
+          link = link.replace("_type_val", _typeValue);
+          link = link.replace("_PageName", PageName);
+
+                link = link.replace(/&amp;/g, "&");
+
+           //set params catid to url
+            //var currentUrl = window.location.href;
+            //var searchParams = new URLSearchParams(window.location.search);
+            //searchParams.set('page', catid); // Replace 'catid' with your desired value
+            //var newUrl = currentUrl.split('?')[0] + '?' + searchParams.toString();
+            //window.history.replaceState({}, '', newUrl);
+
+
+      $.get(link, null, function (data) {
+            $(".apnd_productview").empty().append(data);
+        });
+    });
+
+
+
+
+});
+
+
+    function showData(_data) {
+        $(".apnd_productview").empty().append(_data);
+
+    };
+
+    function productview(z)
+    {
+        debugger;
+
+        var nextapi = $("#" + z+"_nextapi").val();
+
+        var catid = $("#" + z + "_caid").val();
+
+
+
+        link = '@Url.Action("ProductView", "Dashboard",new { NEXTAPI = "-id", CategoryID = "cid", _categoryHeader = string.Empty, _categoryType = z })';
+        link = link.replace("-id", nextapi);
+        link = link.replace("cid", catid);
+
+        link = link.replace(/&amp;/g, "&");
+
+        link = "http://www.m2ost.in/M2ostConsole/Dashboard/ProductView/Home?NEXTAPI=" + nextapi + "&CategoryID=" + catid;
+
+        $.get(link, null, function (data) {
+
+
+
+            $(".apnd_productview").empty().append(data);
+
+
+
+
+        });
+
+
+    }
+     function Assessmentview(z)
+    {
+
+
+        var nextapi = $("#" + z+"_nextapi").val();
+
+        var catid = $("#" + z + "_caid").val();
+
+
+
+        link = '@Url.Action("AssessmentView", "Dashboard",new { NEXTAPI = "-id", CategoryID = "cid" })';
+        link = link.replace("-id", nextapi);
+        link = link.replace("cid", catid);
+
+        link = link.replace(/&amp;/g, "&");
+
+         link = "http://www.m2ost.in/M2ostConsole/Dashboard/AssessmentView/Home?NEXTAPI=" + nextapi + "&CategoryID=" + catid;
+        $.get(link, null, function (data) {
+
+
+
+            $(".apnd_productview").empty().append(data);
+
+
+
+
+        });
+
+
+    }
+
+    function getType1(x) {
+        PageName = x;
+        $.ajax({
+            type: "POST", // or "GET", "PUT", "DELETE", etc. depending on your backend setup
+            url: '@Url.Action("UserLogRedidect", "Dashboard")',
+            data: JSON.stringify({ Page: PageName }), // Send data to the backend, if needed
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+
+                console.error(xhr.responseText);
+            }
+        });
+
+    }
+</script>
+<script>
+    function closeModal() {
+        var video = document.getElementById('modal-video');
+        if (video) {
+            video.pause();
+        }
+        document.getElementById('main-modal').style.display = 'none';
+    }
+</script>
+
+
+<script>
+    //Tour Code
+
+    @*//var details = @Html.Raw(Json.Encode(ViewData["obj"]));*@
+
+    @*var steps = [];
+
+    details.forEach(function (item) {
+        var step = {
+            element: "#" + item.ORDERID,
+            title: item.CategoryName,
+            content: item.CategoryDescription,
+            placement: "bottom"
+        };
+        steps.push(step);
+    });
+
+
+    var tour = new Tour({
+        steps: steps,
+        backdrop: true,
+        storage: false,
+        onEnd: function (tour) {
+            console.log(tour)
+            var formData = new FormData();
+            formData.append('Page_name','Tile_Page')
+
+            debugger;
+            $.ajax({
+                url: '@Url.Action("ProductTour", "Dashboard")',
+                type: 'POST',
+                processData: false,
+                contentType:false,
+                data:formData,
+                success: function (data) {
+                    console.log('API call successful');
+                },
+                error: function (xhr, status, error) {
+
+                    console.error('API call failed:', error);
+                }
+            });
+        }
+    });*@
+
+
+
+
+</script>
+
+@*<script>
+        $(document).ready(function () {
+
+            AddPointsAPI();
+        });
+
+        function AddPointsAPI() {
+            var KPIName = "Assessment Score in learning programs";
+            var Score = 0, percentage = 65;
+
+            if (percentage >= 0 && percentage <= 20) {
+                Score = 1;
+            }
+            else if (percentage > 20 && percentage <= 40) {
+                Score = 2;
+            }
+            else if (percentage > 40 && percentage <= 60) {
+                Score = 3;
+            }
+            else if (percentage > 60 && percentage <= 80) {
+                Score = 4;
+            }
+            else if (percentage > 80 && percentage <= 100) {
+                Score = 5;
+            }
+
+            $.ajax({
+                url: '/Dashboard/AddPointsAPI?KPIName=' + KPIName + '&Score=' + Score,
+                type: "POST",
+                data: { KPIName: KPIName, Score: Score },
+                cache: false,
+                async: false,
+                success: function (resul) {
+
+                }
+            });
+        }
+    </script>*@

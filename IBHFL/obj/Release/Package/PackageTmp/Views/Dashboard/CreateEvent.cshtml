@@ -1,0 +1,1002 @@
+﻿@{
+    ViewBag.Title = "Add Event";
+    IBHFL.Models.EventResponse result = (IBHFL.Models.EventResponse)ViewData["obj"];
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ////Layout = null;
+}
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+
+<style>
+    /*  shedulwd class */
+    .participateContainer {
+        height: 5vh;
+        width: 100%;
+        border: 2px solid #dee2e6;
+        background: #D7D7E8;
+        border-radius: 5px;
+    }
+
+    .sheduleForm {
+        /*
+        max-height: 80vh;
+        overflow-y: auto; */
+        padding-top: 1rem;
+    }
+
+    .form-control {
+        border-radius: 0.25rem;
+        border: 1px solid #616161;
+        background: #FFF;
+        margin: .5rem 0rem;
+    }
+
+    form label {
+        color: #000;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .sublabel {
+        color: #8E8E8E;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1rem;
+        /* 114.286% */
+        letter-spacing: 0.0375rem;
+    }
+
+    .course-dropdown, .location-dropdown, .user-dropdown {
+        position: relative;
+    }
+
+    .course-dropdown-content, .location-dropdown-content, .user-dropdown-content {
+        max-height: 33vh;
+        box-shadow: none;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #000;
+        background: var(--FFFFFF-Bg-1, #FFF);
+        margin: 0px;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .dropdown-content {
+        width: 100%;
+        padding: 15px;
+        display: none;
+    }
+
+        .dropdown-content.active {
+            display: block;
+        }
+
+    .course-dropdown .dropdown-content li {
+        padding: 2% 1% !important;
+    }
+
+        .course-dropdown .dropdown-content li:hover {
+            border-radius: 4px;
+            background: #F7F7F7 !important;
+        }
+
+    .location-dropdown .dropdown-content li {
+        padding: 2% 1% !important;
+    }
+
+        .location-dropdown .dropdown-content li:hover {
+            border-radius: 4px;
+            background: #F7F7F7 !important;
+        }
+
+    .user-dropdown .dropdown-content li {
+        padding: 2% 1% !important;
+    }
+
+        .user-dropdown .dropdown-content li:hover {
+            border-radius: 4px;
+            background: #F7F7F7 !important;
+        }
+
+
+    .adduser {
+        border-radius: 0rem 0.5rem 0.5rem 0rem;
+        border: 1px solid #616161;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        margin: 0.5rem 0rem;
+        color: #000;
+        width: 50%;
+    }
+
+    .addUserBox {
+        display: flex
+    }
+
+    .buttonBox {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2vh;
+    }
+
+    .sheduleButton {
+        border-radius: 0.75rem;
+        border: 0.3px solid #D3D3D3;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        display: flex;
+        width: 9.4375rem;
+        padding: 0.5rem 1rem;
+        justify-content: center;
+        align-items: center;
+        margin-left: .5rem;
+        margin-bottom: .5rem;
+    }
+
+    .Tab {
+        display: flex;
+        border-bottom: 1px solid #777778;
+        padding: 0px;
+        margin-top: 1%;
+    }
+
+    .tab {
+        margin: 1% 0% 0%;
+        cursor: pointer;
+    }
+
+    .tab2 {
+        margin-left: 1%;
+    }
+
+    .tab.active {
+        border-bottom: 1px solid #F21323;
+        color: #000;
+    }
+
+    /* Style for inactive tabs */
+    .tab:not(.active) {
+        color: #777778;
+    }
+
+    .cource-container, .course-container, .location-container, .user-container {
+        max-height: 20vh;
+        overflow-y: scroll;
+        margin-top: 2%;
+        cursor: pointer;
+    }
+
+    .subTextLanguage, .subTextLocation, .subTextUser {
+        font-size: 16px;
+    }
+
+    .sheduledDropDown {
+        display: flex;
+        position: relative;
+    }
+
+        .sheduledDropDown img {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
+
+    .historyItem {
+        width: 48%;
+        height: 8.3125rem;
+        border-radius: 0.5rem;
+        border: 0.5px solid #D3D3D3;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        margin: 2% 0%;
+    }
+
+    .scheduleCallsHistory {
+        display: flex;
+        justify-content: space-between;
+        padding: 2%;
+    }
+
+    #saveBtn, .btnDelete {
+        background-color: #F21323;
+        color: #FFF;
+    }
+
+    .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .language-dropdown-trigger1, .location-dropdown-trigger1, .user-dropdown-trigger1 {
+        width: 100%;
+        padding: 1% 2%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        font-weight: 400;
+        border-radius: 4px;
+        border: 1px solid #616161;
+        background: var(--FFFFFF-Bg-1, #FFF);
+    }
+
+    .scheduledClassesCard {
+        width: 100%;
+        min-height: 12vh;
+        border-radius: 0.5rem;
+        border: 1px solid #D3D3D3;
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        padding: 1%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        margin: 5px 0px;
+    }
+
+    .dateHeader {
+        color: #000;
+        font-family: sans-serif;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 1.53125rem; /* 122.5% */
+        letter-spacing: 0.0375rem;
+    }
+
+    .URL_link_container {
+        height: 4vh;
+        width: 100%;
+        border-radius: 0.3125rem;
+        border: 1px solid #EFEFF0;
+    }
+
+    .user-dropdown {
+        width: 100%;
+        border-right-color: none;
+    }
+
+    @@media screen and (max-width: 600px) {
+
+        .tab2 {
+            margin-left: 3%;
+        }
+
+        .timebox {
+            padding: 0px
+        }
+
+        .adduser {
+            width: 47%;
+            margin-left: 3%;
+        }
+    }
+</style>
+
+<body oncontextmenu="return false">
+    <input id="hdnApplicationUrl" type="hidden" value="@usersession.ApplicationUrl" />
+    @*<div class="item"><button id="sheduledClass">Sheduled class</button></div>*@
+    <div class="shedulecontainer">
+        @*<div class="row top" style="margin:0px">
+                <div class="col-7 d-flex justify-content-between">
+                    <div class="item"><img src="images/sheduledImages/leftArrow.png" alt="" /></div>
+                    <img src="../../" alt="">
+                    <div class="">
+                        My Actions
+                    </div>
+                </div>
+                <div class="col-5"></div>
+            </div>*@
+        <div class="row" style="margin:0px">
+            <div class="col-12">
+                <div class="Tab">
+                    <div class="tab" data-tab="approvalsTab">Scheduled Classes</div>
+                    <div class="tab tab2" data-tab="scheduleClassTab">Schedule New Class</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin:0px">
+            <div class="sheduleForm">
+                <div class="tab-content">
+                    <div class="tab-pane" id="scheduleClassTab">
+                        <form id="myForm">
+                            <div class="row" style="margin:0px">
+                                <div class="col-md-6 col-12">
+                                    <label for="subject">Subject:</label>
+                                    <input type="text" id="subject" name="subject" class="form-control"
+                                           placeholder="Subject">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="course" class="Course">Course:</label>
+                                    <div class="course-dropdown mt-2">
+                                        <span class="form-control language-dropdown-trigger1">
+                                            <span data-val="" class="subTextLanguage language p-0">Course</span>
+                                            <img src="../images/arrow.svg" alt="" />
+                                        </span>
+                                        <ul class="dropdown-content course-dropdown-content">
+                                            <div class="course-container">
+
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <label for="storecode" class="store">Store Code:</label>
+                                    <div class="location-dropdown mt-2">
+                                        <span class="form-control location-dropdown-trigger1" style="margin:0px">
+                                            <span data-val="" class="subTextLocation location p-0">Location</span>
+                                            <img src="../images/arrow.svg" alt="" />
+                                        </span>
+                                        <ul class="dropdown-content location-dropdown-content">
+                                            <div class="location-container">
+
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="url">URL:</label>
+                                    <input type="text" id="url" name="url" class="form-control" placeholder="URL" style="margin:0px">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="date">Date:</label>
+                                    <input type="date" id="Date" name="Date" class="form-control" placeholder="Date">
+                                </div>
+
+                                <div class="col-md-6 col-12 timebox">
+                                    <div class="row">
+                                        <div class="col-md-6 col-6">
+                                            <label for="url">Start Time :</label>
+                                            <input type="time" id="startTime" name="startTime" class="form-control" placeholder="startTime">
+                                        </div>
+                                        <div class="col-md-6 col-6">
+                                            <label for="url">End Time :</label>
+                                            <input type="time" id="endTime" name="endTime" class="form-control" placeholder="endTime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="url" class="user">User:</label>
+                                    <div class="addUserBox">
+                                        <div class="user-dropdown mt-2">
+                                            <span class="form-control user-dropdown-trigger1">
+                                                <span data-val=""
+                                                      class="subTextUser User p-0">User</span>
+                                                <img src="../images/arrow.svg" alt="" />
+
+                                            </span>
+                                            <ul class="dropdown-content user-dropdown-content">
+                                                <div class="user-container">
+
+                                                </div>
+                                            </ul>
+                                        </div>
+
+                                        <button class="adduser form-control" type="button" onclick="AddNewUsertoList()" id="addUserButton">
+                                            +
+                                            Add
+                                            User
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="url">
+                                        Participants <br>
+                                        <span class="sublabel">
+                                            (Please insert user's unquie id separated
+                                            by
+                                            comma(,) only.
+                                            No enter or space is allowed between user id's)
+                                        </span>
+                                    </label>
+                                    <textarea class="form-control" name="Participants" id="Participants"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="buttonBox">
+                                <button type="reset" onclick="ResetForm();" class="btn reset sheduleButton">Reset</button>
+                                <button type="button" class="btn sheduleButton" id="saveBtn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="approvalsTab">
+                        <div class="scheduledClassesCard d-flex flex-column gap-1">
+                            <span class="dateHeader">
+                                Date : 5th October 2023, Thursday
+                            </span>
+                            <hr style="margin:5px 0px;width:'100%'">
+                            <span>
+                                Bata 5 Step Super Selling
+                            </span>
+
+                            <span class="d-flex align-items-center gap-1">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                                        <path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" />
+                                        <path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" />
+                                    </svg>
+                                </span>
+                                <span>DD/MM/YYYY - DD/MM/YYYY </span>
+
+                            </span>
+                            <div class="URL_link_container">
+                                <a href=""> URL Link</a>
+
+                            </div>
+
+                        </div>
+                        <div class="scheduledClassesCard d-flex flex-column gap-1">
+                            <span class="dateHeader">
+                                Date : 5th October 2023, Thursday
+                            </span>
+                            <hr style="margin:5px 0px;width:100%">
+                            <span>
+                                Bata 5 Step Super Selling
+                            </span>
+
+                            <span class="d-flex align-items-center gap-1">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+                                        <path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" />
+                                        <path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" />
+                                    </svg>
+                                </span>
+                                <span style="margin-left:10px;">DD/MM/YYYY - DD/MM/YYYY </span>
+
+                            </span>
+                            <div class="URL_link_container">
+                                <a href=""> URL Link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+    $(document).ready(function () {
+        var formDataArray = [];
+        BindUserScheduledEventGrid();
+        BindCourseDetailsDropdown();
+        BindStoreLocationDetailsDropdown();
+
+        //////$('.shedulecontainer').hide();
+        //////// Select the element by its ID
+        //////$("#sheduledClass").click(function () {
+        //////    // Your code to execute when the button is clicked
+        //////    $('#cardContainer').hide();
+        //////    $('.shedulecontainer').show();
+        //////});
+
+        function ResetForm() {
+            
+            //////$('.Zone').text('Zone');
+            //////$('.Course').text('Course');
+            //////$('.store').text('Store Code');
+            //////$('.user').text('User');
+            $('#subject').val('');
+            $('#Date').val('');
+            $('#url').val('');
+            $('#startTime').val('');
+            $('#endTime').val('');
+            $('#Participants').val('');
+            //////document.querySelector('.location-dropdown-trigger1 span').innerText = 'Location';
+            //////document.querySelector('.language-dropdown-trigger1 span').innerText = 'Course';
+            //////document.querySelector('.user-dropdown-trigger1 span').innerText = 'User';
+
+            $('.location-dropdown-trigger1 > span').text('Location');
+            $('.language-dropdown-trigger1 > span').text('Course');
+            $('.user-dropdown-trigger1 > span').text('User');
+        }
+
+        $('.reset').click(function (e) {
+            
+            ResetForm();
+        });
+
+        $(function () {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+
+            // or instead:
+            // var maxDate = dtToday.toISOString().substr(0, 10);
+
+            ////alert(maxDate);
+            $('#Date').attr('min', maxDate);
+        });
+
+        // active tab-------
+        $('.tab').on('click', function () {
+            var tabId = $(this).data('tab');
+            $('.tab').removeClass('active');
+            $(this).addClass('active');
+            $('.tab-pane').removeClass('active');
+            $('#' + tabId).addClass('active');
+        });
+        $('.tab[data-tab="approvalsTab"]').trigger('click');
+        //$('.tab[data-tab="scheduleClassTab"]').trigger('click');
+
+        // dropdown value- ---------
+
+
+        // reset form ------
+        ////$('.reset').click(function (e) {
+        ////    $('.Zone').text('Zone');
+        ////    $('.Course').text('Course');
+        ////    $('.store').text('Store Code');
+        ////    $('.user').text('User');
+        ////    document.querySelector('.location-dropdown .location-dropdown-trigger1 span').innerText = 'Location';
+        ////    document.querySelector('.course-dropdown .language-dropdown-trigger1 span').innerText = 'Course';
+        ////    document.querySelector('.user-dropdown .user-dropdown-trigger1 span').innerText = 'User';
+        ////});
+
+
+
+        $('#saveBtn').on('click', function () {
+            
+            var IsValid = false;
+            IsValid = ValidateData();
+
+            if (IsValid == true) {
+                var ApplicationUrl = $('#hdnApplicationUrl').val();
+                ////var UserdropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+                var LocationdropDown = $('.location-dropdown .location-container li').closest('.location-dropdown');
+                var CoursedropDown = $('.course-dropdown .course-container li').closest('.course-dropdown');
+
+                var Subject = $('#subject').val();
+                var Course = CoursedropDown.find('.subTextLanguage').text();
+                var CourseID = CoursedropDown.find('.subTextLanguage').attr('data-val');
+                var Location = LocationdropDown.find('.subTextLocation').text();
+                var Date = $('#Date').val();
+                var URL = $('#url').val();
+                var StartTime = $('#startTime').val();
+                var EndTime = $('#endTime').val();
+                var Participants = $('#Participants').val();
+                ////var SelectedUserID = UserdropDown.find('.subTextUser').text();
+
+                var oParam = {
+                    "program_name": "", "program_description": "", "program_objective": "", "id_program": "",
+                    "program_start_date": "", "Start_Time": "", "End_Time": "", "event_online_url": "", "participants": ""
+                };
+
+                oParam.program_description = Subject;
+                oParam.program_objective = Subject;
+                oParam.event_title = Subject;
+                oParam.event_description = Subject;
+                oParam.Subject = Subject;
+                oParam.program_name = Course;
+                oParam.id_program = CourseID;
+                oParam.program_start_date = Date + " " + StartTime + ":00";
+                oParam.program_end_date = Date + " " + EndTime + ":00";
+                oParam.Start_Time = StartTime;
+                oParam.End_Time = EndTime;
+                oParam.event_online_url = URL;
+                oParam.participants = Participants;
+
+                var josnstr = JSON.stringify(oParam);
+                $.ajax({
+                    type: "Post",
+                    cache: false,
+                    async: false,
+                    url: ApplicationUrl + 'api/KPI/SubmitEventDetails',
+                    data: josnstr,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        
+                        if (data.KEY == "SUCCESS") {
+                            if (data.MESSAGE.length > 0) {
+                                alert(data.MESSAGE);
+                            }
+                            ResetForm();
+                            BindUserScheduledEventGrid();
+                        }
+                    },
+                    error: function (edata) {
+                        alert("error while feching record.");
+                    }
+                });
+            }
+
+
+        });
+
+        function ValidateData() {
+            
+            var IsValid = true;
+            var StartTime = $('#startTime').val();
+            var EndTime = $('#endTime').val();
+            var jdt1 = Date.parse('20 Aug 2000 ' + StartTime);
+            var jdt2 = Date.parse('20 Aug 2000 ' + EndTime);
+
+            /*	if(jdt1=='NaN')
+                {
+                    alert('invalid start time');
+                    return false;
+                }
+                if(jdt2=='NaN')
+                {
+                    alert('invalid end time');
+                    return false;
+                }*/
+            if (jdt1 > jdt2) {
+                alert('Start time is greater than end time.');
+                IsValid = false;
+            }
+
+            return IsValid;
+        }
+
+        function updateFormDataContent(formData) {
+            console.log(formData);
+            var formDataContent = $('<div class="sheduleClassTile col-md-6 col-12"></div>');
+
+            formDataContent.append('<div>Subject - ' + formData.subject + '</div>');
+            formDataContent.append('<div>Course - ' + formData.course + '</div>');
+            formDataContent.append('<div>Zone - ' + formData.zone + '</div>');
+            formDataContent.append('<div>Date - ' + formData.Date + '</div>');
+            formDataContent.append('<a  class="ellipsis" href="+ formData.url + ">URL - </a>');
+
+            $('#formDataContainer').append(formDataContent);
+        }
+    });
+
+    $('.course-dropdown span').click(function () {
+        var dropDownList = $(this).parent();
+        $(this).parent().find('ul').slideToggle().find('li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            $(this).closest('.course-dropdown').find('.search').attr('value', v);
+            $(this).closest('.course-dropdown').find('.subTextLanguage').text(t);
+        });
+    });
+
+    $('.course-dropdown .course-container li').click(function () {
+        var v = $(this).attr('data-val');
+        var t = $(this).text();
+        var dropDown = $(this).closest('.course-dropdown');
+        dropDown.find('.course-dropdown-content li').show();
+        dropDown.find('.subTextLanguage').attr('data-val', v).text(t);
+        dropDown.find('.dropdown-content').slideUp();
+    });
+
+    $('.location-dropdown span').click(function () {
+        var dropDownList = $(this).parent();
+        $(this).parent().find('ul').slideToggle().find('li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            $(this).closest('.location-dropdown').find('.search').attr('value', v);
+            $(this).closest('.location-dropdown').find('.subTextLocation').text(t);
+            BindUserDetailsDropdown(t);
+        });
+    });
+
+    $('.location-dropdown .location-container li').click(function () {
+        var v = $(this).attr('data-val');
+        var t = $(this).text();
+        var dropDown = $(this).closest('.location-dropdown');
+        dropDown.find('.location-dropdown-content li').show();
+        dropDown.find('.subTextLocation').attr('data-val', v).text(t);
+        dropDown.find('.dropdown-content').slideUp();
+    });
+
+    $('.user-dropdown span').click(function () {
+        var dropDownList = $(this).parent();
+        $(this).parent().find('ul').slideToggle().find('li').click(function () {
+            var v = $(this).attr('data-val');
+            var t = $(this).text();
+            $(this).closest('.user-dropdown').find('.search').attr('value', v);
+            $(this).closest('.user-dropdown').find('.subTextUser').text(t);
+        });
+    });
+
+    $('.user-dropdown .user-container li').click(function () {
+        var v = $(this).attr('data-val');
+        var t = $(this).text();
+        var dropDown = $(this).closest('.user-dropdown');
+        dropDown.find('.user-dropdown-content li').show();
+        dropDown.find('.subTextUser').attr('data-val', v).text(t);
+        dropDown.find('.dropdown-content').slideUp();
+    });
+
+    $(document).mouseup(function (e) {
+        var container = $("course-dropdown .span");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+    $(document).mouseup(function (e) {
+        var container = $(".course-dropdown span");
+        if (!container.is(e.target) &&
+            container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+
+    $(document).mouseup(function (e) {
+        var container = $(".location-dropdown .span");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+    $(document).mouseup(function (e) {
+        var container = $(".location-dropdown span");
+        if (!container.is(e.target) &&
+            container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+
+/*
+    $(document).mouseup(function (e) {
+        var container = $(".user-dropdown .span");
+
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+    $(document).mouseup(function (e) {
+        var container = $(".user-dropdown span");
+        if (!container.is(e.target) &&
+            container.has(e.target).length === 0) {
+            container.parent().find('ul').slideUp();
+        }
+    });
+    */
+
+    function BindCourseDetailsDropdown() {
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        $.ajax({
+            url: ApplicationUrl + 'api/KPI/GetCourseDetails',
+            type: "GET",
+            //data: JSON.stringify(oParam),
+            cache: false,
+            async: false,
+            success: function (data) {
+                
+                $('.course-container').html('');
+                if (data.KEY == "SUCCESS") {
+                    if (data.MESSAGE.length > 0) {
+                        var Data = data.MESSAGE;
+                        var CourseData = $.parseJSON(Data);
+
+                        for (var i = 0; i < CourseData.length; i++) {
+                            $('.course-container').append('<li data-val="' + CourseData[i].ID_CATEGORY + '">' + CourseData[i].CATEGORYNAME + '</li>');
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function BindStoreLocationDetailsDropdown() {
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        $.ajax({
+            url: ApplicationUrl + 'api/KPI/GetStoreLocationDetails',
+            type: "GET",
+            //data: JSON.stringify(oParam),
+            cache: false,
+            async: false,
+            success: function (data) {
+                
+                $('.location-container').html('');
+                if (data.KEY == "SUCCESS") {
+                    if (data.MESSAGE.length > 0) {
+                        var Data = data.MESSAGE;
+                        var LocationData = $.parseJSON(Data);
+
+                        for (var i = 0; i < LocationData.length; i++) {
+                            $('.location-container').append('<li data-val="' + LocationData[i].LOCATION + '">' + LocationData[i].LOCATION + '</li>');
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function BindUserDetailsDropdown(Location) {
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        var oParam = {
+            "Location": ""
+        };
+        oParam.Location = Location;
+
+        $.ajax({
+            url: ApplicationUrl + 'api/KPI/GetStoredLocationUserDetails?Location=' + Location,
+            type: "POST",
+            data: JSON.stringify(oParam),
+            cache: false,
+            async: false,
+            success: function (data) {
+                
+                $('.user-container').html('');
+                if (data.KEY == "SUCCESS") {
+                    if (data.MESSAGE.length > 0) {
+                        var Data = data.MESSAGE;
+                        var UserData = $.parseJSON(Data);
+
+                        for (var i = 0; i < UserData.length; i++) {
+                            ////$('.user-container').append('<li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li>');
+                            $('.user-container').append('<div style="display:flex"><input type="checkbox"  style="margin:0px"><li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li></div>');
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function BindUserScheduledEventGrid() {
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        $.ajax({
+            url: ApplicationUrl + 'api/KPI/GetUserScheduledEventDetails',
+            type: "GET",
+            ////data: JSON.stringify(oParam),
+            cache: false,
+            async: false,
+            success: function (data) {
+                
+                $('#approvalsTab').html('');
+                if (data.KEY == "SUCCESS") {
+                    if (data.MESSAGE.length > 0) {
+                        var Data = data.MESSAGE;
+                        var UserData = $.parseJSON(Data);
+
+                        for (var i = 0; i < UserData.length; i++) {
+
+                            var td = '';
+                           var DeleteBtn = '';
+
+                           if (UserData[i].id_event_creator==@usersession.ID_USER && UserData[i].program_duration >= 30) {
+                               DeleteBtn = '<span style="float:right;display:flex;"><button type="button" class="btn sheduleButton btnDelete" id="btnDelete" onclick="DeleteEvent(' + UserData[i].id_scheduled_event + ');">Delete</button></span>';
+                            }
+                           td = td + '<div class="scheduledClassesCard d-flex flex-column gap-1">';
+                            td = td + '<div><span class="dateHeader">Date : ' + UserData[i].event_duration + ', ' + UserData[i].program_day + '</span>' + DeleteBtn + '</div><hr style="margin:5px 0px;width:100%">';
+                            td = td + '<span>' + UserData[i].event_title + '</span>';
+                            td = td + '<span class="d-flex align-items-center gap-1"><span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none"><path d="M6.993 0C3.129 0 0 2.91333 0 6.50296C0 10.0926 3.129 13.0059 6.993 13.0059C10.864 13.0059 14 10.0926 14 6.50296C14 2.91333 10.864 0 6.993 0ZM7 11.7053C3.906 11.7053 1.4 9.37727 1.4 6.50296C1.4 3.62865 3.906 1.30059 7 1.30059C10.094 1.30059 12.6 3.62865 12.6 6.50296C12.6 9.37727 10.094 11.7053 7 11.7053Z" fill="black" /><path d="M7.3498 3.25143H6.2998V7.15321L9.9748 9.20164L10.4998 8.40178L7.3498 6.66549V3.25143Z" fill="black" /></svg></span>';
+                            td = td + '<span style="margin-left:5px;">' + UserData[i].Start_Time + ' - ' + UserData[i].Start_Time + '</span></span>';
+                            td = td + '<div class="URL_link_container"><a target="_blank" href="' + UserData[i].event_online_url + '" onclick="MarkUserAttendance(' + UserData[i].id_scheduled_event + ');">' + UserData[i].event_online_url + '</a></div></div>';
+
+                            $('#approvalsTab').append(td);
+
+                            ////$('.user-container').append('<li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li>');
+                           ////$('.user-container').append('<div style="display:flex"><input type="checkbox"  style="margin:0px"><li data-val="' + UserData[i].ID_USER + '">' + UserData[i].USERID + '</li></div>');
+
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function MarkUserAttendance(EventId) {
+        
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        $.ajax({
+            type: "get",
+            cache: false,
+            async: false,
+            url: ApplicationUrl + 'api/KPI/SaveEventAttendanceData?id_scheduled_event=' + EventId,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                
+                if (data.KEY == "SUCCESS") {
+                    //////if (data.MESSAGE.length > 0) {
+                    //////    alert(data.MESSAGE);
+                    //////}
+                }
+            },
+            error: function (edata) {
+                alert("error while feching record.");
+            }
+        });
+    }
+
+    function DeleteEvent(EventId) {
+        
+        var ApplicationUrl = $('#hdnApplicationUrl').val();
+
+        var oParam = {
+            "id_scheduled_event": ""
+        };
+
+        oParam.id_scheduled_event = EventId;
+
+        var josnstr = JSON.stringify(oParam);
+        $.ajax({
+            type: "Get",
+            cache: false,
+            async: false,
+            url: ApplicationUrl + 'api/KPI/UpdateUserEventStatus?id_scheduled_event=' + EventId,
+            data: josnstr,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                
+                if (data.KEY == "SUCCESS") {
+                    if (data.MESSAGE.length > 0) {
+                        alert(data.MESSAGE);
+                    }
+                    BindUserScheduledEventGrid();
+                }
+            },
+            error: function (edata) {
+                alert("error while feching record.");
+            }
+        });
+    }
+    /*
+    function AddNewUsertoList() {
+        
+        var ExistingData = $('#Participants').val();
+        var dropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+        ////var SelectedUserID = dropDown.find('.subTextUser').attr('data-val');
+        var SelectedUserID = dropDown.find('.subTextUser').text();
+        var TotalUserIDs = "";
+
+        if (ExistingData == "") {
+            TotalUserIDs = ExistingData + SelectedUserID;
+        }
+        else {
+            TotalUserIDs = ExistingData + "," + SelectedUserID;
+        }
+
+        $('#Participants').val(TotalUserIDs);
+    }*/
+
+    function AddNewUsertoList() {
+        
+        var container = $(".user-dropdown span");
+        container.parent().find('ul').slideUp();
+
+        var ExistingData = $('#Participants').val();
+        var dropDown = $('.user-dropdown .user-container li').closest('.user-dropdown');
+
+        var TotalUserNames = ExistingData;
+
+        // Iterate through checked checkboxes and add their user names to TotalUserNames
+        dropDown.find('.user-container input[type="checkbox"]:checked').each(function () {
+            var userName = $(this).closest('div').find('li').text();
+            if (TotalUserNames === "") {
+                TotalUserNames = userName;
+            } else {
+                TotalUserNames += "," + userName;
+            }
+        });
+
+        $('#Participants').val(TotalUserNames);
+    }
+
+
+</script>

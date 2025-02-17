@@ -1,0 +1,358 @@
+﻿@{
+    ViewBag.Title = "getLeaderBoard";
+}
+
+@{
+    ViewBag.Title = "ProductView";
+    List<IBHFL.Models.DisplayCategory> detail = (List<IBHFL.Models.DisplayCategory>)ViewData["obj"];
+    //List<IBHFL.Models.details> detail2 = (List<IBHFL.Models.details>)ViewData["obj2"];
+    ////    detail = detail.OrderBy(t => t.Order).ToList();
+    int i = 1;
+    string name = (string)ViewData["userName"];//(string)ViewData["userName"]
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>*@
+@*<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+@*<link href="~/Content/jQuery-ScrollTabs-2.0.0/css/scrolltabs.css" rel="stylesheet" />
+    <script src="~/Content/jQuery-ScrollTabs-2.0.0/js/jquery.scrolltabs.js"></script>*@
+@*<script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>*@
+
+<style>
+</style>
+
+<body oncontextmenu="return false">
+    <div class="" style="width:100%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-border">
+                    <div class="row">
+                        <div class="" id="" style="font-size:12px;">
+                            <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+                            <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+                            <div class="barscroll" style="">
+                                <ul class="nav nav-tabs list" id="myTab">
+                                    @foreach (var itm in detail)
+                                    {
+                                        <li class="" style="">
+
+                                            <a href="#tab_@i"
+                                               data-toggle="tab" style="font-size:10px;PADDING:7px;">@itm.Heading</a>
+                                        </li>
+                                        i++;
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @{ i = 1; }
+
+                    <div class="tab-content">
+
+                        @foreach (var itm in detail)
+                        {<div class="tab-pane" id="tab_@i">
+                                @foreach (var cat in itm.Categories)
+                                {
+
+                                    <div class="clearfix"></div>
+                                    <div class="row" style="border-bottom:1px solid #ddd">
+                                        <div class="col-md-4">
+                                            @if (cat.CategoryType == 0)
+                                            {
+                                                <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+                                            }
+                                            else if (cat.CategoryType == 1)
+                                            {
+                                                <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                            }
+                                            else if (cat.CategoryType == 2)
+                                            {
+                                                <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img src="@cat.CategoryImagePath" alt="" class="" style="" /></a>
+
+                                            }
+                                            else if (cat.CategoryType == 3)
+                                            {
+                                                if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                                {
+                                                    <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><img src="@cat.CategoryImagePath" alt="" class="" style="width:135%" /></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@cat.NEXTURL"><img src="@cat.CategoryImagePath" alt="" class="" style="width:135%" /></a>
+
+                                                }
+                                            }
+                                            else if (cat.CategoryType == 4)
+                                            {
+                                                <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><img src="@cat.CategoryImagePath" alt="" class="" style="width:135%" /></a>
+
+                                            }
+                                            else if (cat.CategoryType == 5)
+                                            {
+                                                <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><img src="@cat.CategoryImagePath" alt="" class="" style="width:135%" /></a>
+
+                                            }
+                                        </div>
+                                        <div class="col-md-10" align="justify">
+                                            <p>
+
+                                                @if (cat.CategoryType == 0)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                                @if (cat.CategoryType == 1)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                                @if (cat.CategoryType == 2)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                                @if (cat.CategoryType == 3)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                                    {
+                                                        <a href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <a href="@cat.NEXTURL"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+
+                                                    }
+                                                }
+                                                @if (cat.CategoryType == 4)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                                @if (cat.CategoryType == 5)
+                                                {
+                                                    <h4 class="categories_header_text">
+                                                        @cat.CategoryName
+                                                    </h4>
+                                                    <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><pre style="white-space: pre-line;font-family:Calibri"> @cat.CategoryDescription</pre></a>
+                                                }
+                                                <br />
+                                            </p>
+                                            @if (cat.ContentCount > 0)
+                                            {
+                                                if (cat.CategoryType == 0)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-12" align="right">
+
+                                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a><br />
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (cat.CategoryType == 1)
+                                                {
+                                                    <div class="row">
+
+                                                        <div class="col-md-12" align="right">
+                                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a><br />
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (cat.CategoryType == 2)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-12" align="right">
+                                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a><br />
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (cat.CategoryType == 3)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-12" align="right">
+                                                            @if (cat.NEXTURL == "http://www.m2ost.in/communityforum/sso.php?name=")
+                                                            {
+                                                                <a target="" href="@Url.Action("Gamification", "Dashboard", new { NEXTAPI = @cat.NEXTURL+@name })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a>
+                                                                <br />
+                                                                <br />
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <a target="" href="@cat.NEXTURL"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a>
+                                                                <br />
+                                                                <br />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (cat.CategoryType == 4)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-12" align="right">
+                                                            <a href="@Url.Action("MyReport", "Dashboard", new { cid = @cat.CategoryID })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a><br />
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (cat.CategoryType == 5)
+                                                { <div class="row">
+                                                        <div class="col-md-12" align="right">
+                                                            <a href="@Url.Action("ProductViewDetails", "Dashboard", new { CategoryID = @cat.CategoryID })"><button class="btn btn-info btn-mini" style="width:10%"><i class="icon-folder-open"></i>More</button></a><br />
+                                                            <br />
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+
+                            i++;
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .barscroll {
+            position: relative;
+            /*margin: 0 auto;*/
+            margin: 0px 35px 10px 20px;
+            overflow: hidden;
+            padding: 5px;
+            height: 29px;
+            border-bottom: 1px solid #000;
+        }
+
+        .list {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            min-width: 650px;
+            margin-left: 12px;
+            margin-top: 0px;
+        }
+
+            .list li {
+                display: table-cell;
+                position: relative;
+                text-align: center;
+                cursor: grab;
+                cursor: -webkit-grab;
+                color: #efefef;
+                vertical-align: middle;
+            }
+
+        .scroller {
+            text-align: center;
+            cursor: pointer;
+            /*display: none;*/
+            padding: 7px;
+            padding-top: 7px;
+            white-space: normal;
+            vertical-align: middle;
+            background-color: #fff;
+        }
+
+        .scroller-right {
+            float: right;
+        }
+
+        .scroller-left {
+            float: left;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            activaTab('tab_1');
+            tabSet = $('#tabSet').scrollTabs();
+
+        });
+
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
+
+        var hidWidth;
+        var scrollBarWidths = 60;
+
+        var widthOfList = function () {
+            var itemsWidth = 0;
+            $('.list li').each(function () {
+                var itemWidth = $(this).outerWidth();
+                itemsWidth += itemWidth;
+            });
+            return itemsWidth;
+        };
+
+        var widthOfHidden = function () {
+            return (($('.barscroll').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
+        };
+
+        var getLeftPosi = function () {
+            return $('.list').position().left;
+        };
+
+        var reAdjust = function () {
+            if (($('.barscroll').outerWidth()) < widthOfList()) {
+                $('.scroller-right').show();
+            }
+            else {
+                $('.scroller-right').hide();
+            }
+
+            if (getLeftPosi() < 0) {
+                $('.scroller-left').show();
+            }
+            else {
+                $('.item').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow');
+                $('.scroller-left').hide();
+            }
+        }
+
+        reAdjust();
+
+        $(window).on('resize', function (e) {
+            reAdjust();
+        });
+
+        $('.scroller-right').click(function () {
+
+            $('.scroller-left').fadeIn('slow');
+            $('.scroller-right').fadeOut('slow');
+
+            $('.list').animate({ left: "+=" + widthOfHidden() + "px" }, 'slow', function () {
+
+            });
+        });
+
+        $('.scroller-left').click(function () {
+            $('.scroller-right').fadeIn('slow');
+            $('.scroller-left').fadeOut('slow');
+            $('.list').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow', function () {
+            });
+        });
+    </script>
+</body>

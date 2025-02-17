@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AssessmentSheet";
+    IBHFL.Models.AssessmentSheet detail = (IBHFL.Models.AssessmentSheet)ViewData["result"];
+    string message = (string)ViewData["message"];
+    int i = 1;
+    int asid = (int)ViewData["asid"];
+}
+<script>
+    $(function () {
+        $("#Assessment_Sheet").validationEngine();
+    });
+</script>
+<style>
+    .panel-primary>.panel-heading {
+    color: #ffffff;
+    background-color:#910a07;
+    border-color:#910a07;
+}
+    .panel-primary>.panel-heading {
+   
+    background-image: linear-gradient(to bottom,#910a07 0,#910a07 100%);
+   
+    background-repeat: repeat-x;
+}
+    label {
+        font-family: Calibri;
+    }
+</style>
+<body oncontextmenu="return false">
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width: 100%;">
+
+
+        <div class="row" style="background-color:white">
+            <div class="col-md-12">
+                @if (message != null)
+
+                {
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4" style="color: red;font-size: 18px;@*padding: 250px;*@">@message</div>
+                        <div class="col-md-4"></div>
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("AssessmentResult", "Dashboard", FormMethod.Post, new { id = "Assessment_Sheet" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-1 column"></div>
+                            <div class="col-md-10">
+                                <p>
+                                    <h4 class="categories_header_text">
+                                        @detail.Assessment[0].assessment_title
+                                    </h4>
+                                    <pre style="white-space: pre-line"> @detail.Assessment[0].assesment_description</pre>
+                                </p>
+                            </div>
+                            <div class="col-md-1 column"></div>
+                        </div>
+                        <input type="hidden" value="@detail.QuestionAnswer.Count" name="qtn_count" />
+                        <input type="hidden" value="@asid" name="asid" />
+                        foreach (var itm in detail.QuestionAnswer)
+                        {
+                            <div class="row clearfix">
+                                <div class="col-md-1 column">
+                                </div>
+                                <div class="col-md-10 column">
+                                    <div class="panel panel-primary" style="border-color: gray;">
+                                        <div class="panel-heading" style="background:gray;border-color:gray;">
+                                            <h4 class="panel-title">Qtn @i: @itm.AssessmenQuestion[0].assessment_question</h4>
+                                        </div>
+                                        <div class="panel-body">
+                                            @{
+                                                int j = 1;
+                                                string opts = "";
+                                            }
+
+                                            @foreach (var cat in itm.AssessmentOption)
+                                            {
+                                                if (j == 1)
+                                                {
+                                                    opts = "validate[required]";
+                                                }
+
+                                                <div class="radio">
+
+                                                    <label>
+                                                        <input type="radio" name="qna@(i)" id="@cat.id_assessment_answer" value="@(cat.id_assessment_question + "|" + cat.id_assessment_answer + "|" + j)" class="@opts"> @cat.answer_description
+                                                    </label>
+
+                                                </div>
+                                                j++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 column">
+                                </div>
+                            </div>
+                            i++;
+                        }
+                        <div class="row"  align="center">
+                            <div  style="">
+                               
+                               
+                                    <input style="font-size:20px; background-color:gray;border-radius:10px;color:white" type="submit" value="Submit" class="btn btn-default" />
+                                    <br />
+                                    <br />
+                               
+
+                            </div>
+
+                        </div>
+                    }
+                }
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</body>

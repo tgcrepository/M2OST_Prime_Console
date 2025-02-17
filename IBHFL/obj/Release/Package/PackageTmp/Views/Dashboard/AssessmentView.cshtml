@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "AssessmentView";
+    List<IBHFL.Models.AssessmentList> detail = (List<IBHFL.Models.AssessmentList>)ViewData["obj"];
+
+    int i = 1;
+}
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+
+
+
+<style>
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        color: #fff;
+        cursor: default;
+        background-color: #019934;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+</style>
+<body oncontextmenu="return false">
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width: 100%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-border">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h3 style="text-align:center;border-style:solid;border-color:gray;background-color:gray;color:white;    margin-left: 75px;">Learning Assessments</h3>
+                        </div>
+                        <div class="col-md-1" align="right">
+                            @*<a href="@Url.Action("Index", "Dashboard")">  <img src="~/Content/images/back.png" alt="" /></a>*@
+                        </div>
+                    </div>
+                    @{ i = 1; }
+
+
+                    @foreach (var itm in detail)
+                    {
+
+
+                        <div class="row">
+                            <div class="col-md-12" align="justify">
+                                <p>
+                                    <h4 class="categories_header_text">
+                                        @itm.assessment_name
+                                    </h4>
+                                    <pre style="white-space: pre-line"> @itm.assessment_description</pre>
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-8"></div> <div class="col-md-4 pull-right" align="right">
+                                        <h5>Completion Date: @itm.expiry_date</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" align="right">
+                                        <a href="@Url.Action("AssessmentSheet", "Dashboard", new {ASID=@itm.id_assessment })"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Continue</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="border-top-color:gray" />
+                        i++;
+                    }
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,192 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AssessmentSheet";
+    List<IBHFL.Models.UserInput> uInput = (List<IBHFL.Models.UserInput>)ViewData["qtnBody"];
+    IBHFL.Models.Assessment assessment = (IBHFL.Models.Assessment)ViewData["assessment"];
+    int i = 1;
+    string attempt = (string)ViewData["attemp"];
+    string result1 = (string)ViewData["rs1"];
+    string result2 = (string)ViewData["rs2"];
+    double percentage = (double)ViewData["percentage"];
+    IBHFL.Models.UserSession usersession = (IBHFL.Models.UserSession)System.Web.HttpContext.Current.Session["UserSession"];
+    int assessmentSheetid = (int)ViewData["id_ass_sheet"];
+    string certflag = "0";//(string)ViewData["certflag"];
+    string idass = (string)ViewData["id_ass"];
+    string date = (string)ViewData["date"];
+}
+<script>
+    $(function () {
+        $("#Assessment_Sheet").validationEngine();
+    });
+</script>
+<style>
+    /*.panel-body {
+        padding: 5px;
+    }
+
+    .panel-primary > .panel-heading {
+        color: #ffffff;
+        background-color: #910a07;
+        border-color: #910a07;
+    }
+
+    .panel-primary > .panel-heading {
+        background-image: linear-gradient(to bottom,#910a07 0,#910a07 100%);
+        background-repeat: repeat-x;
+    }*/
+</style>
+<body oncontextmenu="return false">
+    <a href="" id="backLink"> <small class="text-navy"> <i class="fa fa-fw" aria-hidden="true" title="Copy to use chevron-circle-left"></i> Back</small> </a>
+    <div class="btmclr"> </div>
+    <div class="container" style="width:100%;">
+
+
+        <div class="row" style="background-color:white">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-12" align="justify">
+                        <div class="">
+
+                            <div class="" align="justify">
+                                <p>
+                                </p><h5 class="categories_header_text">
+                                    @assessment.assessment_title
+                                </h5>
+                                <pre style="white-space: pre-line"> Attempt No : @attempt</pre>
+                                <p></p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <hr style="border-top-color:gray;border:1px solid;" />
+                </div>
+
+                <div class="row" style="border-bottom-color:gray;border:1px solid;">
+
+                    <div class="" align="justify">
+                        <div class="col-md-6">
+                            <p>
+                                <h5 class="categories_header_text">
+                                    Assessment Result Summary
+                                </h5>
+                                <pre style="white-space: pre-line"> @result1 @result2 </pre>
+
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+
+
+
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <h5>Percentage</h5>
+                                    <h1 class="no-margins  font-bold text-navy"><b>@percentage %</b></h1>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12" align="center">
+                        <p>
+                            <h5 class="categories_header_text">
+                                Assessment Result Detail
+                            </h5>
+                        </p>
+                    </div>
+
+                </div>
+                @foreach (IBHFL.Models.UserInput itm in uInput)
+        {
+            <div class="row clearfix">
+
+                <div class="">
+                    <div class="panel panel-primary" style="border-color:gray">
+                        <div class="panel-heading" style="background-color:gray;border-color:gray">
+                            <h5 class="panel-title">
+                                Qtn @itm.Question.TrimStart('Q');
+                                @if (@itm.WANS == "")
+                        {
+
+                        }
+                        else
+                        {
+                            if (@itm.Answer.TrimStart('-') == @itm.WANS)
+                            {
+
+                                <i class="glyphicon glyphicon-ok pull-right"></i>
+
+
+                    }
+                    else
+                    {
+
+
+                        <i class="glyphicon glyphicon-remove pull-right" style="color:red"></i>
+
+            }
+
+        }
+                            </h5>
+
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <pre style="white-space: pre-line">Your Answer &nbsp;&nbsp;: @itm.Answer.TrimStart('-')</pre>
+                                @if (@itm.WANS == "")
+                        {
+
+                        }
+                        else
+                        {
+                            <pre style="white-space: pre-line">Correct Answer: @itm.WANS</pre>
+
+
+                }
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    i++;
+}
+
+            </div>
+            <div class="row">
+                <div class="" align="center" style="">
+                    <a href="@Url.Action("Index", "Dashboard")" @*style="background-color:#019934;border-color:black"*@><button class="btn btn-info btn-mini"><i class="icon-folder-close"></i>Close</button></a>
+                </div>
+
+            </div>
+
+            @if (attempt == "1" && certflag=="1")
+    {
+        <div class="row">
+            @{
+                string url = "http://103.7.64.68/SkillmuniConsoleCertificateBeta/Home/pdfView?ass_id=" + idass + "&id_user=" + usersession.ID_USER + "&org=" + usersession.id_ORGANIZATION + "&percentage=" +Convert.ToInt32(percentage) + "&date=" + date.Substring(date.Length - 6) ;
+            }
+            <div class="col-md-12" align="right">
+                <a href="@url"><button class="btn btn-info btn-mini" style=""><i class="icon-folder-open"></i>Certificate</button></a>
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+
+}
+        </div>
+    </div>
+</body>
